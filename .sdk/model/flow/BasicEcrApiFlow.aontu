@@ -1,0 +1,36 @@
+# BasicEcrApiFlow
+
+main: kit: flow: BasicEcrApiFlow:
+{
+  entity: "ecr_api",
+  kind: "basic",
+  name: "BasicEcrApiFlow",
+  step: [
+    {
+      input: {
+        ref: "ecr_api_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "ecr_api_ref01",
+        srcdatavar: "ecr_api_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-ecr_api_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicEcrApiFlow"
+}

@@ -1,0 +1,28 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: "TecsClient REST authenticated ECR API (Cloud-iA Semi-Integrated Mode)."
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Bearer"
+        scheme: "bearerAuth"
+        type: "http"
+      }
+      servers: [
+        {
+          description: "TecsClient REST auth service (test)"
+          url: "https://test.tecs.at/tecsclientrest-auth"
+        }
+      ]
+      summary: "TecsClient REST authenticated ECR API (Cloud-iA Semi-Integrated Mode)."
+      title: "tecsclientrest"
+      version: "0.14.15"
+      website: "https://test.tecs.at"
+    }
+  }
+}
+

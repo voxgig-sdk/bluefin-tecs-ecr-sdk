@@ -1,0 +1,158 @@
+# Entity: ecr_api
+
+main: kit: entity: ecr_api: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "amount"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "authorization_number"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "card_number"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "currency"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "cvc2"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "desired_currency"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "ecr_data"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "language"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "message_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "password"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "payment_reason"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "payment_reason_as_byte"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "personal_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "receipt_layout"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "receipt_number"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "terminal_number"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "transaction_date_time"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "transaction_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "transaction_origin_identifier"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "transaction_origin_indicator"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "transaction_place"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "transaction_source_id"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "ecr_api"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/makeTransaction"
+          parts: [
+            "makeTransaction"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "GET"
+          orig: "/version"
+          parts: [
+            "version"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

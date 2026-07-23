@@ -1,0 +1,17 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 1
+  metrics: count: path: 2
+  metrics: count: method: 2
+
+  entity: ecr_api: {
+    path: "/makeTransaction": {
+      op: create: method: *POST
+    }
+    path: "/version": {
+      op: load: method: *GET
+    }
+  }
+
+}

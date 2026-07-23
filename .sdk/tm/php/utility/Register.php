@@ -1,0 +1,67 @@
+<?php
+declare(strict_types=1);
+
+// BluefinTecsEcr SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+BluefinTecsEcrUtility::setRegistrar(function (BluefinTecsEcrUtility $u): void {
+    $u->clean = [BluefinTecsEcrClean::class, 'call'];
+    $u->done = [BluefinTecsEcrDone::class, 'call'];
+    $u->make_error = [BluefinTecsEcrMakeError::class, 'call'];
+    $u->feature_add = [BluefinTecsEcrFeatureAdd::class, 'call'];
+    $u->feature_hook = [BluefinTecsEcrFeatureHook::class, 'call'];
+    $u->feature_init = [BluefinTecsEcrFeatureInit::class, 'call'];
+    $u->fetcher = [BluefinTecsEcrFetcher::class, 'call'];
+    $u->make_fetch_def = [BluefinTecsEcrMakeFetchDef::class, 'call'];
+    $u->make_context = [BluefinTecsEcrMakeContext::class, 'call'];
+    $u->make_options = [BluefinTecsEcrMakeOptions::class, 'call'];
+    $u->make_request = [BluefinTecsEcrMakeRequest::class, 'call'];
+    $u->make_response = [BluefinTecsEcrMakeResponse::class, 'call'];
+    $u->make_result = [BluefinTecsEcrMakeResult::class, 'call'];
+    $u->make_point = [BluefinTecsEcrMakePoint::class, 'call'];
+    $u->make_spec = [BluefinTecsEcrMakeSpec::class, 'call'];
+    $u->make_url = [BluefinTecsEcrMakeUrl::class, 'call'];
+    $u->param = [BluefinTecsEcrParam::class, 'call'];
+    $u->prepare_auth = [BluefinTecsEcrPrepareAuth::class, 'call'];
+    $u->prepare_body = [BluefinTecsEcrPrepareBody::class, 'call'];
+    $u->prepare_headers = [BluefinTecsEcrPrepareHeaders::class, 'call'];
+    $u->prepare_method = [BluefinTecsEcrPrepareMethod::class, 'call'];
+    $u->prepare_params = [BluefinTecsEcrPrepareParams::class, 'call'];
+    $u->prepare_path = [BluefinTecsEcrPreparePath::class, 'call'];
+    $u->prepare_query = [BluefinTecsEcrPrepareQuery::class, 'call'];
+    $u->result_basic = [BluefinTecsEcrResultBasic::class, 'call'];
+    $u->result_body = [BluefinTecsEcrResultBody::class, 'call'];
+    $u->result_headers = [BluefinTecsEcrResultHeaders::class, 'call'];
+    $u->transform_request = [BluefinTecsEcrTransformRequest::class, 'call'];
+    $u->transform_response = [BluefinTecsEcrTransformResponse::class, 'call'];
+});

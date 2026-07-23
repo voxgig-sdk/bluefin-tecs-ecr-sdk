@@ -1,0 +1,83 @@
+-- Typed models for the BluefinTecsEcr SDK (LuaLS annotations).
+--
+-- GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
+-- params (op.<name>.points[].args.params[]). Field/param types come from the
+-- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
+-- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
+-- edit by hand.
+
+---@class EcrApi
+---@field amount string
+---@field authorization_number? string
+---@field card_number string
+---@field currency string
+---@field cvc2? string
+---@field desired_currency? string
+---@field ecr_data? string
+---@field language? string
+---@field message_type? string
+---@field password? string
+---@field payment_reason? string
+---@field payment_reason_as_byte? table
+---@field personal_id? string
+---@field receipt_layout? string
+---@field receipt_number? string
+---@field terminal_number string
+---@field transaction_date_time string
+---@field transaction_id string
+---@field transaction_origin_identifier? string
+---@field transaction_origin_indicator? string
+---@field transaction_place? string
+---@field transaction_source_id? string
+
+---@class EcrApiLoadMatch
+---@field amount? string
+---@field authorization_number? string
+---@field card_number? string
+---@field currency? string
+---@field cvc2? string
+---@field desired_currency? string
+---@field ecr_data? string
+---@field language? string
+---@field message_type? string
+---@field password? string
+---@field payment_reason? string
+---@field payment_reason_as_byte? table
+---@field personal_id? string
+---@field receipt_layout? string
+---@field receipt_number? string
+---@field terminal_number? string
+---@field transaction_date_time? string
+---@field transaction_id? string
+---@field transaction_origin_identifier? string
+---@field transaction_origin_indicator? string
+---@field transaction_place? string
+---@field transaction_source_id? string
+
+---@class EcrApiCreateData
+---@field amount string
+---@field authorization_number? string
+---@field card_number string
+---@field currency string
+---@field cvc2? string
+---@field desired_currency? string
+---@field ecr_data? string
+---@field language? string
+---@field message_type? string
+---@field password? string
+---@field payment_reason? string
+---@field payment_reason_as_byte? table
+---@field personal_id? string
+---@field receipt_layout? string
+---@field receipt_number? string
+---@field terminal_number string
+---@field transaction_date_time string
+---@field transaction_id string
+---@field transaction_origin_identifier? string
+---@field transaction_origin_indicator? string
+---@field transaction_place? string
+---@field transaction_source_id? string
+
+local M = {}
+
+return M
