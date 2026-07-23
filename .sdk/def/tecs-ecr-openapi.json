@@ -1,0 +1,424 @@
+{
+ "openapi": "3.0.1",
+ "info": {
+  "title": "tecsclientrest",
+  "description": "TecsClient REST authenticated ECR API (Cloud-iA Semi-Integrated Mode).",
+  "version": "0.14.15"
+ },
+ "servers": [
+  {
+   "url": "https://test.tecs.at/tecsclientrest-auth",
+   "description": "TecsClient REST auth service (test)"
+  }
+ ],
+ "paths": {
+  "/makeTransaction": {
+   "post": {
+    "tags": [
+     "ECR API."
+    ],
+    "summary": "Make a transaction",
+    "description": "Make a transaction",
+    "operationId": "makeTransaction",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TransactionRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "successfully routed to TecsClient.",
+      "content": {
+       "*/*": {
+        "schema": {
+         "$ref": "#/components/schemas/TransactionResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "some error, explained in responseText",
+      "content": {
+       "*/*": {
+        "schema": {
+         "$ref": "#/components/schemas/TransactionResponse"
+        }
+       }
+      }
+     },
+     "504": {
+      "description": "Could not communicate with TecsClient",
+      "content": {
+       "*/*": {
+        "schema": {
+         "$ref": "#/components/schemas/TransactionResponse"
+        }
+       }
+      }
+     }
+    },
+    "security": [
+     {
+      "bearerAuth": []
+     },
+     {
+      "basicAuth": []
+     }
+    ]
+   }
+  },
+  "/version": {
+   "get": {
+    "tags": [
+     "ECR API."
+    ],
+    "description": "Get Application version.",
+    "operationId": "getEcrVersion",
+    "responses": {
+     "200": {
+      "description": "OK",
+      "content": {
+       "*/*": {
+        "schema": {
+         "$ref": "#/components/schemas/Version"
+        }
+       }
+      }
+     }
+    },
+    "summary": "Version"
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "TransactionRequest": {
+    "type": "object",
+    "description": "Request properties for processing a transaction.",
+    "properties": {
+     "amount": {
+      "type": "string",
+      "description": "Numeric Transaction Amount. According to the ISO 4217 currency exponent, for example:\n- EUR (exponent = 2): 12,55 EUR is represented as \"1255\"\n- BYR (exponent = 0): 15000 BYR is represented as \"15000\"\n",
+      "maxLength": 11,
+      "example": "1255"
+     },
+     "authorization_number": {
+      "type": "string",
+      "description": "For Gratuity (msg type 0009): the authorization number of the original transaction.\nOtherwise, leave this field empty.\n",
+      "maxLength": 9
+     },
+     "card_number": {
+      "type": "string",
+      "description": "Depends on the transaction scenario:\n- **Standard Pin Pad transaction:** leave empty.\n- **Manual PAN input:** provide card number + \"_\" + expiration date (YYMM).\n- **Swiped card on ECR:** include Track2 data.\n- **Cancellation/Capture (msg type 0013):** \"TXID\" + original transaction number.\n- **Gratuity (msg type 0009) or Credit note (msg type 0011):** \"TXID\" + original transaction number.\n- **Cancellation/Capture from different terminal:** \"TXID\" + \"_\" + \"_\" (e.g., \"TXID00000000001234567890_01_88091234\").\n",
+      "maxLength": 40,
+      "example": "TXID00000000001234567890"
+     },
+     "currency": {
+      "type": "string",
+      "description": "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\").\n",
+      "minLength": 3,
+      "maxLength": 3,
+      "example": "EUR"
+     },
+     "cvc2": {
+      "type": "string",
+      "description": "Card Verification Code.\n",
+      "maxLength": 4,
+      "example": "123"
+     },
+     "desired_currency": {
+      "type": "string",
+      "description": "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\").\n",
+      "maxLength": 3,
+      "example": "USD"
+     },
+     "ecr_data": {
+      "type": "string",
+      "description": "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).\nThis field is sent as received.\n",
+      "maxLength": 250,
+      "example": "ECR123"
+     },
+     "language": {
+      "type": "string",
+      "description": "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\").\n",
+      "maxLength": 2,
+      "example": "en"
+     },
+     "message_type": {
+      "type": "string",
+      "description": "Message type code. Allowed values include:\n- 0001 = Purchase, Balance, or Preauthorization\n- 0005 = Purchase with authorization number\n- 0009 = Gratuity\n- 0011 = Credit note\n- 0013 = Cancellation/Capture\n- 0015 = Pre-paid (Mobile Recharge)\n- 0017 = Abort ongoing transaction\n- 0018 = External reader device restart command\n- 0027 = Voucher/Coupon generation\n- 0029 = Card to Card transfer\n- 0034 = End of day (Internal TC only)\n- 2667 = Get connection status (Internal TC only)\n- 2668 = Terminal send diagnostic message (Internal TC only)\n- 4544 = Kill application (Internal TC only)\n- 9043 = Get terminal status\n- 9999 = Initiate CTLS tap event simulator\n- 7976 = Pops-up terminal system menu (Internal TC only)\n",
+      "minLength": 4,
+      "maxLength": 4,
+      "example": "0001"
+     },
+     "password": {
+      "type": "string",
+      "description": "Password - currently not used (filled with spaces).\n",
+      "maxLength": 8,
+      "example": "        "
+     },
+     "payment_reason": {
+      "type": "string",
+      "description": "Payment reason (e.g., \"Taxi journey\"). Should be agreed with the acquirer.\nFor Prepaid/Mobile recharge (msg type 0015): \"+\" followed by Operator Code and optional phone number.\n(UTF-8 encoded; maximum binary size is 39 bytes.)\n",
+      "maxLength": 39,
+      "example": "Taxi journey"
+     },
+     "payment_reasonAsByte": {
+      "type": "array",
+      "description": "Payment reason represented as a byte array.\n",
+      "items": {
+       "type": "string",
+       "format": "byte"
+      },
+      "example": [
+       "0x54",
+       "0x61",
+       "0x78",
+       "0x69"
+      ]
+     },
+     "personal_id": {
+      "type": "string",
+      "description": "Identification of the current user of the ECR or Terminal.\n",
+      "maxLength": 50,
+      "example": "User123"
+     },
+     "receipt_layout": {
+      "type": "string",
+      "description": "Receipt layout identifier.\n",
+      "maxLength": 2,
+      "example": "01"
+     },
+     "receipt_number": {
+      "type": "string",
+      "description": "Receipt number.\n",
+      "maxLength": 20,
+      "example": "0123"
+     },
+     "terminal_number": {
+      "type": "string",
+      "description": "Terminal number provided by TECS. For Cancellation/Capture (msg type 0013),\nthis is the terminal number of the original transaction.\n",
+      "minLength": 8,
+      "maxLength": 8,
+      "example": "88091105"
+     },
+     "transaction_date_time": {
+      "type": "string",
+      "description": "Transaction date and time (format: yyyymmddhhmmss).\n",
+      "pattern": "^[0-9]{14}$",
+      "example": "20240430123045"
+     },
+     "transaction_id": {
+      "type": "string",
+      "description": "Unique transaction identifier. Must be unique for every transaction performed on the specified Terminal.\n",
+      "maxLength": 20,
+      "example": "TX1234567890"
+     },
+     "transaction_origin_identifier": {
+      "type": "string",
+      "description": "Transaction origin identifier:\n- 1 = Face to Face (Customer present)\n- 2 = MOTO (Customer not present)\n- 4 = Capture/Completion\n- 5 = Pre Authorization\n- 7 = Balance\n",
+      "minLength": 1,
+      "maxLength": 1,
+      "example": "1"
+     },
+     "transaction_origin_indicator": {
+      "type": "string",
+      "description": "Transaction origin indicator:\n- 0 = Request for card data on PIN PAD.\n- 1 = Face to Face (Magswipe on ECR, no PIN PAD).\n- 2 = Mail order/Telephone order/Manual entry (no PIN PAD).\n",
+      "maxLength": 1,
+      "example": "0"
+     },
+     "transaction_place": {
+      "type": "string",
+      "description": "The transaction place; the first 5 characters should contain a formatted zip code.\n",
+      "maxLength": 13,
+      "example": "12345"
+     },
+     "transaction_source_id": {
+      "type": "string",
+      "description": "Identification number of the authorization source. In cancellation (msg type 0013),\ngratuity (0009), or credit note (msg type 0011), it should match the original transaction's source ID as provided by TECS.\n",
+      "maxLength": 2,
+      "example": "01"
+     }
+    },
+    "required": [
+     "amount",
+     "card_number",
+     "currency",
+     "terminal_number",
+     "transaction_date_time",
+     "transaction_id"
+    ]
+   },
+   "TransactionResponse": {
+    "type": "object",
+    "description": "Response properties for a transaction.",
+    "properties": {
+     "authorization_number": {
+      "type": "string",
+      "description": "Alphanumeric. Authorization number generated by TECS Authorization Host.\n",
+      "maxLength": 9
+     },
+     "balance_amount": {
+      "type": "string",
+      "description": "Alphanumeric. Maximum amount available.\n",
+      "maxLength": 20
+     },
+     "bonus_point": {
+      "type": "string",
+      "description": "Alphanumeric. Actual bonus points.\n",
+      "maxLength": 100
+     },
+     "card_number": {
+      "type": "string",
+      "description": "Alphanumeric. Depends on the transaction scenario:\n- Standard transaction: Card number + \"_\" + expiration date (YYMM).\n- For terminals activated for Card Reference number: \"REF\" + reference no + \"_\" + expiry date (YYMM) + \"_\" + last 4 digits from PAN + \"_\" + first 6 digits from PAN.\n- Cancellation/capture/credit note: \"TXID\" + transaction number as entered in request.\n- Non ISO based Card numbers: Card prefix + Card number.\nCard prefixes are defined by TECS and are stated in the document \"NonISO_CardIssuer_Prefixes\" provided by TECS.\n",
+      "maxLength": 40
+     },
+     "credit_card_issuer_and_acquirer_company": {
+      "type": "string",
+      "description": "Alphanumeric. Acquirer name + \";\" + card brand (e.g. \"VISA\").\n",
+      "maxLength": 40
+     },
+     "ecr_data": {
+      "type": "string",
+      "description": "Alphanumeric. ECR Data field used to transfer user information for private labeled cards like Fleet Card Company (e.g. UTA, outex, etc.). This field is sent from TECS Server to ECR as received.\n",
+      "maxLength": 250
+     },
+     "ex_fee": {
+      "type": "string",
+      "description": "Numeric. Exchange fee.\n",
+      "maxLength": 100
+     },
+     "exchange_rate": {
+      "type": "string",
+      "description": "Alphanumeric. Exchange rate at the time of transaction (e.g. 000000000000001,1223).\n",
+      "maxLength": 20
+     },
+     "foreign_tx_amount": {
+      "type": "string",
+      "description": "Alphanumeric. Transaction amount in desired currency.\n",
+      "maxLength": 20
+     },
+     "merchant_address": {
+      "type": "string",
+      "description": "Alphanumeric. Merchant address.\n",
+      "maxLength": 50
+     },
+     "merchant_name": {
+      "type": "string",
+      "description": "Alphanumeric. Merchant name.\n",
+      "maxLength": 25
+     },
+     "message_type": {
+      "type": "string",
+      "description": "Numeric. Message type:\n0002 = Transaction response.\n",
+      "maxLength": 4
+     },
+     "operator_id": {
+      "type": "string",
+      "description": "Alphanumeric. Identification of the operator of the TECS engine installation.\n",
+      "maxLength": 12
+     },
+     "orig_stan": {
+      "type": "string",
+      "description": "Numeric. STAN of original transaction (for Cancellation).\n",
+      "maxLength": 6
+     },
+     "orig_tx_id": {
+      "type": "string",
+      "description": "Numeric. Original transaction ID (for Cancellation).\n",
+      "maxLength": 20
+     },
+     "receipt_footer": {
+      "type": "string",
+      "description": "Alphanumeric. Receipt footer that must be printed on the receipt.\nContains the authentication method (\"PIN VERIFIED\" or \"SIGNATURE\") and tags \"AID:\" and \"AC:\".\n",
+      "maxLength": 100
+     },
+     "receipt_header": {
+      "type": "string",
+      "description": "Alphanumeric. Receipt header.\n",
+      "maxLength": 100
+     },
+     "response_code": {
+      "type": "string",
+      "description": "Numeric. Response code.\n",
+      "maxLength": 4
+     },
+     "response_text": {
+      "type": "string",
+      "description": "Alphanumeric. Response text - description of the response code.\nText is UTF-8 encoded. Binary size of the field is 80 bytes.\n",
+      "maxLength": 80
+     },
+     "serien_nr": {
+      "type": "string",
+      "description": "Alphanumeric. If present, should be printed on the receipt.\n",
+      "maxLength": 9
+     },
+     "stan": {
+      "type": "string",
+      "description": "Numeric. TECS Trace Number.\n",
+      "maxLength": 6
+     },
+     "svc": {
+      "type": "string",
+      "description": "Numeric. Service code (returned by TECS Server). Must be printed on the receipt.\n",
+      "maxLength": 3
+     },
+     "transaction_date_time": {
+      "type": "string",
+      "description": "Numeric. Transaction date and time (format: yyyymmddhhmmss).\n",
+      "maxLength": 14
+     },
+     "transaction_id": {
+      "type": "string",
+      "description": "Alphanumeric. Transaction unique identifier (should be the same as sent in the authorization request).\n",
+      "maxLength": 20
+     },
+     "transaction_type": {
+      "type": "string",
+      "description": "Alphanumeric. Transaction type.\n",
+      "maxLength": 2
+     },
+     "vu_number": {
+      "type": "string",
+      "description": "Alphanumeric. Merchant Contract number with acquirer.\n",
+      "maxLength": 15
+     }
+    }
+   },
+   "Version": {
+    "type": "object",
+    "properties": {
+     "appName": {
+      "type": "string"
+     },
+     "version": {
+      "type": "string"
+     },
+     "buildDate": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "securitySchemes": {
+   "bearerAuth": {
+    "type": "http",
+    "scheme": "bearer",
+    "bearerFormat": "JWT"
+   },
+   "basicAuth": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}
