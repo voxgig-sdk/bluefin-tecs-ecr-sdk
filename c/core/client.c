@@ -204,7 +204,7 @@ voxgig_value* sdk_direct(BluefinTecsEcrSDK* sdk, voxgig_value* fetchargs, PNErro
 
 
 // EcrApi entity bound to this client.
-Entity* bluefin_tecs_ecr_ecr_api(BluefinTecsEcrSDK* client, voxgig_value* entopts) {
+Entity* bluefintecsecr_ecr_api(BluefinTecsEcrSDK* client, voxgig_value* entopts) {
   return ecr_api_entity_new(client, entopts);
 }
 

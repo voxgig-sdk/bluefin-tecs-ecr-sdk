@@ -4,7 +4,7 @@
 
 The C SDK for the BluefinTecsEcr API — an entity-oriented client following idiomatic C conventions (explicit structs, function-pointer vtables, and a trailing `PNError**` out-param for errors).
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `bluefin_tecs_ecr_ecr_api(client, NULL)` — each
+The SDK exposes the API as capitalised, semantic **Entities** — for example `bluefintecsecr_ecr_api(client, NULL)` — each
 carrying a small, uniform set of operations (`load`, `create`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
@@ -43,7 +43,7 @@ loading a specific record.
 ```c
 #include "core/api.h"
 
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(cmap(1,
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(cmap(1,
     "apikey", v_str(getenv("BLUEFIN_TECS_ECR_APIKEY"))));
 PNError* err = NULL;
 ```
@@ -53,7 +53,7 @@ PNError* err = NULL;
 `load()` returns the bare record and sets `*err` on failure.
 
 ```c
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 if (err) {
     fprintf(stderr, "load failed: %s\n", err->msg);
@@ -149,7 +149,7 @@ BluefinTecsEcrSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 
 // Entity ops return the bare record and set *err on failure.
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 // ecr_api_rec contains the mock response record
 ```
@@ -169,7 +169,7 @@ static voxgig_value* mock_fetch(void* ud, voxgig_value* args) {
         "json", json_thunk(cmap(1, "id", v_str("mock01"))));
 }
 
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(cmap(2,
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(cmap(2,
     "base", v_str("http://localhost:8080"),
     "system", cmap(1, "fetch", vfn(mock_fetch, NULL))));
 ```
@@ -179,7 +179,7 @@ BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(cmap(2,
 Override the base URL to reach a local or staging server:
 
 ```c
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(cmap(1,
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(cmap(1,
     "base", v_str("http://localhost:8080")));
 ```
 
@@ -206,7 +206,7 @@ cd c && make test
 ```c
 #include "core/api.h"
 
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(options);
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(options);
 ```
 
 Creates a new SDK client. `options` is a `voxgig_value*` map (`NULL` for
@@ -236,7 +236,7 @@ Creates a test-mode client with mock transport. Both arguments may be
 | --- | --- | --- |
 | `sdk_prepare` | `(BluefinTecsEcrSDK*, fetchargs, PNError**) -> voxgig_value*` | Build an HTTP request definition without sending. |
 | `sdk_direct` | `(BluefinTecsEcrSDK*, fetchargs, PNError**) -> voxgig_value*` | Build and send an HTTP request. Returns a result map (branch on `ok`). |
-| `bluefin_tecs_ecr_ecr_api` | `(BluefinTecsEcrSDK*, entopts) -> Entity*` | Create an EcrApi entity instance. |
+| `bluefintecsecr_ecr_api` | `(BluefinTecsEcrSDK*, entopts) -> Entity*` | Create an EcrApi entity instance. |
 
 ### Entity interface (vtable)
 
@@ -310,7 +310,7 @@ API path: `/makeTransaction`
 
 ### EcrApi
 
-Create an instance: `Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);`
+Create an instance: `Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);`
 
 #### Operations
 
@@ -349,14 +349,14 @@ Create an instance: `Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);`
 #### Example: Load
 
 ```c
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* ecr_api_rec = ecr_api->vt->create(ecr_api, cmap(6,
     "amount", v_str("example_amount"),  // char*
     "card_number", v_str("example_card_number"),  // char*

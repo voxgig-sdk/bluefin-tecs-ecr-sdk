@@ -10,7 +10,7 @@ Complete API reference for the BluefinTecsEcr C SDK.
 ```c
 #include "core/api.h"
 
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(options);
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(options);
 ```
 
 Create a new SDK client instance. `options` is a `voxgig_value*` map
@@ -43,7 +43,7 @@ BluefinTecsEcrSDK* client = test_sdk(NULL, NULL);
 
 ### Entity Accessors
 
-#### `Entity* bluefin_tecs_ecr_ecr_api(BluefinTecsEcrSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefintecsecr_ecr_api(BluefinTecsEcrSDK* client, voxgig_value* entopts)`
 
 Create a new `EcrApi` entity instance. Pass `NULL` for no initial
 options.
@@ -77,7 +77,7 @@ Prepare a fetch definition without sending. Returns the fetchdef and sets
 ## EcrApi
 
 ```c
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 ```
 
 ### Fields
@@ -114,7 +114,7 @@ Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* result = ecr_api->vt->create(ecr_api, cmap(6,
     "amount", v_str("example_amount"),  // char*
     "card_number", v_str("example_card_number"),  // char*
@@ -130,7 +130,7 @@ voxgig_value* result = ecr_api->vt->create(ecr_api, cmap(6,
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* result = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 ```
 
@@ -165,7 +165,7 @@ Return the entity name.
 Features are activated via the `feature` option:
 
 ```c
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(cmap(1,
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(cmap(1,
     "feature", cmap(1,
         "test", cmap(1, "active", v_bool(true)))
 ));

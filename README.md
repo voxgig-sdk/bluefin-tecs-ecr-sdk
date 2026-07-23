@@ -93,7 +93,7 @@ local result, err = client:EcrApi():load()
 
 BluefinTecsEcrSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 printf("%s\n", voxgig_to_json(ecr_api_rec));
 ```
@@ -425,12 +425,12 @@ print(ecrapi)
 ```c
 #include "core/api.h"
 
-BluefinTecsEcrSDK* client = bluefin_tecs_ecr_sdk_new(cmap(1,
+BluefinTecsEcrSDK* client = bluefintecsecr_sdk_new(cmap(1,
     "apikey", v_str(getenv("BLUEFIN_TECS_ECR_APIKEY"))));
 PNError* err = NULL;
 
 
-Entity* ecr_api = bluefin_tecs_ecr_ecr_api(client, NULL);
+Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 // Load a specific ecrapi (returns the record, sets *err on failure)
 voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 printf("%s\n", voxgig_to_json(ecr_api_rec));
