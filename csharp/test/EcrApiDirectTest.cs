@@ -86,22 +86,22 @@ public class EcrApiDirectTest
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINTECSECR_TEST_ECR_API_ENTID"] = new Dictionary<string, object?>(),
-            ["BLUEFINTECSECR_TEST_LIVE"] = "FALSE",
-            ["BLUEFINTECSECR_APIKEY"] = "NONE",
+            ["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"] = new Dictionary<string, object?>(),
+            ["BLUEFIN_TECS_ECR_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_TECS_ECR_APIKEY"] = "NONE",
         });
 
-        var live = Equals(env["BLUEFINTECSECR_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_TECS_ECR_TEST_LIVE"], "TRUE");
 
         if (live)
         {
             var liveClient = new BluefinTecsEcrSDK(new Dictionary<string, object?>
             {
-                ["apikey"] = env["BLUEFINTECSECR_APIKEY"],
+                ["apikey"] = env["BLUEFIN_TECS_ECR_APIKEY"],
             });
 
             var idmap = new Dictionary<string, object?>();
-            var entidRaw = env["BLUEFINTECSECR_TEST_ECR_API_ENTID"];
+            var entidRaw = env["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"];
             if (entidRaw is string entidStr && entidStr.StartsWith("{"))
             {
                 try

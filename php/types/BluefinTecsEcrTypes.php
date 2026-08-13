@@ -26,7 +26,7 @@ class EcrApi
     public ?string $message_type = null;
     public ?string $password = null;
     public ?string $payment_reason = null;
-    public ?array $payment_reason_as_byte = null;
+    public ?array $payment_reasonAsByte = null;
     public ?string $personal_id = null;
     public ?string $receipt_layout = null;
     public ?string $receipt_number = null;
@@ -53,7 +53,7 @@ class EcrApiLoadMatch
     public ?string $message_type = null;
     public ?string $password = null;
     public ?string $payment_reason = null;
-    public ?array $payment_reason_as_byte = null;
+    public ?array $payment_reasonAsByte = null;
     public ?string $personal_id = null;
     public ?string $receipt_layout = null;
     public ?string $receipt_number = null;
@@ -80,7 +80,7 @@ class EcrApiCreateData
     public ?string $message_type = null;
     public ?string $password = null;
     public ?string $payment_reason = null;
-    public ?array $payment_reason_as_byte = null;
+    public ?array $payment_reasonAsByte = null;
     public ?string $personal_id = null;
     public ?string $receipt_layout = null;
     public ?string $receipt_number = null;

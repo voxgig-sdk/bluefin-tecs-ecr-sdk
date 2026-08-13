@@ -61,7 +61,7 @@ main: kit: entity: ecr_api: {
       type: "`$STRING`"
     }
     {
-      name: "payment_reason_as_byte"
+      name: "payment_reasonAsByte"
       req: false
       type: "`$ARRAY`"
     }

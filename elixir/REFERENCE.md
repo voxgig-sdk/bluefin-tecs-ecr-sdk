@@ -98,7 +98,7 @@ ecr_api = BluefinTecsEcr.ecr_api(sdk)
 | `message_type` | `String.t()` | No |  |
 | `password` | `String.t()` | No |  |
 | `payment_reason` | `String.t()` | No |  |
-| `payment_reason_as_byte` | `list()` | No |  |
+| `payment_reasonAsByte` | `list()` | No |  |
 | `personal_id` | `String.t()` | No |  |
 | `receipt_layout` | `String.t()` | No |  |
 | `receipt_number` | `String.t()` | No |  |

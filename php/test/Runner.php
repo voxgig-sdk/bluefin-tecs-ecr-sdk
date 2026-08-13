@@ -43,8 +43,8 @@ class BluefinTecsEcrTestRunner
 
     public static function env_override(array $m): array
     {
-        $live = self::getenv('BLUEFINTECSECR_TEST_LIVE');
-        $override = self::getenv('BLUEFINTECSECR_TEST_OVERRIDE');
+        $live = self::getenv('BLUEFIN_TECS_ECR_TEST_LIVE');
+        $override = self::getenv('BLUEFIN_TECS_ECR_TEST_OVERRIDE');
 
         if ($live === 'TRUE' || $override === 'TRUE') {
             foreach (array_keys($m) as $key) {
@@ -63,9 +63,9 @@ class BluefinTecsEcrTestRunner
             }
         }
 
-        $explain = self::getenv('BLUEFINTECSECR_TEST_EXPLAIN');
+        $explain = self::getenv('BLUEFIN_TECS_ECR_TEST_EXPLAIN');
         if ($explain !== null && $explain !== '') {
-            $m['BLUEFINTECSECR_TEST_EXPLAIN'] = $explain;
+            $m['BLUEFIN_TECS_ECR_TEST_EXPLAIN'] = $explain;
         }
 
         return $m;

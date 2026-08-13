@@ -76,7 +76,7 @@
           (vs/jm
             "active" true
             "index$" 11
-            "name" "payment_reason_as_byte"
+            "name" "payment_reasonAsByte"
             "req" false
             "type" "`$ARRAY`")
           (vs/jm
@@ -150,6 +150,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/makeTransaction"
                 "parts" (vs/jt
@@ -167,6 +168,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/version"
                 "parts" (vs/jt

@@ -57,14 +57,15 @@ to recover from failures.
 
 ### 3. Load an ecrapi
 
-`eLoad ent match ctrl` returns the bare record and raises on error.
+`eLoad ent match ctrl` resolves to the ENTITY and raises on error;
+`eDataGet` gives the record.
 
 ```haskell
   ent2 <- Sdk.ecr_api sdk VNoval
   m <- jo []
   ctrl2 <- emptyMap
   ecr_api <- Sdk.eLoad ent2 m ctrl2
-  print ecr_api
+  print =<< Sdk.eDataGet ecr_api
 ```
 
 ### 4. Create, update, and remove
@@ -74,7 +75,7 @@ to recover from failures.
   d <- jo [("amount", VStr "example_amount"), ("card_number", VStr "example_card_number"), ("currency", VStr "example_currency"), ("terminal_number", VStr "example_terminal_number"), ("transaction_date_time", VStr "example_transaction_date_time"), ("transaction_id", VStr "example_transaction_id")]
   cctrl <- emptyMap
   created <- Sdk.eCreate createEnt d cctrl
-  print created
+  print =<< Sdk.eDataGet created
 ```
 
 
@@ -271,8 +272,8 @@ All entities share the same record interface (fields of the `Entity` type).
 
 | Field | Signature | Description |
 | --- | --- | --- |
-| `eLoad` | `Value -> Value -> IO Value` | Load a single entity by match criteria. Raises on error. |
-| `eCreate` | `Value -> Value -> IO Value` | Create a new entity. Raises on error. |
+| `eLoad` | `Value -> Value -> IO Entity` | Load a single entity by match criteria. Resolves to the entity. Raises on error. |
+| `eCreate` | `Value -> Value -> IO Entity` | Create a new entity. Resolves to the entity. Raises on error. |
 | `eDataGet` | `IO Value` | Get entity data. |
 | `eDataSet` | `Value -> IO ()` | Set entity data. |
 | `eStream` | `String -> Value -> Value -> IO [Value]` | Run an op as a lazy stream of items. |
@@ -281,9 +282,11 @@ All entities share the same record interface (fields of the `Entity` type).
 
 ### Result shape
 
-Entity operations return the bare result `Value` (a map for single-entity
-ops, a list for `eList`) and raise on error. Wrap calls in
-`Control.Exception.try` to handle failures.
+Entity operations resolve to the ENTITY, not the raw record — `eList` to
+one entity per record — and raise on error. The record is reached through
+`eDataGet`, which returns the entity's data container. `eRemove` resolves to
+the entity marked deleted (`eDeleted`); it keeps the data it held. Wrap calls
+in `Control.Exception.try` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `Value`
 you branch on via its `ok` field (read with `getp result "ok"`):
@@ -314,7 +317,7 @@ On error, `ok` is `False` and `err` carries the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -343,8 +346,8 @@ Create an instance: `ecr_api <- Sdk.ecr_api sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
@@ -361,7 +364,7 @@ Create an instance: `ecr_api <- Sdk.ecr_api sdk VNoval`
 | `message_type` | `String` |  |
 | `password` | `String` |  |
 | `payment_reason` | `String` |  |
-| `payment_reason_as_byte` | `[Value]` |  |
+| `payment_reasonAsByte` | `[Value]` |  |
 | `personal_id` | `String` |  |
 | `receipt_layout` | `String` |  |
 | `receipt_number` | `String` |  |
@@ -380,6 +383,8 @@ Create an instance: `ecr_api <- Sdk.ecr_api sdk VNoval`
   match <- jo []
   ctrl <- emptyMap
   ecr_api <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  ecr_apiData <- Sdk.eDataGet ecr_api
 ```
 
 #### Example: Create
@@ -396,6 +401,7 @@ Create an instance: `ecr_api <- Sdk.ecr_api sdk VNoval`
     ]
   ctrl <- emptyMap
   ecr_api <- Sdk.eCreate ent d ctrl
+  ecr_apiData <- Sdk.eDataGet ecr_api
 ```
 
 

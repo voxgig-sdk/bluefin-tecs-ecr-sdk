@@ -26,8 +26,8 @@ import {
 describe('EcrApiEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when BLUEFINTECSECR_TEST_LIVE=TRUE.
-  afterEach(liveDelay('BLUEFINTECSECR_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when BLUEFIN_TECS_ECR_TEST_LIVE=TRUE.
+  afterEach(liveDelay('BLUEFIN_TECS_ECR_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = BluefinTecsEcrSDK.test()
@@ -62,13 +62,13 @@ describe('EcrApiEntity', async () => {
     const ecr_api_ref01_ent = client.EcrApi()
     let ecr_api_ref01_data = setup.data.new.ecr_api['ecr_api_ref01']
 
-    ecr_api_ref01_data = await ecr_api_ref01_ent.create(ecr_api_ref01_data)
+    ecr_api_ref01_data = (await ecr_api_ref01_ent.create(ecr_api_ref01_data)).data()
     assert(null != ecr_api_ref01_data)
 
 
     // LOAD
     const ecr_api_ref01_match_dt0: any = {}
-    const ecr_api_ref01_data_dt0 = await ecr_api_ref01_ent.load(ecr_api_ref01_match_dt0)
+    const ecr_api_ref01_data_dt0 = (await ecr_api_ref01_ent.load(ecr_api_ref01_match_dt0)).data()
     assert(null != ecr_api_ref01_data_dt0)
 
 

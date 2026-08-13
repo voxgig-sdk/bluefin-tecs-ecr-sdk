@@ -65,19 +65,19 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final calls = <Map<String, dynamic>>[];
 
   final env = envOverride({
-    'BLUEFINTECSECR_TEST_ECR_API_ENTID': <String, dynamic>{},
-    'BLUEFINTECSECR_TEST_LIVE': 'FALSE',
-    'BLUEFINTECSECR_APIKEY': 'NONE',
+    'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID': <String, dynamic>{},
+    'BLUEFIN_TECS_ECR_TEST_LIVE': 'FALSE',
+    'BLUEFIN_TECS_ECR_APIKEY': 'NONE',
   });
 
-  final live = 'TRUE' == env['BLUEFINTECSECR_TEST_LIVE'];
+  final live = 'TRUE' == env['BLUEFIN_TECS_ECR_TEST_LIVE'];
 
   if (live) {
     final client = BluefinTecsEcrSDK({
-      'apikey': env['BLUEFINTECSECR_APIKEY'],
+      'apikey': env['BLUEFIN_TECS_ECR_APIKEY'],
     });
 
-    dynamic idmap = env['BLUEFINTECSECR_TEST_ECR_API_ENTID'];
+    dynamic idmap = env['BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID'];
     if (idmap is String && idmap.startsWith('{')) {
       idmap = jsonDecode(idmap);
     }

@@ -51,7 +51,7 @@ try {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created EcrApi
+// Create — returns the created EcrApi ENTITY (.data() for the record)
 const created = await client.EcrApi().create({
   amount: 'example_amount',
   card_number: 'example_card_number',
@@ -138,7 +138,8 @@ Create a mock client for unit testing — no server required:
 const client = BluefinTecsEcrSDK.test()
 
 const ecrapi = await client.EcrApi().load()
-// ecrapi is a bare entity populated with mock response data
+// ecrapi is the entity, populated with mock response data
+// — call ecrapi.data() for the record itself
 console.log(ecrapi)
 ```
 
@@ -317,7 +318,7 @@ The `prepare()` method returns:
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -364,7 +365,7 @@ Create an instance: `const ecr_api = client.EcrApi()`
 | `message_type` | `string` |  |
 | `password` | `string` |  |
 | `payment_reason` | `string` |  |
-| `payment_reason_as_byte` | `any[]` |  |
+| `payment_reasonAsByte` | `any[]` |  |
 | `personal_id` | `string` |  |
 | `receipt_layout` | `string` |  |
 | `receipt_number` | `string` |  |

@@ -110,7 +110,7 @@ fmt.Println(ecrApi.GetName()) // "ecr_api"
 | `message_type` | `string` | No |  |
 | `password` | `string` | No |  |
 | `payment_reason` | `string` | No |  |
-| `payment_reason_as_byte` | `[]any` | No |  |
+| `payment_reasonAsByte` | `[]any` | No |  |
 | `personal_id` | `string` | No |  |
 | `receipt_layout` | `string` | No |  |
 | `receipt_number` | `string` | No |  |

@@ -44,8 +44,8 @@ sub getenv {
 
 sub env_override {
   my ($m) = @_;
-  my $live = getenv('BLUEFINTECSECR_TEST_LIVE');
-  my $override = getenv('BLUEFINTECSECR_TEST_OVERRIDE');
+  my $live = getenv('BLUEFIN_TECS_ECR_TEST_LIVE');
+  my $override = getenv('BLUEFIN_TECS_ECR_TEST_OVERRIDE');
 
   if ((defined $live && 'TRUE' eq $live)
     || (defined $override && 'TRUE' eq $override)) {
@@ -65,8 +65,8 @@ sub env_override {
     }
   }
 
-  my $explain = getenv('BLUEFINTECSECR_TEST_EXPLAIN');
-  $m->{'BLUEFINTECSECR_TEST_EXPLAIN'} = $explain if defined $explain && '' ne $explain;
+  my $explain = getenv('BLUEFIN_TECS_ECR_TEST_EXPLAIN');
+  $m->{'BLUEFIN_TECS_ECR_TEST_EXPLAIN'} = $explain if defined $explain && '' ne $explain;
 
   return $m;
 }

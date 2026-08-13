@@ -40,7 +40,7 @@ class EcrApiEntityTest {
     }
     Assumptions.assumeFalse(
       setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFINTECSECR_TEST_ECR_API_ENTID JSON to run live",
+      "live entity test uses synthetic IDs from fixture — set BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID JSON to run live",
     )
     val client = setup.client
 
@@ -50,7 +50,7 @@ class EcrApiEntityTest {
         Struct.getpath(setup.data, "new.ecr_api"), "ecr_api_ref01")) ?: linkedMapOf())
 
     val ecrApiRef01DataResult = ecrApiRef01Ent.create(ecrApiRef01Data, null)
-    ecrApiRef01Data = Helpers.toMapAny(ecrApiRef01DataResult) ?: linkedMapOf()
+    ecrApiRef01Data = Helpers.toMapAny(if (ecrApiRef01DataResult is SdkEntity) ecrApiRef01DataResult.data() else ecrApiRef01DataResult) ?: linkedMapOf()
     assertNotNull(ecrApiRef01Data, "expected create result to be a map")
 
     // LOAD
@@ -90,25 +90,25 @@ class EcrApiEntityTest {
           "}]}"))
 
       // Detect ENTID env override before envOverride consumes it.
-      val entidEnvRaw = RunnerSupport.getenv("BLUEFINTECSECR_TEST_ECR_API_ENTID")
+      val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINTECSECR_TEST_ECR_API_ENTID"] = idmap
-      envm["BLUEFINTECSECR_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINTECSECR_TEST_EXPLAIN"] = "FALSE"
-      envm["BLUEFINTECSECR_APIKEY"] = "NONE"
+      envm["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"] = idmap
+      envm["BLUEFIN_TECS_ECR_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_TECS_ECR_TEST_EXPLAIN"] = "FALSE"
+      envm["BLUEFIN_TECS_ECR_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      var idmapResolved = Helpers.toMapAny(env["BLUEFINTECSECR_TEST_ECR_API_ENTID"])
+      var idmapResolved = Helpers.toMapAny(env["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"])
       if (idmapResolved == null) {
         idmapResolved = Helpers.toMapAny(idmap) ?: linkedMapOf()
       }
 
-      val live = "TRUE" == env["BLUEFINTECSECR_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_TECS_ECR_TEST_LIVE"]
       if (live) {
         val liveOpts = linkedMapOf<String, Any?>()
-        liveOpts["apikey"] = env["BLUEFINTECSECR_APIKEY"]
+        liveOpts["apikey"] = env["BLUEFIN_TECS_ECR_APIKEY"]
         val mergedOpts = Struct.merge(Struct.jt(liveOpts, extra))
         client = BluefinTecsEcrSDK(Helpers.toMapAny(mergedOpts))
       }
@@ -118,7 +118,7 @@ class EcrApiEntityTest {
       setup.data = entityData
       setup.idmap = idmapResolved
       setup.env = env
-      setup.explain = "TRUE" == env["BLUEFINTECSECR_TEST_EXPLAIN"]
+      setup.explain = "TRUE" == env["BLUEFIN_TECS_ECR_TEST_EXPLAIN"]
       setup.live = live
       setup.syntheticOnly = live && !idmapOverridden
       setup.now = System.currentTimeMillis()

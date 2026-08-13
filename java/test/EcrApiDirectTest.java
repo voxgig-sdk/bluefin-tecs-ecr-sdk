@@ -89,24 +89,24 @@ public class EcrApiDirectTest {
     final List<Map<String, Object>> calls = new ArrayList<>();
 
     Map<String, Object> envm = new LinkedHashMap<>();
-    envm.put("BLUEFINTECSECR_TEST_ECR_API_ENTID", new LinkedHashMap<>());
-    envm.put("BLUEFINTECSECR_TEST_LIVE", "FALSE");
-    envm.put("BLUEFINTECSECR_APIKEY", "NONE");
+    envm.put("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID", new LinkedHashMap<>());
+    envm.put("BLUEFIN_TECS_ECR_TEST_LIVE", "FALSE");
+    envm.put("BLUEFIN_TECS_ECR_APIKEY", "NONE");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
-    boolean live = "TRUE".equals(env.get("BLUEFINTECSECR_TEST_LIVE"));
+    boolean live = "TRUE".equals(env.get("BLUEFIN_TECS_ECR_TEST_LIVE"));
 
     DirectSetup setup = new DirectSetup();
     setup.calls = calls;
 
     if (live) {
       Map<String, Object> mergedOpts = new LinkedHashMap<>();
-      mergedOpts.put("apikey", env.get("BLUEFINTECSECR_APIKEY"));
+      mergedOpts.put("apikey", env.get("BLUEFIN_TECS_ECR_APIKEY"));
       setup.client = new BluefinTecsEcrSDK(mergedOpts);
       setup.live = true;
 
       Map<String, Object> idmap = new LinkedHashMap<>();
-      Object entidRaw = env.get("BLUEFINTECSECR_TEST_ECR_API_ENTID");
+      Object entidRaw = env.get("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID");
       if (entidRaw instanceof String && ((String) entidRaw).startsWith("{")) {
         Map<String, Object> parsed = Helpers.toMapAny(Json.parseOrNull((String) entidRaw));
         if (parsed != null) {

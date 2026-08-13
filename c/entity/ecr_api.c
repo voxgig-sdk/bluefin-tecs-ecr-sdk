@@ -14,6 +14,8 @@ typedef struct ecr_api_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } ecr_api_entity;
 
 typedef void (*ecr_api_postdone_fn)(ecr_api_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* ecr_api_get_name(Entity* e);
 static Entity* ecr_api_make(Entity* e);
 static voxgig_value* ecr_api_data(Entity* e, voxgig_value* args);
 static voxgig_value* ecr_api_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* ecr_api_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* ecr_api_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* ecr_api_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* ecr_api_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* ecr_api_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* ecr_api_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** ecr_api_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* ecr_api_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* ecr_api_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* ecr_api_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void ecr_api_mark_deleted(Entity* e);
+static bool ecr_api_deleted(Entity* e);
 
 static Context* ecr_api_ent_ctx(ecr_api_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void ecr_api_load_postdone(ecr_api_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* ecr_api_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* ecr_api_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   ecr_api_entity* self = (ecr_api_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,11 +265,18 @@ static voxgig_value* ecr_api_load(Entity* e, voxgig_value* reqmatch, voxgig_valu
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, ecr_api_ent_ctx(self));
-  return ecr_api_run_op(self, ctx, ecr_api_load_postdone, err);
+  ecr_api_run_op(self, ctx, ecr_api_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* ecr_api_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** ecr_api_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "ecr_api");
   return NULL;
@@ -282,7 +294,7 @@ static void ecr_api_create_postdone(ecr_api_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* ecr_api_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* ecr_api_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   ecr_api_entity* self = (ecr_api_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -292,20 +304,38 @@ static voxgig_value* ecr_api_create(Entity* e, voxgig_value* reqdata, voxgig_val
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, ecr_api_ent_ctx(self));
-  return ecr_api_run_op(self, ctx, ecr_api_create_postdone, err);
+  ecr_api_run_op(self, ctx, ecr_api_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* ecr_api_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* ecr_api_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "ecr_api");
   return NULL;
 }
 
-static voxgig_value* ecr_api_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* ecr_api_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "ecr_api");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void ecr_api_mark_deleted(Entity* e) {
+  ((ecr_api_entity*)e)->deleted = true;
+}
+
+static bool ecr_api_deleted(Entity* e) {
+  return ((ecr_api_entity*)e)->deleted;
 }
 
 static const EntityVT ecr_api_VT = {
@@ -313,6 +343,8 @@ static const EntityVT ecr_api_VT = {
   ecr_api_make,
   ecr_api_data,
   ecr_api_matchv,
+  ecr_api_mark_deleted,
+  ecr_api_deleted,
   ecr_api_load,
   ecr_api_list,
   ecr_api_create,

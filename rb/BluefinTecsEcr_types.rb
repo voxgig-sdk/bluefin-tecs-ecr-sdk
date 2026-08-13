@@ -43,7 +43,7 @@
 # @!attribute [rw] payment_reason
 #   @return [String, nil]
 #
-# @!attribute [rw] payment_reason_as_byte
+# @!attribute [rw] payment_reasonAsByte
 #   @return [Array, nil]
 #
 # @!attribute [rw] personal_id
@@ -87,7 +87,7 @@ EcrApi = Struct.new(
   :message_type,
   :password,
   :payment_reason,
-  :payment_reason_as_byte,
+  :payment_reasonAsByte,
   :personal_id,
   :receipt_layout,
   :receipt_number,
@@ -136,7 +136,7 @@ EcrApi = Struct.new(
 # @!attribute [rw] payment_reason
 #   @return [String, nil]
 #
-# @!attribute [rw] payment_reason_as_byte
+# @!attribute [rw] payment_reasonAsByte
 #   @return [Array, nil]
 #
 # @!attribute [rw] personal_id
@@ -180,7 +180,7 @@ EcrApiLoadMatch = Struct.new(
   :message_type,
   :password,
   :payment_reason,
-  :payment_reason_as_byte,
+  :payment_reasonAsByte,
   :personal_id,
   :receipt_layout,
   :receipt_number,
@@ -229,7 +229,7 @@ EcrApiLoadMatch = Struct.new(
 # @!attribute [rw] payment_reason
 #   @return [String, nil]
 #
-# @!attribute [rw] payment_reason_as_byte
+# @!attribute [rw] payment_reasonAsByte
 #   @return [Array, nil]
 #
 # @!attribute [rw] personal_id
@@ -273,7 +273,7 @@ EcrApiCreateData = Struct.new(
   :message_type,
   :password,
   :payment_reason,
-  :payment_reason_as_byte,
+  :payment_reasonAsByte,
   :personal_id,
   :receipt_layout,
   :receipt_number,

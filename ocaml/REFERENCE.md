@@ -98,7 +98,7 @@ let ecr_api = Sdk_client.ecr_api client Noval
 | `message_type` | `string` | No |  |
 | `password` | `string` | No |  |
 | `payment_reason` | `string` | No |  |
-| `payment_reason_as_byte` | `value list` | No |  |
+| `payment_reasonAsByte` | `value list` | No |  |
 | `personal_id` | `string` | No |  |
 | `receipt_layout` | `string` | No |  |
 | `receipt_number` | `string` | No |  |
@@ -112,9 +112,9 @@ let ecr_api = Sdk_client.ecr_api client Noval
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.ecr_api client Noval).e_create (jo [
@@ -125,14 +125,16 @@ let result = (Sdk_client.ecr_api client Noval).e_create (jo [
     ("transaction_date_time", (Str "example_transaction_date_time"));  (* string *)
     ("transaction_id", (Str "example_transaction_id"));  (* string *)
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_load reqmatch ctrl : value`
+#### `e_load reqmatch ctrl : entity_obj`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.ecr_api client Noval).e_load (Noval) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields

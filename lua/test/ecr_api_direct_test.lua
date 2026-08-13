@@ -60,16 +60,16 @@ function ecr_api_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["BLUEFINTECSECR_TEST_ECR_API_ENTID"] = {},
-    ["BLUEFINTECSECR_TEST_LIVE"] = "FALSE",
-    ["BLUEFINTECSECR_APIKEY"] = "NONE",
+    ["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"] = {},
+    ["BLUEFIN_TECS_ECR_TEST_LIVE"] = "FALSE",
+    ["BLUEFIN_TECS_ECR_APIKEY"] = "NONE",
   })
 
-  local live = env["BLUEFINTECSECR_TEST_LIVE"] == "TRUE"
+  local live = env["BLUEFIN_TECS_ECR_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["BLUEFINTECSECR_APIKEY"],
+      apikey = env["BLUEFIN_TECS_ECR_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

@@ -17,7 +17,7 @@ export interface EcrApi {
   message_type?: string
   password?: string
   payment_reason?: string
-  payment_reason_as_byte?: any[]
+  payment_reasonAsByte?: any[]
   personal_id?: string
   receipt_layout?: string
   receipt_number?: string
@@ -42,7 +42,7 @@ export interface EcrApiLoadMatch {
   message_type?: string
   password?: string
   payment_reason?: string
-  payment_reason_as_byte?: any[]
+  payment_reasonAsByte?: any[]
   personal_id?: string
   receipt_layout?: string
   receipt_number?: string
@@ -67,7 +67,7 @@ export interface EcrApiCreateData {
   message_type?: string
   password?: string
   payment_reason?: string
-  payment_reason_as_byte?: any[]
+  payment_reasonAsByte?: any[]
   personal_id?: string
   receipt_layout?: string
   receipt_number?: string

@@ -27,7 +27,7 @@ typedef struct {
   char*message_type;  // optional
   char*password;  // optional
   char*payment_reason;  // optional
-  voxgig_value*payment_reason_as_byte;  // optional
+  voxgig_value*payment_reasonasbyte;  // optional
   char*personal_id;  // optional
   char*receipt_layout;  // optional
   char*receipt_number;  // optional
@@ -53,7 +53,7 @@ typedef struct {
   char*message_type;  // optional
   char*password;  // optional
   char*payment_reason;  // optional
-  voxgig_value*payment_reason_as_byte;  // optional
+  voxgig_value*payment_reasonasbyte;  // optional
   char*personal_id;  // optional
   char*receipt_layout;  // optional
   char*receipt_number;  // optional
@@ -79,7 +79,7 @@ typedef struct {
   char*message_type;  // optional
   char*password;  // optional
   char*payment_reason;  // optional
-  voxgig_value*payment_reason_as_byte;  // optional
+  voxgig_value*payment_reasonasbyte;  // optional
   char*personal_id;  // optional
   char*receipt_layout;  // optional
   char*receipt_number;  // optional

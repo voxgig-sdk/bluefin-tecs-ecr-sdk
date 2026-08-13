@@ -27,16 +27,16 @@ fn ecr_api_direct_setup(mockres: Value) -> EcrApiDirectSetup {
     let calls: Rc<RefCell<Vec<Value>>> = Rc::new(RefCell::new(Vec::new()));
 
     let env = env_override(jo(vec![
-        ("BLUEFINTECSECR_TEST_ECR_API_ENTID", Value::empty_map()),
-        ("BLUEFINTECSECR_TEST_LIVE", Value::str("FALSE")),
-        ("BLUEFINTECSECR_APIKEY", Value::str("NONE")),
+        ("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID", Value::empty_map()),
+        ("BLUEFIN_TECS_ECR_TEST_LIVE", Value::str("FALSE")),
+        ("BLUEFIN_TECS_ECR_APIKEY", Value::str("NONE")),
     ]));
 
-    let live = getp(&env, "BLUEFINTECSECR_TEST_LIVE") == Value::str("TRUE");
+    let live = getp(&env, "BLUEFIN_TECS_ECR_TEST_LIVE") == Value::str("TRUE");
 
     if live {
-        let client = BluefinTecsEcrSDK::new(jo(vec![("apikey", getp(&env, "BLUEFINTECSECR_APIKEY"))]));
-        let idmap = match to_map(&getp(&env, "BLUEFINTECSECR_TEST_ECR_API_ENTID")) {
+        let client = BluefinTecsEcrSDK::new(jo(vec![("apikey", getp(&env, "BLUEFIN_TECS_ECR_APIKEY"))]));
+        let idmap = match to_map(&getp(&env, "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID")) {
             Value::Map(m) => Value::Map(m),
             _ => Value::empty_map(),
         };

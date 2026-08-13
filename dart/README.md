@@ -54,7 +54,7 @@ final client = BluefinTecsEcrSDK({
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record (a `Map`) and throws on error.
+`load()` returns the ENTITY — call data() for the record — and throws on error.
 
 ```dart
 try {
@@ -68,7 +68,7 @@ try {
 ### 4. Create, update, and remove
 
 ```dart
-// Create — returns the bare created record (a Map)
+// Create — returns the ENTITY (call data() for the record)
 final created = await client.EcrApi().create({'amount': 'example_amount', 'card_number': 'example_card_number', 'currency': 'example_currency', 'terminal_number': 'example_terminal_number', 'transaction_date_time': 'example_transaction_date_time', 'transaction_id': 'example_transaction_id'});
 
 ```
@@ -150,7 +150,8 @@ Create a mock client for unit testing — no server required:
 ```dart
 final client = BluefinTecsEcrSDK.test();
 
-// Entity ops return the bare record and throw on error.
+// Entity ops return the ENTITY and throws on error;
+// call data() for the record.
 final ecrapi = await client.EcrApi().load();
 // ecrapi contains the mock response record
 print(ecrapi);
@@ -250,7 +251,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, a `List` of entity instances for `list`) and throw on error. Wrap calls
 in `try`/`catch` to handle failures.
 
@@ -283,7 +284,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -330,7 +331,7 @@ Create an instance: `final ecr_api = client.EcrApi();`
 | `message_type` | `String` |  |
 | `password` | `String` |  |
 | `payment_reason` | `String` |  |
-| `payment_reason_as_byte` | `List<dynamic>` |  |
+| `payment_reasonAsByte` | `List<dynamic>` |  |
 | `personal_id` | `String` |  |
 | `receipt_layout` | `String` |  |
 | `receipt_number` | `String` |  |

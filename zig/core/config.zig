@@ -112,7 +112,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("payment_reason_as_byte") },
+                        .{ "name", h.vstr("payment_reasonAsByte") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$ARRAY`") },
                         .{ "index$", h.vnum(11) },
@@ -197,6 +197,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/makeTransaction") },
                                 .{ "parts", h.ja(&.{
@@ -219,6 +220,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/version") },
                                 .{ "parts", h.ja(&.{

@@ -111,7 +111,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "payment_reason_as_byte",
+          "name": "payment_reasonAsByte",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 11
@@ -196,6 +196,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/makeTransaction",
               "parts": [
@@ -218,6 +219,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/version",
               "parts": [

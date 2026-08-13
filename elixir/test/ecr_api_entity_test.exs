@@ -34,7 +34,8 @@ defmodule BluefinTecsEcr.EcrApiEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = BluefinTecsEcr.ecr_api(sdk)
-      rec = BluefinTecsEcr.Entity.EcrApi.load(ent, S.jm(["id", id]))
+      loaded = BluefinTecsEcr.Entity.EcrApi.load(ent, S.jm(["id", id]))
+      rec = BluefinTecsEcr.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end
@@ -43,7 +44,8 @@ defmodule BluefinTecsEcr.EcrApiEntityTest do
   test "should create then read back" do
     sdk = BluefinTecsEcr.test(S.jm(["entity", S.jm(["ecr_api", S.jm([])])]))
     ent = BluefinTecsEcr.ecr_api(sdk)
-    made = BluefinTecsEcr.Entity.EcrApi.create(ent, S.jm(["name", "test-create"]))
+    created = BluefinTecsEcr.Entity.EcrApi.create(ent, S.jm(["name", "test-create"]))
+    made = BluefinTecsEcr.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

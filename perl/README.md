@@ -46,7 +46,7 @@ my $client = BluefinTecsEcrSDK->new({
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record (a `hashref`) and dies on error.
+`load()` returns the ENTITY — call data_get for the record — and dies on error.
 
 ```perl
 my $ecrapi = eval { $client->EcrApi->load() };
@@ -61,7 +61,7 @@ else {
 ### 4. Create, update, and remove
 
 ```perl
-# Create — returns the bare created record (a hashref)
+# Create — returns the ENTITY (call data_get for the record)
 my $created = $client->EcrApi->create({ 'amount' => 'example_amount', 'card_number' => 'example_card_number', 'currency' => 'example_currency', 'terminal_number' => 'example_terminal_number', 'transaction_date_time' => 'example_transaction_date_time', 'transaction_id' => 'example_transaction_id' });
 
 ```
@@ -143,7 +143,8 @@ Create a mock client for unit testing — no server required:
 ```perl
 my $client = BluefinTecsEcrSDK->test(undef, undef);
 
-# Entity ops return the bare record and die on error.
+# Entity ops return the ENTITY and dies on error;
+# call data_get for the record.
 my $ecrapi = $client->EcrApi->load();
 # $ecrapi contains the mock response record
 ```
@@ -243,7 +244,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `hashref` for single-entity
+Entity operations return the ENTITY (call data_get for the record) (a `hashref` for single-entity
 ops, an `arrayref` for `list`) and die on error. Wrap calls in
 `eval { ... }` and inspect `$@` to handle failures.
 
@@ -276,7 +277,7 @@ On error, `ok` is false and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -323,7 +324,7 @@ Create an instance: `my $ecr_api = $client->EcrApi;`
 | `message_type` | `string` |  |
 | `password` | `string` |  |
 | `payment_reason` | `string` |  |
-| `payment_reason_as_byte` | `arrayref` |  |
+| `payment_reasonAsByte` | `arrayref` |  |
 | `personal_id` | `string` |  |
 | `receipt_layout` | `string` |  |
 | `receipt_number` | `string` |  |

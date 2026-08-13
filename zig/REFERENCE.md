@@ -104,7 +104,7 @@ const ecr_api = client.ecr_api(h.vnull());
 | `message_type` | `[]const u8` | No |  |
 | `password` | `[]const u8` | No |  |
 | `payment_reason` | `[]const u8` | No |  |
-| `payment_reason_as_byte` | `Value (array)` | No |  |
+| `payment_reasonAsByte` | `Value (array)` | No |  |
 | `personal_id` | `[]const u8` | No |  |
 | `receipt_layout` | `[]const u8` | No |  |
 | `receipt_number` | `[]const u8` | No |  |

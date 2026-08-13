@@ -286,7 +286,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -333,7 +333,7 @@ Create an instance: `(def ecr_api (api/ecr_api client nil))`
 | `message_type` | `string` |  |
 | `password` | `string` |  |
 | `payment_reason` | `string` |  |
-| `payment_reason_as_byte` | `vector` |  |
+| `payment_reasonAsByte` | `vector` |  |
 | `personal_id` | `string` |  |
 | `receipt_layout` | `string` |  |
 | `receipt_number` | `string` |  |

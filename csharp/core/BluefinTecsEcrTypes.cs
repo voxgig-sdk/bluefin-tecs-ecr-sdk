@@ -26,7 +26,7 @@ public record EcrApi
     public string? message_type { get; init; }
     public string? password { get; init; }
     public string? payment_reason { get; init; }
-    public List<object?>? payment_reason_as_byte { get; init; }
+    public List<object?>? payment_reasonAsByte { get; init; }
     public string? personal_id { get; init; }
     public string? receipt_layout { get; init; }
     public string? receipt_number { get; init; }
@@ -52,7 +52,7 @@ public record EcrApiLoadMatch
     public string? message_type { get; init; }
     public string? password { get; init; }
     public string? payment_reason { get; init; }
-    public List<object?>? payment_reason_as_byte { get; init; }
+    public List<object?>? payment_reasonAsByte { get; init; }
     public string? personal_id { get; init; }
     public string? receipt_layout { get; init; }
     public string? receipt_number { get; init; }
@@ -78,7 +78,7 @@ public record EcrApiCreateData
     public string? message_type { get; init; }
     public string? password { get; init; }
     public string? payment_reason { get; init; }
-    public List<object?>? payment_reason_as_byte { get; init; }
+    public List<object?>? payment_reasonAsByte { get; init; }
     public string? personal_id { get; init; }
     public string? receipt_layout { get; init; }
     public string? receipt_number { get; init; }

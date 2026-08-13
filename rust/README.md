@@ -259,7 +259,7 @@ On error, `ok` is `false` and `err` carries the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -306,7 +306,7 @@ Create an instance: `let ecr_api = client.ecr_api(Value::Noval);`
 | `message_type` | `String` |  |
 | `password` | `String` |  |
 | `payment_reason` | `String` |  |
-| `payment_reason_as_byte` | `Vec<Value>` |  |
+| `payment_reasonAsByte` | `Vec<Value>` |  |
 | `personal_id` | `String` |  |
 | `receipt_layout` | `String` |  |
 | `receipt_number` | `String` |  |

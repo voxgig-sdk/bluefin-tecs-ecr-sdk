@@ -106,7 +106,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "payment_reason_as_byte",
+            ["name"] = "payment_reasonAsByte",
             ["req"] = false,
             ["type"] = "`$ARRAY`",
             ["index$"] = 11,
@@ -191,6 +191,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/makeTransaction",
                 ["parts"] = {
@@ -213,6 +214,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/version",
                 ["parts"] = {

@@ -273,7 +273,7 @@ On error, `ok` is `false` and `err` carries the error message.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -323,7 +323,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `message_type` | `[]const u8` |  |
 | `password` | `[]const u8` |  |
 | `payment_reason` | `[]const u8` |  |
-| `payment_reason_as_byte` | `Value (array)` |  |
+| `payment_reasonAsByte` | `Value (array)` |  |
 | `personal_id` | `[]const u8` |  |
 | `receipt_layout` | `[]const u8` |  |
 | `receipt_number` | `[]const u8` |  |

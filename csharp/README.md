@@ -280,7 +280,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -327,7 +327,7 @@ Create an instance: `var ecrApi = client.EcrApi();`
 | `message_type` | `string` |  |
 | `password` | `string` |  |
 | `payment_reason` | `string` |  |
-| `payment_reason_as_byte` | `List<object?>` |  |
+| `payment_reasonAsByte` | `List<object?>` |  |
 | `personal_id` | `string` |  |
 | `receipt_layout` | `string` |  |
 | `receipt_number` | `string` |  |

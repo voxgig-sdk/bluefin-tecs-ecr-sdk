@@ -287,7 +287,7 @@ On error, `ok` is `false` and `err` carries the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -334,7 +334,7 @@ Create an instance: `Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);`
 | `message_type` | `char*` |  |
 | `password` | `char*` |  |
 | `payment_reason` | `char*` |  |
-| `payment_reason_as_byte` | `voxgig_value* (list)` |  |
+| `payment_reasonAsByte` | `voxgig_value* (list)` |  |
 | `personal_id` | `char*` |  |
 | `receipt_layout` | `char*` |  |
 | `receipt_number` | `char*` |  |

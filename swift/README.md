@@ -52,7 +52,7 @@ let client = BluefinTecsEcrSDK(options)
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record (a `Value`) and throws on error.
+`load()` returns the ENTITY — call data() for the record — and throws on error.
 
 ```swift
 do {
@@ -67,7 +67,7 @@ catch {
 ### 4. Create, update, and remove
 
 ```swift
-// Create — returns the bare created record (a Value)
+// Create — returns the ENTITY (call data() for the record)
 let created = try client.EcrApi().create(VMap([("amount", .string("example_amount")), ("card_number", .string("example_card_number")), ("currency", .string("example_currency")), ("terminal_number", .string("example_terminal_number")), ("transaction_date_time", .string("example_transaction_date_time")), ("transaction_id", .string("example_transaction_id"))]), nil)
 
 ```
@@ -149,7 +149,8 @@ Create a mock client for unit testing — no server required:
 ```swift
 let client = BluefinTecsEcrSDK.testSDK(nil, nil)
 
-// Entity ops return the bare record and throw on error.
+// Entity ops return the ENTITY and throws on error;
+// call data() for the record.
 let ecrApi = try client.EcrApi().load(nil, nil)
 // ecrApi holds the mock response record
 print(ecrApi)
@@ -246,7 +247,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Value` map for
+Entity operations return the ENTITY (call data() for the record) (a `Value` map for
 single-entity ops, a `Value` list for `list`) and throw on error. Wrap
 calls in `do`/`catch` to handle failures.
 
@@ -279,7 +280,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -326,7 +327,7 @@ Create an instance: `let ecrApi = client.EcrApi()`
 | `message_type` | `String` |  |
 | `password` | `String` |  |
 | `payment_reason` | `String` |  |
-| `payment_reason_as_byte` | `[Value]` |  |
+| `payment_reasonAsByte` | `[Value]` |  |
 | `personal_id` | `String` |  |
 | `receipt_layout` | `String` |  |
 | `receipt_number` | `String` |  |

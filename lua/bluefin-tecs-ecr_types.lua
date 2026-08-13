@@ -18,7 +18,7 @@
 ---@field message_type? string
 ---@field password? string
 ---@field payment_reason? string
----@field payment_reason_as_byte? table
+---@field payment_reasonAsByte? table
 ---@field personal_id? string
 ---@field receipt_layout? string
 ---@field receipt_number? string
@@ -42,7 +42,7 @@
 ---@field message_type? string
 ---@field password? string
 ---@field payment_reason? string
----@field payment_reason_as_byte? table
+---@field payment_reasonAsByte? table
 ---@field personal_id? string
 ---@field receipt_layout? string
 ---@field receipt_number? string
@@ -66,7 +66,7 @@
 ---@field message_type? string
 ---@field password? string
 ---@field payment_reason? string
----@field payment_reason_as_byte? table
+---@field payment_reasonAsByte? table
 ---@field personal_id? string
 ---@field receipt_layout? string
 ---@field receipt_number? string

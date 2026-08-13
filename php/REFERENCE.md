@@ -104,7 +104,7 @@ $ecr_api = $client->EcrApi();
 | `message_type` | `string` | No |  |
 | `password` | `string` | No |  |
 | `payment_reason` | `string` | No |  |
-| `payment_reason_as_byte` | `array` | No |  |
+| `payment_reasonAsByte` | `array` | No |  |
 | `personal_id` | `string` | No |  |
 | `receipt_layout` | `string` | No |  |
 | `receipt_number` | `string` | No |  |

@@ -276,7 +276,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -323,7 +323,7 @@ Create an instance: `auto ecr_api = client->ecr_api();`
 | `message_type` | `std::string` |  |
 | `password` | `std::string` |  |
 | `payment_reason` | `std::string` |  |
-| `payment_reason_as_byte` | `std::vector<Value>` |  |
+| `payment_reasonAsByte` | `std::vector<Value>` |  |
 | `personal_id` | `std::string` |  |
 | `receipt_layout` | `std::string` |  |
 | `receipt_number` | `std::string` |  |

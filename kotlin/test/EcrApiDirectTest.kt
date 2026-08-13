@@ -83,24 +83,24 @@ class EcrApiDirectTest {
       val calls = mutableListOf<MutableMap<String, Any?>>()
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINTECSECR_TEST_ECR_API_ENTID"] = linkedMapOf<String, Any?>()
-      envm["BLUEFINTECSECR_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINTECSECR_APIKEY"] = "NONE"
+      envm["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"] = linkedMapOf<String, Any?>()
+      envm["BLUEFIN_TECS_ECR_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_TECS_ECR_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      val live = "TRUE" == env["BLUEFINTECSECR_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_TECS_ECR_TEST_LIVE"]
 
       val setup = DirectSetup()
       setup.calls = calls
 
       if (live) {
         val mergedOpts = linkedMapOf<String, Any?>()
-        mergedOpts["apikey"] = env["BLUEFINTECSECR_APIKEY"]
+        mergedOpts["apikey"] = env["BLUEFIN_TECS_ECR_APIKEY"]
         setup.client = BluefinTecsEcrSDK(mergedOpts)
         setup.live = true
 
         var idmap: MutableMap<String, Any?> = linkedMapOf()
-        val entidRaw = env["BLUEFINTECSECR_TEST_ECR_API_ENTID"]
+        val entidRaw = env["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"]
         if (entidRaw is String && entidRaw.startsWith("{")) {
           val parsed = Helpers.toMapAny(Json.parseOrNull(entidRaw))
           if (parsed != null) {

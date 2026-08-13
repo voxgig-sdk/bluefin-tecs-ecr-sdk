@@ -250,7 +250,7 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -297,7 +297,7 @@ Create an instance: `local ecr_api = client:EcrApi(nil)`
 | `message_type` | `string` |  |
 | `password` | `string` |  |
 | `payment_reason` | `string` |  |
-| `payment_reason_as_byte` | `table` |  |
+| `payment_reasonAsByte` | `table` |  |
 | `personal_id` | `string` |  |
 | `receipt_layout` | `string` |  |
 | `receipt_number` | `string` |  |

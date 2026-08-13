@@ -17,6 +17,10 @@ describe('EcrApiDirect', async () => {
 
   test('direct-exists', async () => {
     const sdk = new BluefinTecsEcrSDK({
+      // Concrete base: a live construction must satisfy any server
+      // variables a templated base URL declares; overriding base with a
+      // literal (as the direct flow tests do) sidesteps the requirement.
+      base: 'http://localhost:8080',
       system: { fetch: async () => ({}) }
     })
     assert('function' === typeof sdk.direct)
@@ -58,19 +62,19 @@ function directSetup(mockres) {
   const calls = []
 
   const env = envOverride({
-    'BLUEFINTECSECR_TEST_ECR_API_ENTID': {},
-    'BLUEFINTECSECR_TEST_LIVE': 'FALSE',
-    'BLUEFINTECSECR_APIKEY': 'NONE',
+    'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID': {},
+    'BLUEFIN_TECS_ECR_TEST_LIVE': 'FALSE',
+    'BLUEFIN_TECS_ECR_APIKEY': 'NONE',
   })
 
-  const live = 'TRUE' === env.BLUEFINTECSECR_TEST_LIVE
+  const live = 'TRUE' === env.BLUEFIN_TECS_ECR_TEST_LIVE
 
   if (live) {
     const client = new BluefinTecsEcrSDK({
-      apikey: env.BLUEFINTECSECR_APIKEY,
+      apikey: env.BLUEFIN_TECS_ECR_APIKEY,
     })
 
-    let idmap = env['BLUEFINTECSECR_TEST_ECR_API_ENTID']
+    let idmap = env['BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

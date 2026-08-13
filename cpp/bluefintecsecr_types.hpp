@@ -33,7 +33,7 @@ struct EcrApi {
   std::string message_type;  // optional
   std::string password;  // optional
   std::string payment_reason;  // optional
-  std::vector<Value> payment_reason_as_byte;  // optional
+  std::vector<Value> payment_reasonAsByte;  // optional
   std::string personal_id;  // optional
   std::string receipt_layout;  // optional
   std::string receipt_number;  // optional
@@ -58,7 +58,7 @@ struct EcrApiLoadMatch {
   std::string message_type;  // optional
   std::string password;  // optional
   std::string payment_reason;  // optional
-  std::vector<Value> payment_reason_as_byte;  // optional
+  std::vector<Value> payment_reasonAsByte;  // optional
   std::string personal_id;  // optional
   std::string receipt_layout;  // optional
   std::string receipt_number;  // optional
@@ -83,7 +83,7 @@ struct EcrApiCreateData {
   std::string message_type;  // optional
   std::string password;  // optional
   std::string payment_reason;  // optional
-  std::vector<Value> payment_reason_as_byte;  // optional
+  std::vector<Value> payment_reasonAsByte;  // optional
   std::string personal_id;  // optional
   std::string receipt_layout;  // optional
   std::string receipt_number;  // optional

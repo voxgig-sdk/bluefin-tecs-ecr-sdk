@@ -47,13 +47,13 @@ void tests() {
       final ecr_api_ref01_ent = client.EcrApi();
       dynamic ecr_api_ref01_data = setup['data']['new']['ecr_api']['ecr_api_ref01'];
 
-      ecr_api_ref01_data = await ecr_api_ref01_ent.create(ecr_api_ref01_data);
+      ecr_api_ref01_data = (await ecr_api_ref01_ent.create(ecr_api_ref01_data)).data();
       ok(null != ecr_api_ref01_data);
 
 
       // LOAD
       final ecr_api_ref01_match_dt0 = <String, dynamic>{};
-      final ecr_api_ref01_data_dt0 = await ecr_api_ref01_ent.load(ecr_api_ref01_match_dt0);
+      final ecr_api_ref01_data_dt0 = (await ecr_api_ref01_ent.load(ecr_api_ref01_match_dt0)).data();
       ok(null != ecr_api_ref01_data_dt0);
 
 

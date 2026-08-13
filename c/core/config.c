@@ -91,7 +91,7 @@ voxgig_value* make_config(void) {
             "index$", v_num(10)),
           cmap(5,
             "active", v_bool(true),
-            "name", v_str("payment_reason_as_byte"),
+            "name", v_str("payment_reasonAsByte"),
             "req", v_bool(false),
             "type", v_str("`$ARRAY`"),
             "index$", v_num(11)),
@@ -157,13 +157,14 @@ voxgig_value* make_config(void) {
             "index$", v_num(21))),
         "name", v_str("ecr_api"),
         "op", cmap(2,
-          "create", cmap(4,
+          "create", cmap(3,
             "input", v_str("data"),
             "name", v_str("create"),
             "points", clist(1,
-              cmap(8,
+              cmap(9,
                 "active", v_bool(true),
                 "args", v_map(),
+                "kind", v_str("http"),
                 "method", v_str("POST"),
                 "orig", v_str("/makeTransaction"),
                 "parts", clist(1,
@@ -172,15 +173,15 @@ voxgig_value* make_config(void) {
                 "transform", cmap(2,
                   "req", v_str("`reqdata`"),
                   "res", v_str("`body`")),
-                "index$", v_num(0))),
-            "key$", v_str("create")),
-          "load", cmap(4,
+                "index$", v_num(0)))),
+          "load", cmap(3,
             "input", v_str("data"),
             "name", v_str("load"),
             "points", clist(1,
-              cmap(8,
+              cmap(9,
                 "active", v_bool(true),
                 "args", v_map(),
+                "kind", v_str("http"),
                 "method", v_str("GET"),
                 "orig", v_str("/version"),
                 "parts", clist(1,
@@ -189,29 +190,12 @@ voxgig_value* make_config(void) {
                 "transform", cmap(2,
                   "req", v_str("`reqdata`"),
                   "res", v_str("`body`")),
-                "index$", v_num(0))),
-            "key$", v_str("load"))),
+                "index$", v_num(0))))),
         "relations", cmap(1,
           "ancestors", v_list()))));
 }
 
 Feature* make_feature(const char* name) {
-  if (strcmp(name, "audit") == 0) return feature_audit_new();
-  if (strcmp(name, "cache") == 0) return feature_cache_new();
-  if (strcmp(name, "clienttrack") == 0) return feature_clienttrack_new();
-  if (strcmp(name, "debug") == 0) return feature_debug_new();
-  if (strcmp(name, "idempotency") == 0) return feature_idempotency_new();
-  if (strcmp(name, "log") == 0) return feature_log_new();
-  if (strcmp(name, "metrics") == 0) return feature_metrics_new();
-  if (strcmp(name, "netsim") == 0) return feature_netsim_new();
-  if (strcmp(name, "paging") == 0) return feature_paging_new();
-  if (strcmp(name, "proxy") == 0) return feature_proxy_new();
-  if (strcmp(name, "ratelimit") == 0) return feature_ratelimit_new();
-  if (strcmp(name, "rbac") == 0) return feature_rbac_new();
-  if (strcmp(name, "retry") == 0) return feature_retry_new();
-  if (strcmp(name, "streaming") == 0) return feature_streaming_new();
-  if (strcmp(name, "telemetry") == 0) return feature_telemetry_new();
   if (strcmp(name, "test") == 0) return feature_test_new();
-  if (strcmp(name, "timeout") == 0) return feature_timeout_new();
   return feature_base_new();
 }

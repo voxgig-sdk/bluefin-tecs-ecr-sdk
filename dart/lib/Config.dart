@@ -19,7 +19,7 @@ class Config {
   }
 
   final Map<String, dynamic> main = <String, dynamic>{
-    'name': 'ProjectName',
+    'name': 'BluefinTecsEcr',
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
@@ -130,7 +130,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'payment_reason_as_byte',
+          'name': 'payment_reasonAsByte',
           'req': false,
           'type': '`\$ARRAY`',
           'index\$': 11,
@@ -215,6 +215,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/makeTransaction',
               'parts': <dynamic>[
@@ -237,6 +238,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'GET',
               'orig': '/version',
               'parts': <dynamic>[

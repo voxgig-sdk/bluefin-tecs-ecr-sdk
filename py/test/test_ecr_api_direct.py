@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from bluefintecsecr_sdk.utility.voxgig_struct import voxgig_struct as vs
 from bluefintecsecr_sdk import BluefinTecsEcrSDK
-from core import helpers
+from bluefintecsecr_sdk.core import helpers
 from test import runner
 
 
@@ -56,16 +56,16 @@ def _ecr_api_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "BLUEFINTECSECR_TEST_ECR_API_ENTID": {},
-        "BLUEFINTECSECR_TEST_LIVE": "FALSE",
-        "BLUEFINTECSECR_APIKEY": "NONE",
+        "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID": {},
+        "BLUEFIN_TECS_ECR_TEST_LIVE": "FALSE",
+        "BLUEFIN_TECS_ECR_APIKEY": "NONE",
     })
 
-    live = env.get("BLUEFINTECSECR_TEST_LIVE") == "TRUE"
+    live = env.get("BLUEFIN_TECS_ECR_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
-            "apikey": env.get("BLUEFINTECSECR_APIKEY"),
+            "apikey": env.get("BLUEFIN_TECS_ECR_APIKEY"),
         }
         client = BluefinTecsEcrSDK(merged_opts)
         return {

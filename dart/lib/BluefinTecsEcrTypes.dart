@@ -32,7 +32,7 @@ class EcrApi {
   /// STRING
   String? payment_reason;
   /// ARRAY
-  List<dynamic>? payment_reason_as_byte;
+  List<dynamic>? payment_reasonAsByte;
   /// STRING
   String? personal_id;
   /// STRING
@@ -66,7 +66,7 @@ class EcrApi {
     this.message_type,
     this.password,
     this.payment_reason,
-    this.payment_reason_as_byte,
+    this.payment_reasonAsByte,
     this.personal_id,
     this.receipt_layout,
     this.receipt_number,
@@ -91,7 +91,7 @@ class EcrApi {
         message_type: m['message_type'] is String ? m['message_type'] : null,
         password: m['password'] is String ? m['password'] : null,
         payment_reason: m['payment_reason'] is String ? m['payment_reason'] : null,
-        payment_reason_as_byte: m['payment_reason_as_byte'] is List<dynamic> ? m['payment_reason_as_byte'] : null,
+        payment_reasonAsByte: m['payment_reasonAsByte'] is List<dynamic> ? m['payment_reasonAsByte'] : null,
         personal_id: m['personal_id'] is String ? m['personal_id'] : null,
         receipt_layout: m['receipt_layout'] is String ? m['receipt_layout'] : null,
         receipt_number: m['receipt_number'] is String ? m['receipt_number'] : null,
@@ -139,8 +139,8 @@ class EcrApi {
     if (null != payment_reason) {
       m['payment_reason'] = payment_reason;
     }
-    if (null != payment_reason_as_byte) {
-      m['payment_reason_as_byte'] = payment_reason_as_byte;
+    if (null != payment_reasonAsByte) {
+      m['payment_reasonAsByte'] = payment_reasonAsByte;
     }
     if (null != personal_id) {
       m['personal_id'] = personal_id;
@@ -200,7 +200,7 @@ class EcrApiLoadMatch {
   /// STRING
   String? payment_reason;
   /// ARRAY
-  List<dynamic>? payment_reason_as_byte;
+  List<dynamic>? payment_reasonAsByte;
   /// STRING
   String? personal_id;
   /// STRING
@@ -234,7 +234,7 @@ class EcrApiLoadMatch {
     this.message_type,
     this.password,
     this.payment_reason,
-    this.payment_reason_as_byte,
+    this.payment_reasonAsByte,
     this.personal_id,
     this.receipt_layout,
     this.receipt_number,
@@ -259,7 +259,7 @@ class EcrApiLoadMatch {
         message_type: m['message_type'] is String ? m['message_type'] : null,
         password: m['password'] is String ? m['password'] : null,
         payment_reason: m['payment_reason'] is String ? m['payment_reason'] : null,
-        payment_reason_as_byte: m['payment_reason_as_byte'] is List<dynamic> ? m['payment_reason_as_byte'] : null,
+        payment_reasonAsByte: m['payment_reasonAsByte'] is List<dynamic> ? m['payment_reasonAsByte'] : null,
         personal_id: m['personal_id'] is String ? m['personal_id'] : null,
         receipt_layout: m['receipt_layout'] is String ? m['receipt_layout'] : null,
         receipt_number: m['receipt_number'] is String ? m['receipt_number'] : null,
@@ -307,8 +307,8 @@ class EcrApiLoadMatch {
     if (null != payment_reason) {
       m['payment_reason'] = payment_reason;
     }
-    if (null != payment_reason_as_byte) {
-      m['payment_reason_as_byte'] = payment_reason_as_byte;
+    if (null != payment_reasonAsByte) {
+      m['payment_reasonAsByte'] = payment_reasonAsByte;
     }
     if (null != personal_id) {
       m['personal_id'] = personal_id;
@@ -368,7 +368,7 @@ class EcrApiCreateData {
   /// STRING
   String? payment_reason;
   /// ARRAY
-  List<dynamic>? payment_reason_as_byte;
+  List<dynamic>? payment_reasonAsByte;
   /// STRING
   String? personal_id;
   /// STRING
@@ -402,7 +402,7 @@ class EcrApiCreateData {
     this.message_type,
     this.password,
     this.payment_reason,
-    this.payment_reason_as_byte,
+    this.payment_reasonAsByte,
     this.personal_id,
     this.receipt_layout,
     this.receipt_number,
@@ -427,7 +427,7 @@ class EcrApiCreateData {
         message_type: m['message_type'] is String ? m['message_type'] : null,
         password: m['password'] is String ? m['password'] : null,
         payment_reason: m['payment_reason'] is String ? m['payment_reason'] : null,
-        payment_reason_as_byte: m['payment_reason_as_byte'] is List<dynamic> ? m['payment_reason_as_byte'] : null,
+        payment_reasonAsByte: m['payment_reasonAsByte'] is List<dynamic> ? m['payment_reasonAsByte'] : null,
         personal_id: m['personal_id'] is String ? m['personal_id'] : null,
         receipt_layout: m['receipt_layout'] is String ? m['receipt_layout'] : null,
         receipt_number: m['receipt_number'] is String ? m['receipt_number'] : null,
@@ -475,8 +475,8 @@ class EcrApiCreateData {
     if (null != payment_reason) {
       m['payment_reason'] = payment_reason;
     }
-    if (null != payment_reason_as_byte) {
-      m['payment_reason_as_byte'] = payment_reason_as_byte;
+    if (null != payment_reasonAsByte) {
+      m['payment_reasonAsByte'] = payment_reasonAsByte;
     }
     if (null != personal_id) {
       m['personal_id'] = personal_id;

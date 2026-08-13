@@ -41,7 +41,7 @@ client = BluefinTecsEcrSDK({
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -54,7 +54,7 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
+# Create — returns the ENTITY (call data_get() for the record)
 created = client.EcrApi().create({"amount": "example_amount", "card_number": "example_card_number", "currency": "example_currency", "terminal_number": "example_terminal_number", "transaction_date_time": "example_transaction_date_time", "transaction_id": "example_transaction_id"})
 
 ```
@@ -133,7 +133,8 @@ Create a mock client for unit testing — no server required:
 ```python
 client = BluefinTecsEcrSDK.test()
 
-# Entity ops return the bare record and raise on error.
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
 ecrapi = client.EcrApi().load()
 # ecrapi contains the mock response record
 ```
@@ -232,7 +233,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -265,7 +266,7 @@ On error, `ok` is `False` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -312,7 +313,7 @@ Create an instance: `ecr_api = client.EcrApi()`
 | `message_type` | `str` |  |
 | `password` | `str` |  |
 | `payment_reason` | `str` |  |
-| `payment_reason_as_byte` | `list` |  |
+| `payment_reasonAsByte` | `list` |  |
 | `personal_id` | `str` |  |
 | `receipt_layout` | `str` |  |
 | `receipt_number` | `str` |  |

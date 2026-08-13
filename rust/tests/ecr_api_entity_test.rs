@@ -41,7 +41,7 @@ fn ecr_api_entity_basic() {
     // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only {
-        eprintln!("skip: live entity test uses synthetic IDs from fixture — set BLUEFINTECSECR_TEST_ECR_API_ENTID JSON to run live");
+        eprintln!("skip: live entity test uses synthetic IDs from fixture — set BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID JSON to run live");
         return;
     }
     let client = setup.client.clone();
@@ -55,7 +55,7 @@ fn ecr_api_entity_basic() {
     let ecr_api_ref01_data_result = ecr_api_ref01_ent
         .create(ecr_api_ref01_data.clone(), Value::Noval)
         .expect("create failed");
-    let ecr_api_ref01_data = to_map(&ecr_api_ref01_data_result);
+    let ecr_api_ref01_data = to_map(&ecr_api_ref01_data_result.data(None));
     assert!(
         matches!(ecr_api_ref01_data, Value::Map(_)),
         "expected create result to be a map"
@@ -66,9 +66,10 @@ fn ecr_api_entity_basic() {
     let ecr_api_ref01_data_dt0_loaded = ecr_api_ref01_ent
         .load(ecr_api_ref01_match_dt0.clone(), Value::Noval)
         .expect("load failed");
+    // load resolves to the ENTITY; the record is reached through data().
     assert!(
-        !ecr_api_ref01_data_dt0_loaded.is_noval(),
-        "expected load result to be non-nil"
+        !ecr_api_ref01_data_dt0_loaded.data(None).is_noval(),
+        "expected load result to carry data"
     );
 
 }
@@ -117,27 +118,27 @@ fn ecr_api_basic_setup(extra: Value) -> EntityTestSetup {
     // Detect ENTID env override before env_override consumes it. When live
     // mode is on without a real override, the basic test runs against
     // synthetic IDs from the fixture and 4xx's.
-    let entid_env_raw = std::env::var("BLUEFINTECSECR_TEST_ECR_API_ENTID").unwrap_or_default();
+    let entid_env_raw = std::env::var("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID").unwrap_or_default();
     let idmap_overridden =
         !entid_env_raw.trim().is_empty() && entid_env_raw.trim().starts_with('{');
 
     let env = env_override(jo(vec![
-        ("BLUEFINTECSECR_TEST_ECR_API_ENTID", idmap.clone()),
-        ("BLUEFINTECSECR_TEST_LIVE", Value::str("FALSE")),
-        ("BLUEFINTECSECR_TEST_EXPLAIN", Value::str("FALSE")),
-        ("BLUEFINTECSECR_APIKEY", Value::str("NONE")),
+        ("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID", idmap.clone()),
+        ("BLUEFIN_TECS_ECR_TEST_LIVE", Value::str("FALSE")),
+        ("BLUEFIN_TECS_ECR_TEST_EXPLAIN", Value::str("FALSE")),
+        ("BLUEFIN_TECS_ECR_APIKEY", Value::str("NONE")),
     ]));
 
-    let idmap_resolved = match to_map(&getp(&env, "BLUEFINTECSECR_TEST_ECR_API_ENTID")) {
+    let idmap_resolved = match to_map(&getp(&env, "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID")) {
         Value::Map(m) => Value::Map(m),
         _ => to_map(&idmap),
     };
 
-    let live = getp(&env, "BLUEFINTECSECR_TEST_LIVE") == Value::str("TRUE");
+    let live = getp(&env, "BLUEFIN_TECS_ECR_TEST_LIVE") == Value::str("TRUE");
 
     let client = if live {
         let merged = vs::merge(
-            &ja(vec![jo(vec![("apikey", getp(&env, "BLUEFINTECSECR_APIKEY"))]), extra]),
+            &ja(vec![jo(vec![("apikey", getp(&env, "BLUEFIN_TECS_ECR_APIKEY"))]), extra]),
             None,
         );
         BluefinTecsEcrSDK::new(to_map(&merged))
@@ -150,7 +151,7 @@ fn ecr_api_basic_setup(extra: Value) -> EntityTestSetup {
         data: entity_data,
         idmap: idmap_resolved,
         env: env.clone(),
-        explain: getp(&env, "BLUEFINTECSECR_TEST_EXPLAIN") == Value::str("TRUE"),
+        explain: getp(&env, "BLUEFIN_TECS_ECR_TEST_EXPLAIN") == Value::str("TRUE"),
         live,
         synthetic_only: live && !idmap_overridden,
         now: now_ms(),

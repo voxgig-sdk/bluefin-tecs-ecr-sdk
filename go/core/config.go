@@ -106,7 +106,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "payment_reason_as_byte",
+						"name": "payment_reasonAsByte",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 11,
@@ -191,6 +191,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/makeTransaction",
 								"parts": []any{
@@ -213,6 +214,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/version",
 								"parts": []any{

@@ -70,16 +70,18 @@ ecr_apiBasicTest c = do
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
         loaded <- eLoad ent m ctrl
-        lid <- getp loaded "id"
-        pure (ismap loaded && vstring lid == id0)
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
   runTest c "ecr_api.create" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.ecr_api sdk VNoval
     d <- newRefData fixture "ecr_api"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 ecr_apiDirectTest :: Counters -> IO ()
 ecr_apiDirectTest c = runTest c "ecr_api.direct" $ do

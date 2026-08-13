@@ -120,7 +120,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "payment_reason_as_byte",
+          "name": "payment_reasonAsByte",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 11
@@ -205,6 +205,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/makeTransaction",
               "parts": [
@@ -227,6 +228,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/version",
               "parts": [

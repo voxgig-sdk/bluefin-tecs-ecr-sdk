@@ -21,7 +21,7 @@ class Config {
 
 
   main = {
-    name: 'ProjectName',
+    name: 'BluefinTecsEcr',
   }
 
 
@@ -137,7 +137,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "payment_reason_as_byte",
+          "name": "payment_reasonAsByte",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 11
@@ -222,6 +222,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/makeTransaction",
               "parts": [
@@ -244,6 +245,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/version",
               "parts": [

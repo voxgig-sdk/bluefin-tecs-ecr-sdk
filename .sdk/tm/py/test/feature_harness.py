@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import BluefinTecsEcrControl
-from core.error import BluefinTecsEcrError
-from core.result import BluefinTecsEcrResult
-from core.spec import BluefinTecsEcrSpec
+from projectname_sdk.config import make_config
+from projectname_sdk.features import _make_feature
+from projectname_sdk.core.control import BluefinTecsEcrControl
+from projectname_sdk.core.error import BluefinTecsEcrError
+from projectname_sdk.core.result import BluefinTecsEcrResult
+from projectname_sdk.core.spec import BluefinTecsEcrSpec
 
 
 # True when this SDK was generated with the named feature.

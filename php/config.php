@@ -112,7 +112,7 @@ class BluefinTecsEcrConfig
             ],
             [
               'active' => true,
-              'name' => 'payment_reason_as_byte',
+              'name' => 'payment_reasonAsByte',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 11,
@@ -197,6 +197,7 @@ class BluefinTecsEcrConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/makeTransaction',
                   'parts' => [
@@ -219,6 +220,7 @@ class BluefinTecsEcrConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/version',
                   'parts' => [

@@ -101,7 +101,7 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 | `message_type` | `string` | No |  |
 | `password` | `string` | No |  |
 | `payment_reason` | `string` | No |  |
-| `payment_reason_as_byte` | `vector` | No |  |
+| `payment_reasonAsByte` | `vector` | No |  |
 | `personal_id` | `string` | No |  |
 | `receipt_layout` | `string` | No |  |
 | `receipt_number` | `string` | No |  |

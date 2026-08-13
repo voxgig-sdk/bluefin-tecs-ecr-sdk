@@ -95,7 +95,7 @@ let make_config () : value =
             ("index$", (Num (10.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "payment_reason_as_byte"));
+            ("name", (Str "payment_reasonAsByte"));
             ("req", (Bool false));
             ("type", (Str "`$ARRAY`"));
             ("index$", (Num (11.))) ]);
@@ -168,6 +168,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/makeTransaction"));
                 ("parts", (ja [
@@ -185,6 +186,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/version"));
                 ("parts", (ja [

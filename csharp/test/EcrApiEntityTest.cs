@@ -35,7 +35,7 @@ public class EcrApiEntityTest
         }
         // The basic flow consumes synthetic IDs from the fixture. In live
         // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFINTECSECR_TEST_ECR_API_ENTID JSON to run live.
+        // and 4xx; set BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID JSON to run live.
         if (setup.SyntheticOnly)
         {
             return;
@@ -49,7 +49,7 @@ public class EcrApiEntityTest
             "ecr_api_ref01"));
 
         var ecrApiRef01DataResult = ecrApiRef01Ent.Create(ecrApiRef01Data, null);
-        ecrApiRef01Data = Helpers.ToMapAny(ecrApiRef01DataResult);
+        ecrApiRef01Data = Helpers.ToMapAny(ecrApiRef01DataResult is IEntity ce ? ce.Data() : ecrApiRef01DataResult);
         Assert.True(ecrApiRef01Data != null, "expected create result to be a map");
 
         // LOAD
@@ -102,43 +102,43 @@ public class EcrApiEntityTest
         // live mode is on without a real override, the basic test runs
         // against synthetic IDs from the fixture and 4xx's.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
-            "BLUEFINTECSECR_TEST_ECR_API_ENTID") ?? "";
+            "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&
             entidEnvRaw.Trim().StartsWith("{");
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINTECSECR_TEST_ECR_API_ENTID"] = idmap,
-            ["BLUEFINTECSECR_TEST_LIVE"] = "FALSE",
-            ["BLUEFINTECSECR_TEST_EXPLAIN"] = "FALSE",
-            ["BLUEFINTECSECR_APIKEY"] = "NONE",
+            ["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"] = idmap,
+            ["BLUEFIN_TECS_ECR_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_TECS_ECR_TEST_EXPLAIN"] = "FALSE",
+            ["BLUEFIN_TECS_ECR_APIKEY"] = "NONE",
         });
 
-        var idmapResolved = Helpers.ToMapAny(env["BLUEFINTECSECR_TEST_ECR_API_ENTID"])
+        var idmapResolved = Helpers.ToMapAny(env["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"])
             ?? Helpers.ToMapAny(idmap)
             ?? new Dictionary<string, object?>();
 
-        if (Equals(env["BLUEFINTECSECR_TEST_LIVE"], "TRUE"))
+        if (Equals(env["BLUEFIN_TECS_ECR_TEST_LIVE"], "TRUE"))
         {
             var mergedOpts = StructUtils.Merge(new List<object?>
             {
                 new Dictionary<string, object?>
                 {
-                    ["apikey"] = env["BLUEFINTECSECR_APIKEY"],
+                    ["apikey"] = env["BLUEFIN_TECS_ECR_APIKEY"],
                 },
                 extra,
             });
             client = new BluefinTecsEcrSDK(Helpers.ToMapAny(mergedOpts));
         }
 
-        var live = Equals(env["BLUEFINTECSECR_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_TECS_ECR_TEST_LIVE"], "TRUE");
         return new EntityTestSetup
         {
             Client = client,
             Data = entityData,
             Idmap = idmapResolved,
             Env = env,
-            Explain = Equals(env["BLUEFINTECSECR_TEST_EXPLAIN"], "TRUE"),
+            Explain = Equals(env["BLUEFIN_TECS_ECR_TEST_EXPLAIN"], "TRUE"),
             Live = live,
             SyntheticOnly = live && !idmapOverridden,
             Now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),

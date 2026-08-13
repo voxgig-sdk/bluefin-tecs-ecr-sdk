@@ -70,16 +70,16 @@ sub ecr_api_direct_setup {
   my $calls = [];
 
   my $env = BluefinTecsEcrTestRunner::env_override({
-    'BLUEFINTECSECR_TEST_ECR_API_ENTID' => {},
-    'BLUEFINTECSECR_TEST_LIVE' => 'FALSE',
-    'BLUEFINTECSECR_APIKEY' => 'NONE',
+    'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID' => {},
+    'BLUEFIN_TECS_ECR_TEST_LIVE' => 'FALSE',
+    'BLUEFIN_TECS_ECR_APIKEY' => 'NONE',
   });
 
-  my $live = ((($env->{'BLUEFINTECSECR_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
+  my $live = ((($env->{'BLUEFIN_TECS_ECR_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
 
   if ($live) {
     my $client = BluefinTecsEcrSDK->new({
-      'apikey' => $env->{'BLUEFINTECSECR_APIKEY'},
+      'apikey' => $env->{'BLUEFIN_TECS_ECR_APIKEY'},
     });
     return {
       'client' => $client,

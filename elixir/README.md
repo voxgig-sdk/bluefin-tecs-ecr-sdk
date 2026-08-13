@@ -295,7 +295,7 @@ On error, `ok` is `false` and `err` carries the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -345,7 +345,7 @@ Create a handle: `ecr_api = BluefinTecsEcr.ecr_api(sdk)`
 | `message_type` | `String.t()` |  |
 | `password` | `String.t()` |  |
 | `payment_reason` | `String.t()` |  |
-| `payment_reason_as_byte` | `list()` |  |
+| `payment_reasonAsByte` | `list()` |  |
 | `personal_id` | `String.t()` |  |
 | `receipt_layout` | `String.t()` |  |
 | `receipt_number` | `String.t()` |  |

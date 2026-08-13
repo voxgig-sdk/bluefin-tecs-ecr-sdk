@@ -6,13 +6,13 @@
 
 using Voxgig.Struct;
 
-using static BluefinTecsEcrSdk.Feature.FeatureOptions;
+using static ProjectNameSdk.Feature.FeatureOptions;
 
-namespace BluefinTecsEcrSdk.Feature;
+namespace ProjectNameSdk.Feature;
 
 public class TestFeature : BaseFeature
 {
-    private BluefinTecsEcrSDK? _client;
+    private ProjectNameSDK? _client;
     private Dictionary<string, object?>? _options;
     private int _netcalls;
 

@@ -130,7 +130,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"payment_reason_as_byte\",");
+    b.append("     \"name\": \"payment_reasonAsByte\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$ARRAY`\",");
     b.append("     \"index$\": 11");
@@ -215,6 +215,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/makeTransaction\",");
     b.append("       \"parts\": [");
@@ -237,6 +238,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/version\",");
     b.append("       \"parts\": [");

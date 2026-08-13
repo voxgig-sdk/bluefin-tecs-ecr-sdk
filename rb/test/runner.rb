@@ -23,8 +23,8 @@ module BluefinTecsEcrTestRunner
   end
 
   def self.env_override(m)
-    live = getenv("BLUEFINTECSECR_TEST_LIVE")
-    override = getenv("BLUEFINTECSECR_TEST_OVERRIDE")
+    live = getenv("BLUEFIN_TECS_ECR_TEST_LIVE")
+    override = getenv("BLUEFIN_TECS_ECR_TEST_OVERRIDE")
 
     if live == "TRUE" || override == "TRUE"
       m.each_key do |key|
@@ -44,8 +44,8 @@ module BluefinTecsEcrTestRunner
       end
     end
 
-    explain = getenv("BLUEFINTECSECR_TEST_EXPLAIN")
-    m["BLUEFINTECSECR_TEST_EXPLAIN"] = explain if explain && !explain.empty?
+    explain = getenv("BLUEFIN_TECS_ECR_TEST_EXPLAIN")
+    m["BLUEFIN_TECS_ECR_TEST_EXPLAIN"] = explain if explain && !explain.empty?
 
     m
   end

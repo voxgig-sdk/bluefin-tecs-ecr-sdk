@@ -40,7 +40,7 @@ val client = BluefinTecsEcrSDK(mutableMapOf<String, Any?>(
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record (as `Any?`) and raises on error.
+`load()` returns the ENTITY — call data() for the record — and raises on error.
 
 ```kotlin
 try {
@@ -55,7 +55,7 @@ catch (err: RuntimeException) {
 ### 4. Create, update, and remove
 
 ```kotlin
-// Create — returns the bare created record (as Any?)
+// Create — returns the ENTITY (call data() for the record)
 val created = client.ecrApi(null).create(mutableMapOf<String, Any?>("amount" to "example_amount", "card_number" to "example_card_number", "currency" to "example_currency", "terminal_number" to "example_terminal_number", "transaction_date_time" to "example_transaction_date_time", "transaction_id" to "example_transaction_id"), null)
 
 ```
@@ -135,7 +135,8 @@ Create a mock client for unit testing — no server required:
 ```kotlin
 val client = BluefinTecsEcrSDK.testSDK(null, null)
 
-// Entity ops return the bare record and raise on error.
+// Entity ops return the ENTITY and raises on error;
+// call data() for the record.
 val ecrApi = client.ecrApi(null).load(null, null)
 // ecrApi holds the mock response record
 println(ecrApi)
@@ -230,7 +231,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, an aggregate `List` for `list`) as `Any?` and raise on error. Wrap
 calls in `try`/`catch` to handle failures.
 
@@ -263,7 +264,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -310,7 +311,7 @@ Create an instance: `val ecrApi = client.ecrApi(null)`
 | `message_type` | `String?` |  |
 | `password` | `String?` |  |
 | `payment_reason` | `String?` |  |
-| `payment_reason_as_byte` | `List<Any?>?` |  |
+| `payment_reasonAsByte` | `List<Any?>?` |  |
 | `personal_id` | `String?` |  |
 | `receipt_layout` | `String?` |  |
 | `receipt_number` | `String?` |  |

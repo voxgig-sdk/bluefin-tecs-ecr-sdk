@@ -36,7 +36,7 @@ client = BluefinTecsEcrSDK.new({
 
 ```ruby
 begin
-  # load returns the bare EcrApi record (raises on error).
+  # load returns the ENTITY — call data_get for the EcrApi record (raises on error).
   ecrapi = client.EcrApi.load()
   puts ecrapi
 rescue => err
@@ -47,7 +47,7 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created EcrApi record.
+# create returns the ENTITY — call data_get for the created EcrApi record.
 created = client.EcrApi.create({ "amount" => "example_amount", "card_number" => "example_card_number", "currency" => "example_currency", "terminal_number" => "example_terminal_number", "transaction_date_time" => "example_transaction_date_time", "transaction_id" => "example_transaction_id" })
 
 ```
@@ -127,7 +127,8 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = BluefinTecsEcrSDK.test
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 ecrapi = client.EcrApi.load()
 puts ecrapi
 ```
@@ -258,7 +259,7 @@ returns a result `Hash` with these keys:
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -305,7 +306,7 @@ Create an instance: `ecr_api = client.EcrApi`
 | `message_type` | `String` |  |
 | `password` | `String` |  |
 | `payment_reason` | `String` |  |
-| `payment_reason_as_byte` | `Array` |  |
+| `payment_reasonAsByte` | `Array` |  |
 | `personal_id` | `String` |  |
 | `receipt_layout` | `String` |  |
 | `receipt_number` | `String` |  |
@@ -320,7 +321,7 @@ Create an instance: `ecr_api = client.EcrApi`
 #### Example: Load
 
 ```ruby
-# load returns the bare EcrApi record (raises on error).
+# load returns the ENTITY — call data_get for the EcrApi record (raises on error).
 ecr_api = client.EcrApi.load()
 ```
 

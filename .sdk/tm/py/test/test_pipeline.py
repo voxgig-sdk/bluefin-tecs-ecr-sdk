@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import BluefinTecsEcrSDK
-from core.error import BluefinTecsEcrError
-from core.result import BluefinTecsEcrResult
-from core.response import BluefinTecsEcrResponse
-from core.spec import BluefinTecsEcrSpec
-from feature.base_feature import BluefinTecsEcrBaseFeature
+from projectname_sdk.core.error import BluefinTecsEcrError
+from projectname_sdk.core.result import BluefinTecsEcrResult
+from projectname_sdk.core.response import BluefinTecsEcrResponse
+from projectname_sdk.core.spec import BluefinTecsEcrSpec
+from projectname_sdk.feature.base_feature import BluefinTecsEcrBaseFeature
 
 
 def _client():

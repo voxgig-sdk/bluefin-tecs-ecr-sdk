@@ -44,7 +44,7 @@ func TestEcrApiEntity(t *testing.T) {
 		// The basic flow consumes synthetic IDs from the fixture. In live mode
 		// without an *_ENTID env override, those IDs hit the live API and 4xx.
 		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set BLUEFINTECSECR_TEST_ECR_API_ENTID JSON to run live")
+			t.Skip("live entity test uses synthetic IDs from fixture — set BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID JSON to run live")
 			return
 		}
 		client := setup.client
@@ -58,7 +58,7 @@ func TestEcrApiEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		ecrApiRef01Data = core.ToMapAny(ecrApiRef01DataResult)
+		ecrApiRef01Data = core.ToMapAny(entityData(ecrApiRef01DataResult))
 		if ecrApiRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -113,38 +113,38 @@ func ecr_apiBasicSetup(extra map[string]any) *entityTestSetup {
 	// Detect ENTID env override before envOverride consumes it. When live
 	// mode is on without a real override, the basic test runs against synthetic
 	// IDs from the fixture and 4xx's. Surface this so the test can skip.
-	entidEnvRaw := os.Getenv("BLUEFINTECSECR_TEST_ECR_API_ENTID")
+	entidEnvRaw := os.Getenv("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 
 	env := envOverride(map[string]any{
-		"BLUEFINTECSECR_TEST_ECR_API_ENTID": idmap,
-		"BLUEFINTECSECR_TEST_LIVE":      "FALSE",
-		"BLUEFINTECSECR_TEST_EXPLAIN":   "FALSE",
-		"BLUEFINTECSECR_APIKEY":         "NONE",
+		"BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID": idmap,
+		"BLUEFIN_TECS_ECR_TEST_LIVE":      "FALSE",
+		"BLUEFIN_TECS_ECR_TEST_EXPLAIN":   "FALSE",
+		"BLUEFIN_TECS_ECR_APIKEY":         "NONE",
 	})
 
-	idmapResolved := core.ToMapAny(env["BLUEFINTECSECR_TEST_ECR_API_ENTID"])
+	idmapResolved := core.ToMapAny(env["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"])
 	if idmapResolved == nil {
 		idmapResolved = core.ToMapAny(idmap)
 	}
 
-	if env["BLUEFINTECSECR_TEST_LIVE"] == "TRUE" {
+	if env["BLUEFIN_TECS_ECR_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["BLUEFINTECSECR_APIKEY"],
+				"apikey": env["BLUEFIN_TECS_ECR_APIKEY"],
 			},
 			extra,
 		})
 		client = sdk.NewBluefinTecsEcrSDK(core.ToMapAny(mergedOpts))
 	}
 
-	live := env["BLUEFINTECSECR_TEST_LIVE"] == "TRUE"
+	live := env["BLUEFIN_TECS_ECR_TEST_LIVE"] == "TRUE"
 	return &entityTestSetup{
 		client:        client,
 		data:          entityData,
 		idmap:         idmapResolved,
 		env:           env,
-		explain:       env["BLUEFINTECSECR_TEST_EXPLAIN"] == "TRUE",
+		explain:       env["BLUEFIN_TECS_ECR_TEST_EXPLAIN"] == "TRUE",
 		live:          live,
 		syntheticOnly: live && !idmapOverridden,
 		now:           time.Now().UnixMilli(),

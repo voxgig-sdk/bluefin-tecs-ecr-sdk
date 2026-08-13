@@ -112,7 +112,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("payment_reason_as_byte")),
+                        ("name".to_string(), Value::str("payment_reasonAsByte")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                         ("index$".to_string(), Value::Num(11f64)),
@@ -197,6 +197,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/makeTransaction")),
                                 ("parts".to_string(), Value::list(vec![
@@ -219,6 +220,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/version")),
                                 ("parts".to_string(), Value::list(vec![

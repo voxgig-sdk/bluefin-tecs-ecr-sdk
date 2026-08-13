@@ -42,7 +42,7 @@ val client = new BluefinTecsEcrSDK(options)
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record (as `Object`) and raises on error.
+`load()` returns the ENTITY — call data() for the record — and raises on error.
 
 ```scala
 try {
@@ -57,7 +57,7 @@ catch {
 ### 4. Create, update, and remove
 
 ```scala
-// Create — returns the bare created record (as Object)
+// Create — returns the ENTITY (call data() for the record)
 val created = client.ecrApi(null).create(java.util.Map.of("amount", "example_amount", "card_number", "example_card_number", "currency", "example_currency", "terminal_number", "example_terminal_number", "transaction_date_time", "example_transaction_date_time", "transaction_id", "example_transaction_id"), null)
 
 ```
@@ -137,7 +137,8 @@ Create a mock client for unit testing — no server required:
 ```scala
 val client = BluefinTecsEcrSDK.testSDK(null, null)
 
-// Entity ops return the bare record and raise on error.
+// Entity ops return the ENTITY and raises on error;
+// call data() for the record.
 val ecrApi = client.ecrApi(null).load(null, null)
 // ecrApi holds the mock response record
 println(ecrApi)
@@ -233,7 +234,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, an aggregate `List` for `list`) as `Object` and raise on error. Wrap
 calls in `try`/`catch` to handle failures.
 
@@ -266,7 +267,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -313,7 +314,7 @@ Create an instance: `val ecrApi = client.ecrApi(null)`
 | `message_type` | `String` |  |
 | `password` | `String` |  |
 | `payment_reason` | `String` |  |
-| `payment_reason_as_byte` | `java.util.List[Object]` |  |
+| `payment_reasonAsByte` | `java.util.List[Object]` |  |
 | `personal_id` | `String` |  |
 | `receipt_layout` | `String` |  |
 | `receipt_number` | `String` |  |

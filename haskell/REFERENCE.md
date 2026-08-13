@@ -104,7 +104,7 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 | `message_type` | `String` | No |  |
 | `password` | `String` | No |  |
 | `payment_reason` | `String` | No |  |
-| `payment_reason_as_byte` | `[Value]` | No |  |
+| `payment_reasonAsByte` | `[Value]` | No |  |
 | `personal_id` | `String` | No |  |
 | `receipt_layout` | `String` | No |  |
 | `receipt_number` | `String` | No |  |
@@ -118,9 +118,9 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.ecr_api sdk VNoval
@@ -133,12 +133,13 @@ Create a new entity with the given data. Returns the created entity data and rai
     , ("transaction_id", VStr "example_transaction_id")   -- String
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.ecr_api sdk VNoval

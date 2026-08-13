@@ -95,7 +95,7 @@ Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 | `message_type` | `char*` | No |  |
 | `password` | `char*` | No |  |
 | `payment_reason` | `char*` | No |  |
-| `payment_reason_as_byte` | `voxgig_value* (list)` | No |  |
+| `payment_reasonAsByte` | `voxgig_value* (list)` | No |  |
 | `personal_id` | `char*` | No |  |
 | `receipt_layout` | `char*` | No |  |
 | `receipt_number` | `char*` | No |  |

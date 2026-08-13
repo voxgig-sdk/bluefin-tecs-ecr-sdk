@@ -26,7 +26,7 @@ class EcrApiEntityTest < Minitest::Test
     # The basic flow consumes synthetic IDs from the fixture. In live mode
     # without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup[:synthetic_only]
-      skip "live entity test uses synthetic IDs from fixture — set BLUEFINTECSECR_TEST_ECR_API_ENTID JSON to run live"
+      skip "live entity test uses synthetic IDs from fixture — set BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID JSON to run live"
       return
     end
     client = setup[:client]
@@ -37,7 +37,7 @@ class EcrApiEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.ecr_api"), "ecr_api_ref01"))
 
     ecr_api_ref01_data_result = ecr_api_ref01_ent.create(ecr_api_ref01_data, nil)
-    ecr_api_ref01_data = Helpers.to_map(ecr_api_ref01_data_result)
+    ecr_api_ref01_data = Helpers.to_map(ecr_api_ref01_data_result.respond_to?(:data_get) ? ecr_api_ref01_data_result.data_get : ecr_api_ref01_data_result)
     assert !ecr_api_ref01_data.nil?
 
     # LOAD
@@ -74,39 +74,39 @@ def ecr_api_basic_setup(extra)
   # Detect ENTID env override before envOverride consumes it. When live
   # mode is on without a real override, the basic test runs against synthetic
   # IDs from the fixture and 4xx's. Surface this so the test can skip.
-  entid_env_raw = ENV["BLUEFINTECSECR_TEST_ECR_API_ENTID"]
+  entid_env_raw = ENV["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"]
   idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
 
   env = Runner.env_override({
-    "BLUEFINTECSECR_TEST_ECR_API_ENTID" => idmap,
-    "BLUEFINTECSECR_TEST_LIVE" => "FALSE",
-    "BLUEFINTECSECR_TEST_EXPLAIN" => "FALSE",
-    "BLUEFINTECSECR_APIKEY" => "NONE",
+    "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID" => idmap,
+    "BLUEFIN_TECS_ECR_TEST_LIVE" => "FALSE",
+    "BLUEFIN_TECS_ECR_TEST_EXPLAIN" => "FALSE",
+    "BLUEFIN_TECS_ECR_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
-    env["BLUEFINTECSECR_TEST_ECR_API_ENTID"])
+    env["BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"])
   if idmap_resolved.nil?
     idmap_resolved = Helpers.to_map(idmap)
   end
 
-  if env["BLUEFINTECSECR_TEST_LIVE"] == "TRUE"
+  if env["BLUEFIN_TECS_ECR_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["BLUEFINTECSECR_APIKEY"],
+        "apikey" => env["BLUEFIN_TECS_ECR_APIKEY"],
       },
       extra || {},
     ])
     client = BluefinTecsEcrSDK.new(Helpers.to_map(merged_opts))
   end
 
-  live = env["BLUEFINTECSECR_TEST_LIVE"] == "TRUE"
+  live = env["BLUEFIN_TECS_ECR_TEST_LIVE"] == "TRUE"
   {
     client: client,
     data: entity_data,
     idmap: idmap_resolved,
     env: env,
-    explain: env["BLUEFINTECSECR_TEST_EXPLAIN"] == "TRUE",
+    explain: env["BLUEFIN_TECS_ECR_TEST_EXPLAIN"] == "TRUE",
     live: live,
     synthetic_only: live && !idmap_overridden,
     now: (Time.now.to_f * 1000).to_i,

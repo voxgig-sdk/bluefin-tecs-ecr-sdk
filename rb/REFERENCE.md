@@ -105,7 +105,7 @@ ecr_api = client.EcrApi
 | `message_type` | `String` | No |  |
 | `password` | `String` | No |  |
 | `payment_reason` | `String` | No |  |
-| `payment_reason_as_byte` | `Array` | No |  |
+| `payment_reasonAsByte` | `Array` | No |  |
 | `personal_id` | `String` | No |  |
 | `receipt_layout` | `String` | No |  |
 | `receipt_number` | `String` | No |  |

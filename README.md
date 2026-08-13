@@ -36,9 +36,18 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = BluefinTecsEcrSDK.test()
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = BluefinTecsEcrSDK.test({
+  entity: {
+    ecr_api: {
+      test01: { id: 'test01', amount: 'example_amount', card_number: 'example_card_number', currency: 'example_currency' },
+    },
+  },
+})
 const ecrapi = await client.EcrApi().load()
-// ecrapi is a bare EcrApi populated with mock data
+// ecrapi is the EcrApi entity, populated with mock data
+// — call ecrapi.data() for the record itself
 console.log(ecrapi)
 ```
 
@@ -179,7 +188,8 @@ System.out.println(ecrApi);
 ```js
 const client = BluefinTecsEcrSDK.test()
 const ecrapi = await client.EcrApi().load()
-// ecrapi is a bare entity populated with mock data
+// ecrapi is the entity, populated with mock data
+// — call ecrapi.data() for the record itself
 console.log(ecrapi)
 ```
 
@@ -197,7 +207,7 @@ println(ecrApi)
 let () =
   let client = Sdk_client.test () in
   let result = (Sdk_client.ecr_api client Noval).e_load (empty_map ()) Noval in
-  print_endline (stringify result)
+  print_endline (stringify (result.e_data_get ()))
 ```
 
 ### Perl
@@ -334,7 +344,7 @@ The API exposes one entity:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **EcrApi** | The EcrApi entity (create, load). | `/makeTransaction` |
+| **EcrApi** | The EcrApi entity (create, load). | `/version` |
 
 The operations available across these entities are **load**, **create** — see each entity's
 own list above for exactly which it supports.
@@ -368,7 +378,7 @@ $client = new BluefinTecsEcrSDK([
 ]);
 
 
-// Load a specific ecrapi (returns the bare record; throws on error)
+// Load a specific ecrapi (returns the ENTITY; call data_get() for the record; throws on error)
 $ecrapi = $client->EcrApi()->load();
 print_r($ecrapi);
 ```
@@ -400,7 +410,7 @@ client = BluefinTecsEcrSDK.new({
 })
 
 
-# Load a specific ecrapi (returns the bare record; raises on error)
+# Load a specific ecrapi (returns the ENTITY; call data_get for the record)
 ecrapi = client.EcrApi.load()
 puts ecrapi
 ```
@@ -514,7 +524,7 @@ sdk = BluefinTecsEcr.new(H.deep(%{"apikey" => System.get_env("BLUEFIN_TECS_ECR_A
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
 
 # Load a specific ecrapi (returns the record, raises on error)
-record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, )
+record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api)
 IO.inspect(record)
 ```
 
@@ -532,12 +542,12 @@ main = do
   opts <- jo [("apikey", maybe VNoval VStr mkey)]
   sdk <- Sdk.newSdk opts
 
-  -- Load a specific ecrapi (returns the record, raises on error)
+  -- Load a specific ecrapi (returns the ENTITY, raises on error)
   ent2 <- Sdk.ecr_api sdk VNoval
   m <- jo []
   ctrl2 <- emptyMap
   ecr_api <- Sdk.eLoad ent2 m ctrl2
-  print ecr_api
+  print =<< Sdk.eDataGet ecr_api
 ```
 
 ### Java
@@ -589,9 +599,9 @@ open Sdk_helpers
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_TECS_ECR_APIKEY"))]) in
-  (* Load a specific ecr_api (returns the record; raises on error) *)
+  (* Load a specific ecr_api (returns the ENTITY; raises on error) *)
   let ecr_api = (Sdk_client.ecr_api client Noval).e_load (Noval) Noval in
-  print_endline (stringify ecr_api)
+  print_endline (stringify (ecr_api.e_data_get ()))
 ```
 
 ### Perl
@@ -605,7 +615,7 @@ my $client = BluefinTecsEcrSDK->new({
 });
 
 
-# Load a specific ecrapi (returns the bare record; dies on error)
+# Load a specific ecrapi (returns the ENTITY; call data_get for the record; dies on error)
 my $ecrapi = $client->EcrApi->load();
 print "$ecrapi->{id}\n";
 ```
@@ -961,6 +971,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://test.tecs.at/tecsclientrest-auth](https://test.tecs.at/tecsclientrest-auth)
 

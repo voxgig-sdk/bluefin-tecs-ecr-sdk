@@ -136,7 +136,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "payment_reason_as_byte",
+                            ["name"] = "payment_reasonAsByte",
                             ["req"] = false,
                             ["type"] = "`$ARRAY`",
                             ["index$"] = 11,
@@ -235,6 +235,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/makeTransaction",
                                     ["parts"] = new List<object?>
@@ -262,6 +263,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/version",
                                     ["parts"] = new List<object?>

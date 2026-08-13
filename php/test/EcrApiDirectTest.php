@@ -65,16 +65,16 @@ function ecr_api_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "BLUEFINTECSECR_TEST_ECR_API_ENTID" => [],
-        "BLUEFINTECSECR_TEST_LIVE" => "FALSE",
-        "BLUEFINTECSECR_APIKEY" => "NONE",
+        "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID" => [],
+        "BLUEFIN_TECS_ECR_TEST_LIVE" => "FALSE",
+        "BLUEFIN_TECS_ECR_APIKEY" => "NONE",
     ]);
 
-    $live = $env["BLUEFINTECSECR_TEST_LIVE"] === "TRUE";
+    $live = $env["BLUEFIN_TECS_ECR_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
-            "apikey" => $env["BLUEFINTECSECR_APIKEY"],
+            "apikey" => $env["BLUEFIN_TECS_ECR_APIKEY"],
         ];
         $client = new BluefinTecsEcrSDK($merged_opts);
         return [

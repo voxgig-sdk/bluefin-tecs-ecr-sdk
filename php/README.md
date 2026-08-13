@@ -37,7 +37,7 @@ $client = new BluefinTecsEcrSDK([
 
 ```php
 try {
-    // load() returns the bare EcrApi record (throws on error).
+    // load() returns the ENTITY — call data_get() for the EcrApi record (throws on error).
     $ecrapi = $client->EcrApi()->load();
     print_r($ecrapi);
 } catch (\Throwable $err) {
@@ -48,7 +48,7 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created EcrApi record.
+// create() returns the ENTITY — call data_get() for the created EcrApi record.
 $created = $client->EcrApi()->create(["amount" => "example_amount", "card_number" => "example_card_number", "currency" => "example_currency", "terminal_number" => "example_terminal_number", "transaction_date_time" => "example_transaction_date_time", "transaction_id" => "example_transaction_id"]);
 
 ```
@@ -133,7 +133,8 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = BluefinTecsEcrSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $ecrapi = $client->EcrApi()->load();
 print_r($ecrapi);
 ```
@@ -235,7 +236,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -268,7 +269,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 | `message_type` |  |
 | `password` |  |
 | `payment_reason` |  |
-| `payment_reason_as_byte` |  |
+| `payment_reasonAsByte` |  |
 | `personal_id` |  |
 | `receipt_layout` |  |
 | `receipt_number` |  |
@@ -315,7 +316,7 @@ Create an instance: `$ecr_api = $client->EcrApi();`
 | `message_type` | `string` |  |
 | `password` | `string` |  |
 | `payment_reason` | `string` |  |
-| `payment_reason_as_byte` | `array` |  |
+| `payment_reasonAsByte` | `array` |  |
 | `personal_id` | `string` |  |
 | `receipt_layout` | `string` |  |
 | `receipt_number` | `string` |  |
@@ -330,7 +331,7 @@ Create an instance: `$ecr_api = $client->EcrApi();`
 #### Example: Load
 
 ```php
-// load() returns the bare EcrApi record (throws on error).
+// load() returns the ENTITY — call data_get() for the EcrApi record (throws on error).
 $ecr_api = $client->EcrApi()->load();
 ```
 

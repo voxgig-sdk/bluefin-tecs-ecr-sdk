@@ -47,7 +47,7 @@ public class EcrApiEntityTest {
     // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     Assumptions.assumeFalse(setup.syntheticOnly,
-        "live entity test uses synthetic IDs from fixture — set BLUEFINTECSECR_TEST_ECR_API_ENTID JSON to run live");
+        "live entity test uses synthetic IDs from fixture — set BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID JSON to run live");
     BluefinTecsEcrSDK client = setup.client;
 
     // CREATE
@@ -56,7 +56,7 @@ public class EcrApiEntityTest {
         Struct.getpath(setup.data, "new.ecr_api"), "ecr_api_ref01"));
 
     Object ecrApiRef01DataResult = ecrApiRef01Ent.create(ecrApiRef01Data, null);
-    ecrApiRef01Data = Helpers.toMapAny(ecrApiRef01DataResult);
+    ecrApiRef01Data = Helpers.toMapAny(ecrApiRef01DataResult instanceof SdkEntity ? ((SdkEntity) ecrApiRef01DataResult).data() : ecrApiRef01DataResult);
     assertNotNull(ecrApiRef01Data, "expected create result to be a map");
 
     // LOAD
@@ -99,26 +99,26 @@ public class EcrApiEntityTest {
     // mode is on without a real override, the basic test runs against
     // synthetic IDs from the fixture and 4xx's. Surface this so the test
     // can skip.
-    String entidEnvRaw = RunnerSupport.getenv("BLUEFINTECSECR_TEST_ECR_API_ENTID");
+    String entidEnvRaw = RunnerSupport.getenv("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID");
     boolean idmapOverridden = entidEnvRaw != null
         && entidEnvRaw.trim().startsWith("{");
 
     Map<String, Object> envm = new LinkedHashMap<>();
-    envm.put("BLUEFINTECSECR_TEST_ECR_API_ENTID", idmap);
-    envm.put("BLUEFINTECSECR_TEST_LIVE", "FALSE");
-    envm.put("BLUEFINTECSECR_TEST_EXPLAIN", "FALSE");
-    envm.put("BLUEFINTECSECR_APIKEY", "NONE");
+    envm.put("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID", idmap);
+    envm.put("BLUEFIN_TECS_ECR_TEST_LIVE", "FALSE");
+    envm.put("BLUEFIN_TECS_ECR_TEST_EXPLAIN", "FALSE");
+    envm.put("BLUEFIN_TECS_ECR_APIKEY", "NONE");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
-    Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFINTECSECR_TEST_ECR_API_ENTID"));
+    Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"));
     if (idmapResolved == null) {
       idmapResolved = Helpers.toMapAny(idmap);
     }
 
-    boolean live = "TRUE".equals(env.get("BLUEFINTECSECR_TEST_LIVE"));
+    boolean live = "TRUE".equals(env.get("BLUEFIN_TECS_ECR_TEST_LIVE"));
     if (live) {
       Map<String, Object> liveOpts = new LinkedHashMap<>();
-      liveOpts.put("apikey", env.get("BLUEFINTECSECR_APIKEY"));
+      liveOpts.put("apikey", env.get("BLUEFIN_TECS_ECR_APIKEY"));
       Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extra));
       client = new BluefinTecsEcrSDK(Helpers.toMapAny(mergedOpts));
     }
@@ -128,7 +128,7 @@ public class EcrApiEntityTest {
     setup.data = entityData;
     setup.idmap = idmapResolved;
     setup.env = env;
-    setup.explain = "TRUE".equals(env.get("BLUEFINTECSECR_TEST_EXPLAIN"));
+    setup.explain = "TRUE".equals(env.get("BLUEFIN_TECS_ECR_TEST_EXPLAIN"));
     setup.live = live;
     setup.syntheticOnly = live && !idmapOverridden;
     setup.now = System.currentTimeMillis();

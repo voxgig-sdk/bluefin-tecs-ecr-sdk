@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# BluefinTecsEcr SDK exists test
 
 import pytest
 from bluefintecsecr_sdk import BluefinTecsEcrSDK
