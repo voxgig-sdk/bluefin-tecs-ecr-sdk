@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from bluefintecsecr_sdk.config import make_config
+from bluefintecsecr_sdk.config import shared_config
 from bluefintecsecr_sdk.features import _make_feature
 from bluefintecsecr_sdk.core.control import BluefinTecsEcrControl
 from bluefintecsecr_sdk.core.error import BluefinTecsEcrError
@@ -24,7 +24,7 @@ from bluefintecsecr_sdk.core.spec import BluefinTecsEcrSpec
 
 # True when this SDK was generated with the named feature.
 def has_feature(name):
-    feature = make_config().get("feature")
+    feature = shared_config().get("feature")
     return isinstance(feature, dict) and feature.get(name) is not None
 
 

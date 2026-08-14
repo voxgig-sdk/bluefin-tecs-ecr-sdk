@@ -40,7 +40,7 @@ class BluefinTecsEcrSDK
         $utility = new BluefinTecsEcrUtility();
         $this->_utility = $utility;
 
-        $config = BluefinTecsEcrConfig::make_config();
+        $config = BluefinTecsEcrConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

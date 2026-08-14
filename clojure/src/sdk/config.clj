@@ -8,148 +8,85 @@
       "ecr_api" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "amount"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "authorization_number"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "card_number"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "currency"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "cvc2"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 5
             "name" "desired_currency"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 6
             "name" "ecr_data"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 7
             "name" "language"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 8
             "name" "message_type"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 9
             "name" "password"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 10
             "name" "payment_reason"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 11
             "name" "payment_reasonAsByte"
-            "req" false
             "type" "`$ARRAY`")
           (vs/jm
-            "active" true
-            "index$" 12
             "name" "personal_id"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 13
             "name" "receipt_layout"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 14
             "name" "receipt_number"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 15
             "name" "terminal_number"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 16
             "name" "transaction_date_time"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 17
             "name" "transaction_id"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 18
             "name" "transaction_origin_identifier"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 19
             "name" "transaction_origin_indicator"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 20
             "name" "transaction_place"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 21
             "name" "transaction_source_id"
-            "req" false
             "type" "`$STRING`"))
         "name" "ecr_api"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/makeTransaction"
@@ -161,13 +98,10 @@
                   "res" "`body`"))))
           "load" (vs/jm
             "input" "data"
-            "key$" "load"
             "name" "load"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/version"

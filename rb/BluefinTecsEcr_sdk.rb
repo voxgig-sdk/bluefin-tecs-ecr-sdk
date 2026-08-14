@@ -28,7 +28,7 @@ class BluefinTecsEcrSDK
     utility = BluefinTecsEcrUtility.new
     @_utility = utility
 
-    config = BluefinTecsEcrConfig.make_config
+    config = BluefinTecsEcrConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

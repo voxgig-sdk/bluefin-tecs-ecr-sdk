@@ -23,6 +23,7 @@ build = {
   modules = {
     ["bluefin-tecs-ecr_sdk"] = "bluefin-tecs-ecr_sdk.lua",
     ["config"] = "config.lua",
+    ["config_shared"] = "config_shared.lua",
     ["features"] = "features.lua",
   }
 }
