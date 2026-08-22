@@ -26,7 +26,7 @@ class Config {
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'BluefinTecsEcr',
         'slug': 'bluefin-tecs-ecr',
-    'version': '0.0.1',
+    'version': '0.1.1',
     'target': 'dart',
 
   };

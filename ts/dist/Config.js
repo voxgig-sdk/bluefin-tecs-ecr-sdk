@@ -21,7 +21,7 @@ class Config {
     main = {
         name: 'BluefinTecsEcr',
         slug: "bluefin-tecs-ecr",
-        version: "0.0.1",
+        version: "0.1.1",
         target: "ts",
     };
     feature = {

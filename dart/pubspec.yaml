@@ -1,7 +1,7 @@
 name: bluefin_tecs_ecr_sdk
 description: >-
   Unofficial generated dart SDK for the tecsclientrest public API. Not affiliated with or endorsed by the upstream API provider.
-version: 0.0.1
+version: 0.1.1
 homepage: https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk
 repository: https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk
 issue_tracker: https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/issues
