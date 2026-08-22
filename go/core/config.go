@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "BluefinTecsEcr",
+			"slug": "bluefin-tecs-ecr",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -37,95 +40,117 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "amount",
 						"req": true,
+						"short": "Numeric Transaction Amount.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "authorization_number",
+						"short": "For Gratuity (msg type 0009): the authorization number of the original transaction.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "card_number",
 						"req": true,
+						"short": "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "currency",
 						"req": true,
+						"short": "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\").",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "cvc2",
+						"short": "Card Verification Code.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "desired_currency",
+						"short": "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\").",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "ecr_data",
+						"short": "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "language",
+						"short": "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\").",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "message_type",
+						"short": "Message type code.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "password",
+						"short": "Password - currently not used (filled with spaces).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "payment_reason",
+						"short": "Payment reason (e.g., \"Taxi journey\").",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "payment_reasonAsByte",
+						"short": "Payment reason represented as a byte array.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "personal_id",
+						"short": "Identification of the current user of the ECR or Terminal.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "receipt_layout",
+						"short": "Receipt layout identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "receipt_number",
+						"short": "Receipt number.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "terminal_number",
 						"req": true,
+						"short": "Terminal number provided by TECS.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "transaction_date_time",
 						"req": true,
+						"short": "Transaction date and time (format: yyyymmddhhmmss).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "transaction_id",
 						"req": true,
+						"short": "Unique transaction identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "transaction_origin_identifier",
+						"short": "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "transaction_origin_indicator",
+						"short": "Transaction origin indicator: - 0 = Request for card data on PIN PAD.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "transaction_place",
+						"short": "The transaction place; the first 5 characters should contain a formatted zip code.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "transaction_source_id",
+						"short": "Identification number of the authorization source.",
 						"type": "`$STRING`",
 					},
 				},

@@ -27,7 +27,9 @@ public class BluefinTecsEcrSDK
     {
         _utility = new Utility();
 
-        var config = global::BluefinTecsEcrSdk.SdkConfig.MakeConfig();
+        // The process-wide config (sdkgen rung L2): read-only on the request
+        // path, so every client shares one rather than rebuilding it.
+        var config = global::BluefinTecsEcrSdk.SdkConfig.SharedConfig();
 
         _rootctx = _utility.MakeContext(new Dictionary<string, object?>
         {

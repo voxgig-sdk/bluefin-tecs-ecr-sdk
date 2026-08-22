@@ -84,28 +84,28 @@ Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `char*` | Yes |  |
-| `authorization_number` | `char*` | No |  |
-| `card_number` | `char*` | Yes |  |
-| `currency` | `char*` | Yes |  |
-| `cvc2` | `char*` | No |  |
-| `desired_currency` | `char*` | No |  |
-| `ecr_data` | `char*` | No |  |
-| `language` | `char*` | No |  |
-| `message_type` | `char*` | No |  |
-| `password` | `char*` | No |  |
-| `payment_reason` | `char*` | No |  |
-| `payment_reasonAsByte` | `voxgig_value* (list)` | No |  |
-| `personal_id` | `char*` | No |  |
-| `receipt_layout` | `char*` | No |  |
-| `receipt_number` | `char*` | No |  |
-| `terminal_number` | `char*` | Yes |  |
-| `transaction_date_time` | `char*` | Yes |  |
-| `transaction_id` | `char*` | Yes |  |
-| `transaction_origin_identifier` | `char*` | No |  |
-| `transaction_origin_indicator` | `char*` | No |  |
-| `transaction_place` | `char*` | No |  |
-| `transaction_source_id` | `char*` | No |  |
+| `amount` | `char*` | Yes | Numeric Transaction Amount. |
+| `authorization_number` | `char*` | No | For Gratuity (msg type 0009): the authorization number of the original transaction. |
+| `card_number` | `char*` | Yes | Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty. |
+| `currency` | `char*` | Yes | ISO 4217 Alpha Currency Code (e.g., "EUR", "USD"). |
+| `cvc2` | `char*` | No | Card Verification Code. |
+| `desired_currency` | `char*` | No | ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., "EUR", "USD"). |
+| `ecr_data` | `char*` | No | ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex). |
+| `language` | `char*` | No | ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., "en", "de", "es"). |
+| `message_type` | `char*` | No | Message type code. |
+| `password` | `char*` | No | Password - currently not used (filled with spaces). |
+| `payment_reason` | `char*` | No | Payment reason (e.g., "Taxi journey"). |
+| `payment_reasonAsByte` | `voxgig_value* (list)` | No | Payment reason represented as a byte array. |
+| `personal_id` | `char*` | No | Identification of the current user of the ECR or Terminal. |
+| `receipt_layout` | `char*` | No | Receipt layout identifier. |
+| `receipt_number` | `char*` | No | Receipt number. |
+| `terminal_number` | `char*` | Yes | Terminal number provided by TECS. |
+| `transaction_date_time` | `char*` | Yes | Transaction date and time (format: yyyymmddhhmmss). |
+| `transaction_id` | `char*` | Yes | Unique transaction identifier. |
+| `transaction_origin_identifier` | `char*` | No | Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance |
+| `transaction_origin_indicator` | `char*` | No | Transaction origin indicator: - 0 = Request for card data on PIN PAD. |
+| `transaction_place` | `char*` | No | The transaction place; the first 5 characters should contain a formatted zip code. |
+| `transaction_source_id` | `char*` | No | Identification number of the authorization source. |
 
 ### Operations
 

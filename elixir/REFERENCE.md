@@ -87,28 +87,28 @@ ecr_api = BluefinTecsEcr.ecr_api(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `String.t()` | Yes |  |
-| `authorization_number` | `String.t()` | No |  |
-| `card_number` | `String.t()` | Yes |  |
-| `currency` | `String.t()` | Yes |  |
-| `cvc2` | `String.t()` | No |  |
-| `desired_currency` | `String.t()` | No |  |
-| `ecr_data` | `String.t()` | No |  |
-| `language` | `String.t()` | No |  |
-| `message_type` | `String.t()` | No |  |
-| `password` | `String.t()` | No |  |
-| `payment_reason` | `String.t()` | No |  |
-| `payment_reasonAsByte` | `list()` | No |  |
-| `personal_id` | `String.t()` | No |  |
-| `receipt_layout` | `String.t()` | No |  |
-| `receipt_number` | `String.t()` | No |  |
-| `terminal_number` | `String.t()` | Yes |  |
-| `transaction_date_time` | `String.t()` | Yes |  |
-| `transaction_id` | `String.t()` | Yes |  |
-| `transaction_origin_identifier` | `String.t()` | No |  |
-| `transaction_origin_indicator` | `String.t()` | No |  |
-| `transaction_place` | `String.t()` | No |  |
-| `transaction_source_id` | `String.t()` | No |  |
+| `amount` | `String.t()` | Yes | Numeric Transaction Amount. |
+| `authorization_number` | `String.t()` | No | For Gratuity (msg type 0009): the authorization number of the original transaction. |
+| `card_number` | `String.t()` | Yes | Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty. |
+| `currency` | `String.t()` | Yes | ISO 4217 Alpha Currency Code (e.g., "EUR", "USD"). |
+| `cvc2` | `String.t()` | No | Card Verification Code. |
+| `desired_currency` | `String.t()` | No | ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., "EUR", "USD"). |
+| `ecr_data` | `String.t()` | No | ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex). |
+| `language` | `String.t()` | No | ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., "en", "de", "es"). |
+| `message_type` | `String.t()` | No | Message type code. |
+| `password` | `String.t()` | No | Password - currently not used (filled with spaces). |
+| `payment_reason` | `String.t()` | No | Payment reason (e.g., "Taxi journey"). |
+| `payment_reasonAsByte` | `list()` | No | Payment reason represented as a byte array. |
+| `personal_id` | `String.t()` | No | Identification of the current user of the ECR or Terminal. |
+| `receipt_layout` | `String.t()` | No | Receipt layout identifier. |
+| `receipt_number` | `String.t()` | No | Receipt number. |
+| `terminal_number` | `String.t()` | Yes | Terminal number provided by TECS. |
+| `transaction_date_time` | `String.t()` | Yes | Transaction date and time (format: yyyymmddhhmmss). |
+| `transaction_id` | `String.t()` | Yes | Unique transaction identifier. |
+| `transaction_origin_identifier` | `String.t()` | No | Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance |
+| `transaction_origin_indicator` | `String.t()` | No | Transaction origin indicator: - 0 = Request for card data on PIN PAD. |
+| `transaction_place` | `String.t()` | No | The transaction place; the first 5 characters should contain a formatted zip code. |
+| `transaction_source_id` | `String.t()` | No | Identification number of the authorization source. |
 
 ### Operations
 

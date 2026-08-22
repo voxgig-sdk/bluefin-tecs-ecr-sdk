@@ -91,28 +91,28 @@ auto ecr_api = client->ecr_api();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `std::string` | Yes |  |
-| `authorization_number` | `std::string` | No |  |
-| `card_number` | `std::string` | Yes |  |
-| `currency` | `std::string` | Yes |  |
-| `cvc2` | `std::string` | No |  |
-| `desired_currency` | `std::string` | No |  |
-| `ecr_data` | `std::string` | No |  |
-| `language` | `std::string` | No |  |
-| `message_type` | `std::string` | No |  |
-| `password` | `std::string` | No |  |
-| `payment_reason` | `std::string` | No |  |
-| `payment_reasonAsByte` | `std::vector<Value>` | No |  |
-| `personal_id` | `std::string` | No |  |
-| `receipt_layout` | `std::string` | No |  |
-| `receipt_number` | `std::string` | No |  |
-| `terminal_number` | `std::string` | Yes |  |
-| `transaction_date_time` | `std::string` | Yes |  |
-| `transaction_id` | `std::string` | Yes |  |
-| `transaction_origin_identifier` | `std::string` | No |  |
-| `transaction_origin_indicator` | `std::string` | No |  |
-| `transaction_place` | `std::string` | No |  |
-| `transaction_source_id` | `std::string` | No |  |
+| `amount` | `std::string` | Yes | Numeric Transaction Amount. |
+| `authorization_number` | `std::string` | No | For Gratuity (msg type 0009): the authorization number of the original transaction. |
+| `card_number` | `std::string` | Yes | Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty. |
+| `currency` | `std::string` | Yes | ISO 4217 Alpha Currency Code (e.g., "EUR", "USD"). |
+| `cvc2` | `std::string` | No | Card Verification Code. |
+| `desired_currency` | `std::string` | No | ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., "EUR", "USD"). |
+| `ecr_data` | `std::string` | No | ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex). |
+| `language` | `std::string` | No | ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., "en", "de", "es"). |
+| `message_type` | `std::string` | No | Message type code. |
+| `password` | `std::string` | No | Password - currently not used (filled with spaces). |
+| `payment_reason` | `std::string` | No | Payment reason (e.g., "Taxi journey"). |
+| `payment_reasonAsByte` | `std::vector<Value>` | No | Payment reason represented as a byte array. |
+| `personal_id` | `std::string` | No | Identification of the current user of the ECR or Terminal. |
+| `receipt_layout` | `std::string` | No | Receipt layout identifier. |
+| `receipt_number` | `std::string` | No | Receipt number. |
+| `terminal_number` | `std::string` | Yes | Terminal number provided by TECS. |
+| `transaction_date_time` | `std::string` | Yes | Transaction date and time (format: yyyymmddhhmmss). |
+| `transaction_id` | `std::string` | Yes | Unique transaction identifier. |
+| `transaction_origin_identifier` | `std::string` | No | Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance |
+| `transaction_origin_indicator` | `std::string` | No | Transaction origin indicator: - 0 = Request for card data on PIN PAD. |
+| `transaction_place` | `std::string` | No | The transaction place; the first 5 characters should contain a formatted zip code. |
+| `transaction_source_id` | `std::string` | No | Identification number of the authorization source. |
 
 ### Operations
 

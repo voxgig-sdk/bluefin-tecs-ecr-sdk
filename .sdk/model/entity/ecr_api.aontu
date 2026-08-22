@@ -8,111 +8,133 @@ main: kit: entity: ecr_api: {
     {
       name: "amount"
       req: true
+      short: "Numeric Transaction Amount."
       type: "`$STRING`"
     }
     {
       name: "authorization_number"
       req: false
+      short: "For Gratuity (msg type 0009): the authorization number of the original transaction."
       type: "`$STRING`"
     }
     {
       name: "card_number"
       req: true
+      short: "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty."
       type: "`$STRING`"
     }
     {
       name: "currency"
       req: true
+      short: "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\")."
       type: "`$STRING`"
     }
     {
       name: "cvc2"
       req: false
+      short: "Card Verification Code."
       type: "`$STRING`"
     }
     {
       name: "desired_currency"
       req: false
+      short: "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\")."
       type: "`$STRING`"
     }
     {
       name: "ecr_data"
       req: false
+      short: "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex)."
       type: "`$STRING`"
     }
     {
       name: "language"
       req: false
+      short: "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\")."
       type: "`$STRING`"
     }
     {
       name: "message_type"
       req: false
+      short: "Message type code."
       type: "`$STRING`"
     }
     {
       name: "password"
       req: false
+      short: "Password - currently not used (filled with spaces)."
       type: "`$STRING`"
     }
     {
       name: "payment_reason"
       req: false
+      short: "Payment reason (e.g., \"Taxi journey\")."
       type: "`$STRING`"
     }
     {
       name: "payment_reasonAsByte"
       req: false
+      short: "Payment reason represented as a byte array."
       type: "`$ARRAY`"
     }
     {
       name: "personal_id"
       req: false
+      short: "Identification of the current user of the ECR or Terminal."
       type: "`$STRING`"
     }
     {
       name: "receipt_layout"
       req: false
+      short: "Receipt layout identifier."
       type: "`$STRING`"
     }
     {
       name: "receipt_number"
       req: false
+      short: "Receipt number."
       type: "`$STRING`"
     }
     {
       name: "terminal_number"
       req: true
+      short: "Terminal number provided by TECS."
       type: "`$STRING`"
     }
     {
       name: "transaction_date_time"
       req: true
+      short: "Transaction date and time (format: yyyymmddhhmmss)."
       type: "`$STRING`"
     }
     {
       name: "transaction_id"
       req: true
+      short: "Unique transaction identifier."
       type: "`$STRING`"
     }
     {
       name: "transaction_origin_identifier"
       req: false
+      short: "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance"
       type: "`$STRING`"
     }
     {
       name: "transaction_origin_indicator"
       req: false
+      short: "Transaction origin indicator: - 0 = Request for card data on PIN PAD."
       type: "`$STRING`"
     }
     {
       name: "transaction_place"
       req: false
+      short: "The transaction place; the first 5 characters should contain a formatted zip code."
       type: "`$STRING`"
     }
     {
       name: "transaction_source_id"
       req: false
+      short: "Identification number of the authorization source."
       type: "`$STRING`"
     }
   ]

@@ -87,28 +87,28 @@ let ecr_api = Sdk_client.ecr_api client Noval
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `string` | Yes |  |
-| `authorization_number` | `string` | No |  |
-| `card_number` | `string` | Yes |  |
-| `currency` | `string` | Yes |  |
-| `cvc2` | `string` | No |  |
-| `desired_currency` | `string` | No |  |
-| `ecr_data` | `string` | No |  |
-| `language` | `string` | No |  |
-| `message_type` | `string` | No |  |
-| `password` | `string` | No |  |
-| `payment_reason` | `string` | No |  |
-| `payment_reasonAsByte` | `value list` | No |  |
-| `personal_id` | `string` | No |  |
-| `receipt_layout` | `string` | No |  |
-| `receipt_number` | `string` | No |  |
-| `terminal_number` | `string` | Yes |  |
-| `transaction_date_time` | `string` | Yes |  |
-| `transaction_id` | `string` | Yes |  |
-| `transaction_origin_identifier` | `string` | No |  |
-| `transaction_origin_indicator` | `string` | No |  |
-| `transaction_place` | `string` | No |  |
-| `transaction_source_id` | `string` | No |  |
+| `amount` | `string` | Yes | Numeric Transaction Amount. |
+| `authorization_number` | `string` | No | For Gratuity (msg type 0009): the authorization number of the original transaction. |
+| `card_number` | `string` | Yes | Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty. |
+| `currency` | `string` | Yes | ISO 4217 Alpha Currency Code (e.g., "EUR", "USD"). |
+| `cvc2` | `string` | No | Card Verification Code. |
+| `desired_currency` | `string` | No | ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., "EUR", "USD"). |
+| `ecr_data` | `string` | No | ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex). |
+| `language` | `string` | No | ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., "en", "de", "es"). |
+| `message_type` | `string` | No | Message type code. |
+| `password` | `string` | No | Password - currently not used (filled with spaces). |
+| `payment_reason` | `string` | No | Payment reason (e.g., "Taxi journey"). |
+| `payment_reasonAsByte` | `value list` | No | Payment reason represented as a byte array. |
+| `personal_id` | `string` | No | Identification of the current user of the ECR or Terminal. |
+| `receipt_layout` | `string` | No | Receipt layout identifier. |
+| `receipt_number` | `string` | No | Receipt number. |
+| `terminal_number` | `string` | Yes | Terminal number provided by TECS. |
+| `transaction_date_time` | `string` | Yes | Transaction date and time (format: yyyymmddhhmmss). |
+| `transaction_id` | `string` | Yes | Unique transaction identifier. |
+| `transaction_origin_identifier` | `string` | No | Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance |
+| `transaction_origin_indicator` | `string` | No | Transaction origin indicator: - 0 = Request for card data on PIN PAD. |
+| `transaction_place` | `string` | No | The transaction place; the first 5 characters should contain a formatted zip code. |
+| `transaction_source_id` | `string` | No | Identification number of the authorization source. |
 
 ### Operations
 

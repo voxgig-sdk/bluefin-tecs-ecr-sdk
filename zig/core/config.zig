@@ -20,14 +20,14 @@ pub fn make_config() Value {
         }) },
         .{ "options", h.jo(&.{
             .{ "base", h.vstr("https://test.tecs.at/tecsclientrest-auth") },
+            .{ "auth", h.jo(&.{
+                .{ "prefix", h.vstr("Bearer") },
+            }) },
             .{ "headers", h.jo(&.{
                 .{ "content-type", h.vstr("application/json") },
             }) },
             .{ "entity", h.jo(&.{
                 .{ "ecr_api", h.omap() },
-            }) },
-            .{ "auth", h.jo(&.{
-                .{ "prefix", h.vstr("Bearer") },
             }) },
         }) },
         .{ "entity", h.jo(&.{
@@ -36,95 +36,117 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "name", h.vstr("amount") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Numeric Transaction Amount.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("authorization_number") },
+                        .{ "short", h.vstr("For Gratuity (msg type 0009): the authorization number of the original transaction.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("card_number") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("currency") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\").") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("cvc2") },
+                        .{ "short", h.vstr("Card Verification Code.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("desired_currency") },
+                        .{ "short", h.vstr("ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\").") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("ecr_data") },
+                        .{ "short", h.vstr("ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("language") },
+                        .{ "short", h.vstr("ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\").") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("message_type") },
+                        .{ "short", h.vstr("Message type code.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("password") },
+                        .{ "short", h.vstr("Password - currently not used (filled with spaces).") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("payment_reason") },
+                        .{ "short", h.vstr("Payment reason (e.g., \"Taxi journey\").") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("payment_reasonAsByte") },
+                        .{ "short", h.vstr("Payment reason represented as a byte array.") },
                         .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("personal_id") },
+                        .{ "short", h.vstr("Identification of the current user of the ECR or Terminal.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("receipt_layout") },
+                        .{ "short", h.vstr("Receipt layout identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("receipt_number") },
+                        .{ "short", h.vstr("Receipt number.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("terminal_number") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Terminal number provided by TECS.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transaction_date_time") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Transaction date and time (format: yyyymmddhhmmss).") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transaction_id") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Unique transaction identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transaction_origin_identifier") },
+                        .{ "short", h.vstr("Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transaction_origin_indicator") },
+                        .{ "short", h.vstr("Transaction origin indicator: - 0 = Request for card data on PIN PAD.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transaction_place") },
+                        .{ "short", h.vstr("The transaction place; the first 5 characters should contain a formatted zip code.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transaction_source_id") },
+                        .{ "short", h.vstr("Identification number of the authorization source.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -177,6 +199,28 @@ pub fn make_config() Value {
             }) },
         }) },
     });
+}
+
+// SHARED CONFIG (sdkgen rung L2).
+//
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client. Above the
+// size threshold make_config re-parses the whole embedded JSON, so this is the
+// difference between parsing the model once and once per client.
+//
+// Value nodes are arena-allocated and reference-stable, so the shared value is
+// genuinely one structure, not a copy.
+var shared_config_val: ?Value = null;
+
+/// The process-wide config, built once on first use.
+///
+/// The returned Value SHARES its nodes: treat it as read-only. Callers that
+/// need to mutate should use make_config, which always returns a fresh copy.
+pub fn shared_config() Value {
+    if (shared_config_val) |c| return c;
+    const c = make_config();
+    shared_config_val = c;
+    return c;
 }
 
 pub fn make_feature(name: []const u8) Feature {

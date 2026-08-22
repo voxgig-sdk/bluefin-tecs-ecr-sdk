@@ -14,6 +14,27 @@ public final class Config {
     return (Map<String, Object>) Json.parse(configJson());
   }
 
+  // SHARED CONFIG (sdkgen rung L2).
+  //
+  // The SDK reads the config on every request and never writes to it, so one
+  // instance is shared by every client rather than rebuilt per client - the
+  // difference between parsing the embedded JSON once and once per client.
+  //
+  // Initialization-on-demand holder: the JLS guarantees the class initializer
+  // runs once, lazily, and safely under concurrency, with no locking on the
+  // read path.
+  private static final class SharedHolder {
+    static final Map<String, Object> VALUE = makeConfig();
+  }
+
+  // The process-wide config, built once on first use.
+  //
+  // The returned map is SHARED: treat it as read-only. Callers that need to
+  // mutate should use makeConfig, which always parses a fresh copy.
+  public static Map<String, Object> sharedConfig() {
+    return SharedHolder.VALUE;
+  }
+
   public static Feature makeFeature(String name) {
     switch (name) {
       case "test":
@@ -27,7 +48,10 @@ public final class Config {
     StringBuilder b = new StringBuilder();
     b.append("{");
     b.append(" \"main\": {");
-    b.append("  \"name\": \"BluefinTecsEcr\"");
+    b.append("  \"name\": \"BluefinTecsEcr\",");
+    b.append("  \"slug\": \"bluefin-tecs-ecr\",");
+    b.append("  \"version\": \"0.0.1\",");
+    b.append("  \"target\": \"java\"");
     b.append(" },");
     b.append(" \"feature\": {");
     b.append("  \"test\": {");
@@ -54,95 +78,117 @@ public final class Config {
     b.append("    {");
     b.append("     \"name\": \"amount\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Numeric Transaction Amount.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"authorization_number\",");
+    b.append("     \"short\": \"For Gratuity (msg type 0009): the authorization number of the original transaction.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"card_number\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"currency\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"ISO 4217 Alpha Currency Code (e.g., \\\"EUR\\\", \\\"USD\\\").\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"cvc2\",");
+    b.append("     \"short\": \"Card Verification Code.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"desired_currency\",");
+    b.append("     \"short\": \"ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \\\"EUR\\\", \\\"USD\\\").\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"ecr_data\",");
+    b.append("     \"short\": \"ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"language\",");
+    b.append("     \"short\": \"ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \\\"en\\\", \\\"de\\\", \\\"es\\\").\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"message_type\",");
+    b.append("     \"short\": \"Message type code.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"password\",");
+    b.append("     \"short\": \"Password - currently not used (filled with spaces).\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"payment_reason\",");
+    b.append("     \"short\": \"Payment reason (e.g., \\\"Taxi journey\\\").\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"payment_reasonAsByte\",");
+    b.append("     \"short\": \"Payment reason represented as a byte array.\",");
     b.append("     \"type\": \"`$ARRAY`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"personal_id\",");
+    b.append("     \"short\": \"Identification of the current user of the ECR or Terminal.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"receipt_layout\",");
+    b.append("     \"short\": \"Receipt layout identifier.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"receipt_number\",");
+    b.append("     \"short\": \"Receipt number.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"terminal_number\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Terminal number provided by TECS.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"transaction_date_time\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Transaction date and time (format: yyyymmddhhmmss).\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"transaction_id\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Unique transaction identifier.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"transaction_origin_identifier\",");
+    b.append("     \"short\": \"Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"transaction_origin_indicator\",");
+    b.append("     \"short\": \"Transaction origin indicator: - 0 = Request for card data on PIN PAD.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"transaction_place\",");
+    b.append("     \"short\": \"The transaction place; the first 5 characters should contain a formatted zip code.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"transaction_source_id\",");
+    b.append("     \"short\": \"Identification number of the authorization source.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    }");
     b.append("   ],");
