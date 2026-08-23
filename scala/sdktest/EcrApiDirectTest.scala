@@ -6,7 +6,7 @@
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 import java.util.function.{BiFunction, Supplier}
 
-import voxgig.bluefintecsecrsdk.core.{Helpers, BluefinTecsEcrSDK}
+import voxgig.bluefintecsecrsdk.core.{Helpers, SdkEntity, BluefinTecsEcrSDK}
 
 object EcrApiDirectTest {
 

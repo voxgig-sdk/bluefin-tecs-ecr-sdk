@@ -5,7 +5,7 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefintecsecrsdk.core.{Helpers, BluefinTecsEcrSDK}
+import voxgig.bluefintecsecrsdk.core.{Helpers, SdkEntity, BluefinTecsEcrSDK}
 import voxgig.bluefintecsecrsdk.utility.struct.Struct
 
 object EcrApiEntityTest {
