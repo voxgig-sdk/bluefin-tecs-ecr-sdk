@@ -21,7 +21,7 @@ BASIC_FLOW: {
   my $setup = ecr_api_basic_setup(undef);
   my $_live = $setup->{live} ? 1 : 0;
   # Per-op sdk-test-control.json skip.
-  for my $_op ('create', 'load') {
+  for my $_op (('create', 'load')) {
     my ($_should_skip, $_reason) = BluefinTecsEcrTestRunner::is_control_skipped(
       'entityOp', "ecr_api." . $_op, $_live ? 'live' : 'unit');
     if ($_should_skip) {
