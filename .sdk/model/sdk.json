@@ -1,6 +1,15 @@
 {
+  "NAME": "BLUEFIN-TECS-ECR",
+  "Name": "BluefinTecsEcr",
   "def": "tecs-ecr-openapi.json",
   "main": {
+    "api": {
+      "entity": {},
+      "guide": {}
+    },
+    "custom": {
+      "plurals": {}
+    },
     "def": {
       "desc": ""
     },
@@ -1890,5 +1899,8 @@
     }
   },
   "name": "bluefin-tecs-ecr",
+  "name-": "bluefin-tecs-ecr",
+  "name_": "bluefin_tecs_ecr",
+  "name__orig": "bluefin-tecs-ecr",
   "origin": "voxgig-sdk"
 }
