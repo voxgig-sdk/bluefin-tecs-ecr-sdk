@@ -11,11 +11,15 @@ open Sdk_features
 let make_config () : value =
   (jo [
     ("main", (jo [
-      ("name", (Str "BluefinTecsEcr")) ]));
+      ("name", (Str "BluefinTecsEcr"));
+      ("slug", (Str "bluefin-tecs-ecr"));
+      ("version", (Str "0.1.1"));
+      ("target", (Str "ocaml")) ]));
     ("feature", (jo [
       ("test", (jo [
         ("options", (jo [
-          ("active", (Bool false)) ])) ])) ]));
+          ("active", (Bool false)) ]));
+        ("transport", (Str "base")) ])) ]));
     ("options", (jo [
       ("base", (Str "https://test.tecs.at/tecsclientrest-auth"));
       ("auth", (jo [

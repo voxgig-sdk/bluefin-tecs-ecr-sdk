@@ -138,9 +138,13 @@
     "feature" (vs/jm
       "test" (vs/jm
         "options" (vs/jm
-          "active" false)))
+          "active" false)
+        "transport" "base"))
     "main" (vs/jm
-      "name" "BluefinTecsEcr")
+      "name" "BluefinTecsEcr"
+      "slug" "bluefin-tecs-ecr"
+      "target" "clojure"
+      "version" "0.1.1")
     "options" (vs/jm
       "auth" (vs/jm
         "prefix" "Bearer")
