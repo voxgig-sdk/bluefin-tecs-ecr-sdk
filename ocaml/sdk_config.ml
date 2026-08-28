@@ -16,10 +16,84 @@ let make_config () : value =
       ("version", (Str "0.1.1"));
       ("target", (Str "ocaml")) ]));
     ("feature", (jo [
+      ("audit", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("actor", (Str "anonymous"));
+          ("max", (Num (1000.))) ]));
+        ("transport", (Str "none")) ]));
+      ("clienttrack", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("clientVersion", (Str "0.0.1")) ]));
+        ("transport", (Str "none")) ]));
+      ("idempotency", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("header", (Str "Idempotency-Key"));
+          ("methods", (ja [
+            (Str "POST");
+            (Str "PUT");
+            (Str "PATCH");
+            (Str "DELETE") ]));
+          ("ops", (ja [
+            (Str "create");
+            (Str "update");
+            (Str "remove") ])) ]));
+        ("transport", (Str "none")) ]));
+      ("log", (jo [
+        ("options", (jo [
+          ("active", (Bool true)) ]));
+        ("transport", (Str "none")) ]));
+      ("metrics", (jo [
+        ("options", (jo [
+          ("active", (Bool false)) ]));
+        ("transport", (Str "none")) ]));
+      ("paging", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("afterVar", (Str "after"));
+          ("cursorParam", (Str "cursor"));
+          ("firstVar", (Str "first"));
+          ("limitParam", (Str "limit"));
+          ("pageParam", (Str "page"));
+          ("startPage", (Num (1.))) ]));
+        ("transport", (Str "none")) ]));
+      ("ratelimit", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("burst", (Num (5.)));
+          ("rate", (Num (5.))) ]));
+        ("transport", (Str "wrap")) ]));
+      ("retry", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("factor", (Num (2.)));
+          ("maxDelay", (Num (2000.)));
+          ("minDelay", (Num (50.)));
+          ("retries", (Num (2.)));
+          ("statuses", (ja [
+            (Num (408.));
+            (Num (425.));
+            (Num (429.));
+            (Num (500.));
+            (Num (502.));
+            (Num (503.));
+            (Num (504.)) ])) ]));
+        ("transport", (Str "wrap")) ]));
+      ("telemetry", (jo [
+        ("options", (jo [
+          ("active", (Bool false)) ]));
+        ("transport", (Str "none")) ]));
       ("test", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
-        ("transport", (Str "base")) ])) ]));
+        ("transport", (Str "base")) ]));
+      ("timeout", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("ms", (Num (30000.))) ]));
+        ("transport", (Str "wrap")) ])) ]));
     ("options", (jo [
       ("base", (Str "https://test.tecs.at/tecsclientrest-auth"));
       ("auth", (jo [
@@ -162,5 +236,15 @@ let make_config () : value =
 
 let make_feature (name : string) : feature =
   match name with
+  | "audit" -> audit_feature ()
+  | "clienttrack" -> clienttrack_feature ()
+  | "idempotency" -> idempotency_feature ()
+  | "log" -> log_feature ()
+  | "metrics" -> metrics_feature ()
+  | "paging" -> paging_feature ()
+  | "ratelimit" -> ratelimit_feature ()
+  | "retry" -> retry_feature ()
+  | "telemetry" -> telemetry_feature ()
   | "test" -> test_feature ()
+  | "timeout" -> timeout_feature ()
   | _ -> base_feature ()
