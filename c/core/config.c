@@ -201,32 +201,38 @@ voxgig_value* make_config(void) {
             "input", v_str("data"),
             "name", v_str("create"),
             "points", clist(1,
-              cmap(7,
+              cmap(8,
                 "args", v_map(),
                 "kind", v_str("http"),
                 "method", v_str("POST"),
                 "orig", v_str("/makeTransaction"),
-                "parts", clist(1,
-                  v_str("makeTransaction")),
+                "segments", clist(1,
+                  cmap(1,
+                    "lit", v_str("makeTransaction"))),
                 "select", v_map(),
                 "transform", cmap(2,
                   "req", v_str("`reqdata`"),
-                  "res", v_str("`body`"))))),
+                  "res", v_str("`body`")),
+                "parts", clist(1,
+                  v_str("makeTransaction"))))),
           "load", cmap(3,
             "input", v_str("data"),
             "name", v_str("load"),
             "points", clist(1,
-              cmap(7,
+              cmap(8,
                 "args", v_map(),
                 "kind", v_str("http"),
                 "method", v_str("GET"),
                 "orig", v_str("/version"),
-                "parts", clist(1,
-                  v_str("version")),
+                "segments", clist(1,
+                  cmap(1,
+                    "lit", v_str("version"))),
                 "select", v_map(),
                 "transform", cmap(2,
                   "req", v_str("`reqdata`"),
-                  "res", v_str("`body`")))))),
+                  "res", v_str("`body`")),
+                "parts", clist(1,
+                  v_str("version")))))),
         "relations", cmap(1,
           "ancestors", v_list()))));
 }
@@ -278,4 +284,11 @@ Feature* make_feature(const char* name) {
   if (strcmp(name, "test") == 0) return feature_test_new();
   if (strcmp(name, "timeout") == 0) return feature_timeout_new();
   return feature_base_new();
+}
+
+
+void** feature_plugins(const char* name, size_t* n) {
+  (void)name;
+  *n = 0;
+  return NULL;
 }

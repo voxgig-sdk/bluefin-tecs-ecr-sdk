@@ -95,7 +95,7 @@ sub ecr_api_basic_setup {
     'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID' => $idmap,
     'BLUEFIN_TECS_ECR_TEST_LIVE' => 'FALSE',
     'BLUEFIN_TECS_ECR_TEST_EXPLAIN' => 'FALSE',
-    'BLUEFIN_TECS_ECR_APIKEY' => 'NONE',
+    'BLUEFIN_TECS_ECR_APIKEY' => '',
   });
 
   my $idmap_resolved = BluefinTecsEcrHelpers::to_map($env->{'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID'});
@@ -105,6 +105,9 @@ sub ecr_api_basic_setup {
 
   if ((($env->{'BLUEFIN_TECS_ECR_TEST_LIVE'}) || '') eq 'TRUE') {
     my $merged_opts = Voxgig::Struct::merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      BluefinTecsEcrTestRunner::live_client_options(),
       {
         'apikey' => $env->{'BLUEFIN_TECS_ECR_APIKEY'},
       },

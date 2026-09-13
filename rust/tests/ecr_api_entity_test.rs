@@ -126,7 +126,7 @@ fn ecr_api_basic_setup(extra: Value) -> EntityTestSetup {
         ("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID", idmap.clone()),
         ("BLUEFIN_TECS_ECR_TEST_LIVE", Value::str("FALSE")),
         ("BLUEFIN_TECS_ECR_TEST_EXPLAIN", Value::str("FALSE")),
-        ("BLUEFIN_TECS_ECR_APIKEY", Value::str("NONE")),
+        ("BLUEFIN_TECS_ECR_APIKEY", Value::str("")),
     ]));
 
     let idmap_resolved = match to_map(&getp(&env, "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID")) {
@@ -138,7 +138,22 @@ fn ecr_api_basic_setup(extra: Value) -> EntityTestSetup {
 
     let client = if live {
         let merged = vs::merge(
-            &ja(vec![jo(vec![("apikey", getp(&env, "BLUEFIN_TECS_ECR_APIKEY"))]), extra]),
+            // live_client_options() FIRST, so the generated entries below win:
+            // sdk-test-control.json's test.client.options adds to the live
+            // client, it does not redirect it.
+            &ja(vec![
+                live_client_options(),
+                jo(vec![("apikey", getp(&env, "BLUEFIN_TECS_ECR_APIKEY"))]),
+                // A NON-NODE later entry REPLACES the accumulated map in
+                // vs::merge, and the normal call passes Value::Noval - so a
+                // a bare extra discarded live_client_options() and the
+                // apikey/server map above it, and the live client was
+                // constructed with nothing.
+                match extra {
+                    Value::Map(m) => Value::Map(m),
+                    _ => Value::empty_map(),
+                },
+            ]),
             None,
         );
         BluefinTecsEcrSDK::new(to_map(&merged))

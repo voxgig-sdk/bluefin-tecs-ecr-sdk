@@ -67,13 +67,16 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final env = envOverride({
     'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID': <String, dynamic>{},
     'BLUEFIN_TECS_ECR_TEST_LIVE': 'FALSE',
-    'BLUEFIN_TECS_ECR_APIKEY': 'NONE',
+    'BLUEFIN_TECS_ECR_APIKEY': '',
   });
 
   final live = 'TRUE' == env['BLUEFIN_TECS_ECR_TEST_LIVE'];
 
   if (live) {
-    final client = BluefinTecsEcrSDK({
+    // Spread FIRST, so the generated fields below win: sdk-test-control.json's
+    // test.client.options adds to the live client, it does not redirect it.
+    final client = BluefinTecsEcrSDK(<String, dynamic>{
+      ...liveClientOptions(),
       'apikey': env['BLUEFIN_TECS_ECR_APIKEY'],
     });
 

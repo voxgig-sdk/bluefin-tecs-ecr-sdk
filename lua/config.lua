@@ -259,13 +259,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/makeTransaction",
-                ["parts"] = {
-                  "makeTransaction",
+                ["segments"] = {
+                  {
+                    ["lit"] = "makeTransaction",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "makeTransaction",
                 },
               },
             },
@@ -279,13 +284,18 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/version",
-                ["parts"] = {
-                  "version",
+                ["segments"] = {
+                  {
+                    ["lit"] = "version",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "version",
                 },
               },
             },

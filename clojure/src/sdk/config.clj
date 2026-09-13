@@ -114,6 +114,9 @@
                 "orig" "/makeTransaction"
                 "parts" (vs/jt
                   "makeTransaction")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "makeTransaction"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -129,6 +132,9 @@
                 "orig" "/version"
                 "parts" (vs/jt
                   "version")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "version"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -227,3 +233,9 @@
         "ecr_api" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))
+
+(def feature-plugins
+  {})
+
+(def feature-extra
+  {})

@@ -147,8 +147,10 @@ main: kit: entity: ecr_api: {
         {
           method: "POST"
           orig: "/makeTransaction"
-          parts: [
-            "makeTransaction"
+          segments: [
+            {
+              lit: "makeTransaction"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -163,8 +165,10 @@ main: kit: entity: ecr_api: {
         {
           method: "GET"
           orig: "/version"
-          parts: [
-            "version"
+          segments: [
+            {
+              lit: "version"
+            }
           ]
           transform: {
             req: "`reqdata`"

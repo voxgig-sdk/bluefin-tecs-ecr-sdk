@@ -1,5 +1,6 @@
 package voxgig.bluefintecsecrsdk.core;
 
+import java.util.List;
 import java.util.Map;
 
 import voxgig.bluefintecsecrsdk.utility.Json;
@@ -61,6 +62,18 @@ public final class Config {
         return new voxgig.bluefintecsecrsdk.feature.TimeoutFeature();
       default:
         return new voxgig.bluefintecsecrsdk.feature.BaseFeature();
+    }
+  }
+
+  /**
+   * The plugin definitions the model selected for one feature's chain, as
+   * List&lt;Object&gt; so core never names a vendored type. Empty for a
+   * feature whose model declares no active plugin group.
+   */
+  public static List<Object> featurePlugins(String name) {
+    switch (name) {
+      default:
+        return List.of();
     }
   }
 
@@ -321,14 +334,19 @@ public final class Config {
     b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/makeTransaction\",");
-    b.append("       \"parts\": [");
-    b.append("        \"makeTransaction\"");
+    b.append("       \"segments\": [");
+    b.append("        {");
+    b.append("         \"lit\": \"makeTransaction\"");
+    b.append("        }");
     b.append("       ],");
     b.append("       \"select\": {},");
     b.append("       \"transform\": {");
     b.append("        \"req\": \"`reqdata`\",");
     b.append("        \"res\": \"`body`\"");
-    b.append("       }");
+    b.append("       },");
+    b.append("       \"parts\": [");
+    b.append("        \"makeTransaction\"");
+    b.append("       ]");
     b.append("      }");
     b.append("     ]");
     b.append("    },");
@@ -341,14 +359,19 @@ public final class Config {
     b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/version\",");
-    b.append("       \"parts\": [");
-    b.append("        \"version\"");
+    b.append("       \"segments\": [");
+    b.append("        {");
+    b.append("         \"lit\": \"version\"");
+    b.append("        }");
     b.append("       ],");
     b.append("       \"select\": {},");
     b.append("       \"transform\": {");
     b.append("        \"req\": \"`reqdata`\",");
     b.append("        \"res\": \"`body`\"");
-    b.append("       }");
+    b.append("       },");
+    b.append("       \"parts\": [");
+    b.append("        \"version\"");
+    b.append("       ]");
     b.append("      }");
     b.append("     ]");
     b.append("    }");

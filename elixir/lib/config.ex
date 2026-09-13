@@ -260,14 +260,19 @@ defmodule BluefinTecsEcr.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/makeTransaction",
-                  "parts" => [
-                    "makeTransaction"
+                  "segments" => [
+                    %{
+                      "lit" => "makeTransaction"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "makeTransaction"
+                  ]
                 }
               ]
             },
@@ -280,14 +285,19 @@ defmodule BluefinTecsEcr.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/version",
-                  "parts" => [
-                    "version"
+                  "segments" => [
+                    %{
+                      "lit" => "version"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "version"
+                  ]
                 }
               ]
             }

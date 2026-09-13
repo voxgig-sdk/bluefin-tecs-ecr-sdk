@@ -107,7 +107,7 @@ public class EcrApiEntityTest {
     envm.put("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID", idmap);
     envm.put("BLUEFIN_TECS_ECR_TEST_LIVE", "FALSE");
     envm.put("BLUEFIN_TECS_ECR_TEST_EXPLAIN", "FALSE");
-    envm.put("BLUEFIN_TECS_ECR_APIKEY", "NONE");
+    envm.put("BLUEFIN_TECS_ECR_APIKEY", "");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
     Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID"));
@@ -117,9 +117,18 @@ public class EcrApiEntityTest {
 
     boolean live = "TRUE".equals(env.get("BLUEFIN_TECS_ECR_TEST_LIVE"));
     if (live) {
-      Map<String, Object> liveOpts = new LinkedHashMap<>();
+      // sdk-test-control.json's test.client.options seeds the live
+      // client; the generated fields below overwrite anything they name.
+      Map<String, Object> liveOpts =
+          new LinkedHashMap<>(RunnerSupport.liveClientOptions());
       liveOpts.put("apikey", env.get("BLUEFIN_TECS_ECR_APIKEY"));
-      Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extra));
+      // An empty map, not a null one: merge answers null when its last
+      // entry is null, and basicSetup is normally called with no extras -
+      // so a bare null silently discarded the apikey and server values
+      // above.
+      Map<String, Object> extraOpts =
+          extra == null ? new LinkedHashMap<>() : extra;
+      Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extraOpts));
       client = new BluefinTecsEcrSDK(Helpers.toMapAny(mergedOpts));
     }
 

@@ -42,6 +42,16 @@ object Config {
     }
   }
 
+  // The plugin definitions the model selected per feature, as List<Any?>
+  // so core need not name a feature's types. Empty when no active feature
+  // declares active plugin groups for this target - and then no plugin
+  // import is emitted either.
+  private val featurePluginsMap: Map<String, List<Any?>> = mapOf(
+  )
+
+  // featurePlugins is the definitions list for one feature's chain.
+  fun featurePlugins(name: String): List<Any?> = featurePluginsMap[name] ?: emptyList()
+
   private fun configJson(): String {
     val b = StringBuilder()
     b.append("{")
@@ -299,14 +309,19 @@ object Config {
     b.append("       \"kind\": \"http\",")
     b.append("       \"method\": \"POST\",")
     b.append("       \"orig\": \"/makeTransaction\",")
-    b.append("       \"parts\": [")
-    b.append("        \"makeTransaction\"")
+    b.append("       \"segments\": [")
+    b.append("        {")
+    b.append("         \"lit\": \"makeTransaction\"")
+    b.append("        }")
     b.append("       ],")
     b.append("       \"select\": {},")
     b.append("       \"transform\": {")
     b.append("        \"req\": \"`reqdata`\",")
     b.append("        \"res\": \"`body`\"")
-    b.append("       }")
+    b.append("       },")
+    b.append("       \"parts\": [")
+    b.append("        \"makeTransaction\"")
+    b.append("       ]")
     b.append("      }")
     b.append("     ]")
     b.append("    },")
@@ -319,14 +334,19 @@ object Config {
     b.append("       \"kind\": \"http\",")
     b.append("       \"method\": \"GET\",")
     b.append("       \"orig\": \"/version\",")
-    b.append("       \"parts\": [")
-    b.append("        \"version\"")
+    b.append("       \"segments\": [")
+    b.append("        {")
+    b.append("         \"lit\": \"version\"")
+    b.append("        }")
     b.append("       ],")
     b.append("       \"select\": {},")
     b.append("       \"transform\": {")
     b.append("        \"req\": \"`reqdata`\",")
     b.append("        \"res\": \"`body`\"")
-    b.append("       }")
+    b.append("       },")
+    b.append("       \"parts\": [")
+    b.append("        \"version\"")
+    b.append("       ]")
     b.append("      }")
     b.append("     ]")
     b.append("    }")

@@ -1,3 +1,4 @@
 /dist/
 /bluefin-tecs-ecr-cli
 /go-cli
+.jostraca/

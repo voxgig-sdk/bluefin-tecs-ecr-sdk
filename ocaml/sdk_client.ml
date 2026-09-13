@@ -47,3 +47,9 @@ let prepare (client : sdk_client) (fetchargs : value) : value =
 (* EcrApi entity bound to a client:  ecr_api client entopts *)
 let ecr_api (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_ecr_api.make client entopts
+
+(* Entity by name (None for a name this SDK did not generate). *)
+let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj option =
+  match name with
+  | "ecr_api" -> Some (Sdk_entity_ecr_api.make client entopts)
+  | _ -> None

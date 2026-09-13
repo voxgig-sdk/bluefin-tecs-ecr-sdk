@@ -72,13 +72,17 @@ sub ecr_api_direct_setup {
   my $env = BluefinTecsEcrTestRunner::env_override({
     'BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID' => {},
     'BLUEFIN_TECS_ECR_TEST_LIVE' => 'FALSE',
-    'BLUEFIN_TECS_ECR_APIKEY' => 'NONE',
+    'BLUEFIN_TECS_ECR_APIKEY' => '',
   });
 
   my $live = ((($env->{'BLUEFIN_TECS_ECR_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
 
   if ($live) {
+    # live_client_options() FIRST so the generated fields below win:
+    # sdk-test-control.json's test.client.options adds to the live client,
+    # it does not redirect it (a later key wins in a Perl hash literal).
     my $client = BluefinTecsEcrSDK->new({
+      %{ BluefinTecsEcrTestRunner::live_client_options() },
       'apikey' => $env->{'BLUEFIN_TECS_ECR_APIKEY'},
     });
     return {

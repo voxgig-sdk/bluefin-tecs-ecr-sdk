@@ -58,15 +58,18 @@ def _ecr_api_direct_setup(mockres):
     env = runner.env_override({
         "BLUEFIN_TECS_ECR_TEST_ECR_API_ENTID": {},
         "BLUEFIN_TECS_ECR_TEST_LIVE": "FALSE",
-        "BLUEFIN_TECS_ECR_APIKEY": "NONE",
+        "BLUEFIN_TECS_ECR_APIKEY": "",
     })
 
     live = env.get("BLUEFIN_TECS_ECR_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("BLUEFIN_TECS_ECR_APIKEY"),
-        }
+        })
         client = BluefinTecsEcrSDK(merged_opts)
         return {
             "client": client,
