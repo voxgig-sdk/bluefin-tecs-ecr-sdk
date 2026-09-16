@@ -5,6 +5,7 @@ defmodule BluefinTecsEcr.Features do
     case name do
       "audit" -> BluefinTecsEcr.Feature.Audit.new()
       "clienttrack" -> BluefinTecsEcr.Feature.Clienttrack.new()
+      "debug" -> BluefinTecsEcr.Feature.Debug.new()
       "idempotency" -> BluefinTecsEcr.Feature.Idempotency.new()
       "log" -> BluefinTecsEcr.Feature.Log.new()
       "metrics" -> BluefinTecsEcr.Feature.Metrics.new()

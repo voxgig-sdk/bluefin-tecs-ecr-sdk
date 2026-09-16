@@ -3,6 +3,7 @@
 from bluefintecsecr_sdk.feature.base_feature import BluefinTecsEcrBaseFeature
 from bluefintecsecr_sdk.feature.audit_feature import BluefinTecsEcrAuditFeature
 from bluefintecsecr_sdk.feature.clienttrack_feature import BluefinTecsEcrClienttrackFeature
+from bluefintecsecr_sdk.feature.debug_feature import BluefinTecsEcrDebugFeature
 from bluefintecsecr_sdk.feature.idempotency_feature import BluefinTecsEcrIdempotencyFeature
 from bluefintecsecr_sdk.feature.log_feature import BluefinTecsEcrLogFeature
 from bluefintecsecr_sdk.feature.metrics_feature import BluefinTecsEcrMetricsFeature
@@ -18,6 +19,7 @@ _FEATURES = {
     "base": lambda: BluefinTecsEcrBaseFeature(),
     "audit": lambda: BluefinTecsEcrAuditFeature(),
     "clienttrack": lambda: BluefinTecsEcrClienttrackFeature(),
+    "debug": lambda: BluefinTecsEcrDebugFeature(),
     "idempotency": lambda: BluefinTecsEcrIdempotencyFeature(),
     "log": lambda: BluefinTecsEcrLogFeature(),
     "metrics": lambda: BluefinTecsEcrMetricsFeature(),

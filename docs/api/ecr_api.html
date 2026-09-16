@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>EcrApi | tecsclientrest</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">tecsclientrest<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk">voxgig-sdk/bluefin-tecs-ecr-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">tecsclientrest</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a aria-current="page" href="../api/ecr_api.html">EcrApi</a><div class="nav-sections"><a class="nav-section" href="#post-maketransaction">POST /makeTransaction</a>
+<a class="nav-section" href="#get-version">GET /version</a></div></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/c.html">C</a>
+<a href="../sdks/clojure.html">Clojure</a>
+<a href="../sdks/cpp.html">C++</a>
+<a href="../sdks/csharp.html">C#</a>
+<a href="../sdks/dart.html">Dart</a>
+<a href="../sdks/elixir.html">Elixir</a>
+<a href="../sdks/go.html">Golang</a>
+<a href="../sdks/haskell.html">Haskell</a>
+<a href="../sdks/java.html">Java</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/kotlin.html">Kotlin</a>
+<a href="../sdks/lean.html">Lean</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/ocaml.html">OCaml</a>
+<a href="../sdks/perl.html">Perl</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/rust.html">Rust</a>
+<a href="../sdks/scala.html">Scala</a>
+<a href="../sdks/swift.html">Swift</a>
+<a href="../sdks/ts.html">TypeScript</a>
+<a href="../sdks/zig.html">Zig</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/audit.html">Structured audit trail of operations</a>
+<a href="../features/clienttrack.html">Client identity and per-request correlation headers</a>
+<a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/log.html">Structured request and response logging</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/telemetry.html">Distributed tracing spans with W3C trace-context propagation</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="ecrapi">EcrApi</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-maketransaction"><code>/makeTransaction</code></a></td>
+<td><code>create</code></td>
+<td>successfully routed to TecsClient</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-version"><code>/version</code></a></td>
+<td><code>load</code></td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amount</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Numeric Transaction Amount.</td>
+</tr>
+<tr>
+<td><code>authorization_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For Gratuity (msg type 0009): the authorization number of the original transaction.</td>
+</tr>
+<tr>
+<td><code>card_number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Depends on the transaction scenario: - <strong>Standard Pin Pad transaction:</strong> leave empty.</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>ISO 4217 Alpha Currency Code (for example, &quot;EUR&quot;, &quot;USD&quot;).</td>
+</tr>
+<tr>
+<td><code>cvc2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Card Verification Code.</td>
+</tr>
+<tr>
+<td><code>desired_currency</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ISO 4217 Alpha Currency Code in which the transaction will be processed (for example, &quot;EUR&quot;, &quot;USD&quot;).</td>
+</tr>
+<tr>
+<td><code>ecr_data</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ECR Data field used to transfer user information for private-labeled cards (for example, Fleet Card Company such as UTA, outex).</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ISO 639-1 language code used by the Pin Pad user interface during the transaction (for example, &quot;en&quot;, &quot;de&quot;, &quot;es&quot;).</td>
+</tr>
+<tr>
+<td><code>message_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Message type code.</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Password - currently not used (filled with spaces).</td>
+</tr>
+<tr>
+<td><code>payment_reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Payment reason (for example, &quot;Taxi journey&quot;).</td>
+</tr>
+<tr>
+<td><code>payment_reasonAsByte</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>Payment reason represented as a byte array.</td>
+</tr>
+<tr>
+<td><code>personal_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identification of the current user of the ECR or Terminal.</td>
+</tr>
+<tr>
+<td><code>receipt_layout</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Receipt layout identifier.</td>
+</tr>
+<tr>
+<td><code>receipt_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Receipt number.</td>
+</tr>
+<tr>
+<td><code>terminal_number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Terminal number provided by TECS.</td>
+</tr>
+<tr>
+<td><code>transaction_date_time</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Transaction date and time (format: yyyymmddhhmmss).</td>
+</tr>
+<tr>
+<td><code>transaction_id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique transaction identifier.</td>
+</tr>
+<tr>
+<td><code>transaction_origin_identifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance</td>
+</tr>
+<tr>
+<td><code>transaction_origin_indicator</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Transaction origin indicator: - 0 = Request for card data on PIN PAD.</td>
+</tr>
+<tr>
+<td><code>transaction_place</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The transaction place; the first 5 characters should contain a formatted zip code.</td>
+</tr>
+<tr>
+<td><code>transaction_source_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identification number of the authorization source.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-maketransaction" class="operation" data-method="post"><code>POST</code> /makeTransaction</h3>
+<p>Operation ID: <code>makeTransaction</code>.</p>
+<p>Authentication: bearer token (<code>bearerAuth</code>) or basic token (<code>basicAuth</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amount</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Numeric Transaction Amount. According to the ISO 4217 currency exponent, for example: - EUR (exponent = 2): 12,55 EUR is represented as &quot;1255&quot; - BYR (exponent = 0): 15000 BYR is represented as &quot;15000&quot;</td>
+</tr>
+<tr>
+<td><code>authorization_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For Gratuity (msg type 0009): the authorization number of the original transaction. Otherwise, leave this field empty.</td>
+</tr>
+<tr>
+<td><code>card_number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Depends on the transaction scenario: - <strong>Standard Pin Pad transaction:</strong> leave empty. - <strong>Manual PAN input:</strong> provide card number + &quot;<em>&quot; + expiration date (YYMM). - <strong>Swiped card on ECR:</strong> include Track2 data. - <strong>Cancellation/Capture (msg type 0013):</strong> &quot;TXID&quot; + original transaction number. - <strong>Gratuity (msg type 0009) or Credit note (msg type 0011):</strong> &quot;TXID&quot; + original transaction number. - <strong>Cancellation/Capture from different terminal:</strong> &quot;TXID&quot; + &quot;</em>&quot; + &quot;_&quot; (for example, &quot;TXID00000000001234567890_01_88091234&quot;).</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>ISO 4217 Alpha Currency Code (for example, &quot;EUR&quot;, &quot;USD&quot;).</td>
+</tr>
+<tr>
+<td><code>cvc2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Card Verification Code.</td>
+</tr>
+<tr>
+<td><code>desired_currency</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ISO 4217 Alpha Currency Code in which the transaction will be processed (for example, &quot;EUR&quot;, &quot;USD&quot;).</td>
+</tr>
+<tr>
+<td><code>ecr_data</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ECR Data field used to transfer user information for private-labeled cards (for example, Fleet Card Company such as UTA, outex). This field is sent as received.</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ISO 639-1 language code used by the Pin Pad user interface during the transaction (for example, &quot;en&quot;, &quot;de&quot;, &quot;es&quot;).</td>
+</tr>
+<tr>
+<td><code>message_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Message type code. Allowed values include: - 0001 = Purchase, Balance, or Preauthorization - 0005 = Purchase with authorization number - 0009 = Gratuity - 0011 = Credit note - 0013 = Cancellation/Capture - 0015 = Pre-paid (Mobile Recharge) - 0017 = Abort ongoing transaction - 0018 = External reader device restart command - 0027 = Voucher/Coupon generation - 0029 = Card to Card transfer - 0034 = End of day (Internal TC only) - 2667 = Get connection status (Internal TC only) - 2668 = Terminal send diagnostic message (Internal TC only) - 4544 = Kill application (Internal TC only) - 9043 = Get terminal status - 9999 = Initiate CTLS tap event simulator - 7976 = Pops-up terminal system menu (Internal TC only)</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Password - currently not used (filled with spaces).</td>
+</tr>
+<tr>
+<td><code>payment_reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Payment reason (for example, &quot;Taxi journey&quot;). Should be agreed with the acquirer. For Prepaid/Mobile recharge (msg type 0015): &quot;+&quot; followed by Operator Code and optional phone number. (UTF-8 encoded; maximum binary size is 39 bytes.)</td>
+</tr>
+<tr>
+<td><code>payment_reasonAsByte</code></td>
+<td><code>array of string (byte)</code></td>
+<td>No</td>
+<td>Payment reason represented as a byte array.</td>
+</tr>
+<tr>
+<td><code>personal_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identification of the current user of the ECR or Terminal.</td>
+</tr>
+<tr>
+<td><code>receipt_layout</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Receipt layout identifier.</td>
+</tr>
+<tr>
+<td><code>receipt_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Receipt number.</td>
+</tr>
+<tr>
+<td><code>terminal_number</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Terminal number provided by TECS. For Cancellation/Capture (msg type 0013), this is the terminal number of the original transaction.</td>
+</tr>
+<tr>
+<td><code>transaction_date_time</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Transaction date and time (format: yyyymmddhhmmss).</td>
+</tr>
+<tr>
+<td><code>transaction_id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique transaction identifier. Must be unique for every transaction performed on the specified Terminal.</td>
+</tr>
+<tr>
+<td><code>transaction_origin_identifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance</td>
+</tr>
+<tr>
+<td><code>transaction_origin_indicator</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Transaction origin indicator: - 0 = Request for card data on PIN PAD. - 1 = Face to Face (Magswipe on ECR, no PIN PAD). - 2 = Mail order/Telephone order/Manual entry (no PIN PAD).</td>
+</tr>
+<tr>
+<td><code>transaction_place</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The transaction place; the first 5 characters should contain a formatted zip code.</td>
+</tr>
+<tr>
+<td><code>transaction_source_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identification number of the authorization source. In cancellation (msg type 0013), gratuity (0009), or credit note (msg type 0011), it should match the original transaction's source ID as provided by TECS.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-successfully-routed-to-tecsclient" class="status" data-status="2xx">200: successfully routed to TecsClient</h5>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authorization_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Authorization number generated by TECS Authorization Host.</td>
+</tr>
+<tr>
+<td><code>balance_amount</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Maximum amount available.</td>
+</tr>
+<tr>
+<td><code>bonus_point</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Actual bonus points.</td>
+</tr>
+<tr>
+<td><code>card_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;NonISO_CardIssuer_Prefixes&quot; provided by TECS.</td>
+</tr>
+<tr>
+<td><code>credit_card_issuer_and_acquirer_company</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Acquirer name + &quot;;&quot; + card brand (for example &quot;VISA&quot;).</td>
+</tr>
+<tr>
+<td><code>ecr_data</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. ECR Data field used to transfer user information for private labeled cards like Fleet Card Company (for example UTA, outex, etc.). This field is sent from TECS Server to ECR as received.</td>
+</tr>
+<tr>
+<td><code>ex_fee</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Exchange fee.</td>
+</tr>
+<tr>
+<td><code>exchange_rate</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Exchange rate at the time of transaction (for example 000000000000001,1223).</td>
+</tr>
+<tr>
+<td><code>foreign_tx_amount</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction amount in desired currency.</td>
+</tr>
+<tr>
+<td><code>merchant_address</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant address.</td>
+</tr>
+<tr>
+<td><code>merchant_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant name.</td>
+</tr>
+<tr>
+<td><code>message_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Message type: 0002 = Transaction response.</td>
+</tr>
+<tr>
+<td><code>operator_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Identification of the operator of the TECS engine installation.</td>
+</tr>
+<tr>
+<td><code>orig_stan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. STAN of original transaction (for Cancellation).</td>
+</tr>
+<tr>
+<td><code>orig_tx_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Original transaction ID (for Cancellation).</td>
+</tr>
+<tr>
+<td><code>receipt_footer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Receipt footer that must be printed on the receipt. Contains the authentication method (&quot;PIN VERIFIED&quot; or &quot;SIGNATURE&quot;) and tags &quot;AID:&quot; and &quot;AC:&quot;.</td>
+</tr>
+<tr>
+<td><code>receipt_header</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Receipt header.</td>
+</tr>
+<tr>
+<td><code>response_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Response code.</td>
+</tr>
+<tr>
+<td><code>response_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Response text - description of the response code. Text is UTF-8 encoded. Binary size of the field is 80 bytes.</td>
+</tr>
+<tr>
+<td><code>serien_nr</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. If present, should be printed on the receipt.</td>
+</tr>
+<tr>
+<td><code>stan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. TECS Trace Number.</td>
+</tr>
+<tr>
+<td><code>svc</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Service code (returned by TECS Server). Must be printed on the receipt.</td>
+</tr>
+<tr>
+<td><code>transaction_date_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Transaction date and time (format: yyyymmddhhmmss).</td>
+</tr>
+<tr>
+<td><code>transaction_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction unique identifier (should be the same as sent in the authorization request).</td>
+</tr>
+<tr>
+<td><code>transaction_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction type.</td>
+</tr>
+<tr>
+<td><code>vu_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant Contract number with acquirer.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-some-error-explained-in-responsetext" class="status" data-status="4xx">400: some error, explained in responseText</h5>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authorization_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Authorization number generated by TECS Authorization Host.</td>
+</tr>
+<tr>
+<td><code>balance_amount</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Maximum amount available.</td>
+</tr>
+<tr>
+<td><code>bonus_point</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Actual bonus points.</td>
+</tr>
+<tr>
+<td><code>card_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;NonISO_CardIssuer_Prefixes&quot; provided by TECS.</td>
+</tr>
+<tr>
+<td><code>credit_card_issuer_and_acquirer_company</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Acquirer name + &quot;;&quot; + card brand (for example &quot;VISA&quot;).</td>
+</tr>
+<tr>
+<td><code>ecr_data</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. ECR Data field used to transfer user information for private labeled cards like Fleet Card Company (for example UTA, outex, etc.). This field is sent from TECS Server to ECR as received.</td>
+</tr>
+<tr>
+<td><code>ex_fee</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Exchange fee.</td>
+</tr>
+<tr>
+<td><code>exchange_rate</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Exchange rate at the time of transaction (for example 000000000000001,1223).</td>
+</tr>
+<tr>
+<td><code>foreign_tx_amount</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction amount in desired currency.</td>
+</tr>
+<tr>
+<td><code>merchant_address</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant address.</td>
+</tr>
+<tr>
+<td><code>merchant_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant name.</td>
+</tr>
+<tr>
+<td><code>message_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Message type: 0002 = Transaction response.</td>
+</tr>
+<tr>
+<td><code>operator_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Identification of the operator of the TECS engine installation.</td>
+</tr>
+<tr>
+<td><code>orig_stan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. STAN of original transaction (for Cancellation).</td>
+</tr>
+<tr>
+<td><code>orig_tx_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Original transaction ID (for Cancellation).</td>
+</tr>
+<tr>
+<td><code>receipt_footer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Receipt footer that must be printed on the receipt. Contains the authentication method (&quot;PIN VERIFIED&quot; or &quot;SIGNATURE&quot;) and tags &quot;AID:&quot; and &quot;AC:&quot;.</td>
+</tr>
+<tr>
+<td><code>receipt_header</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Receipt header.</td>
+</tr>
+<tr>
+<td><code>response_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Response code.</td>
+</tr>
+<tr>
+<td><code>response_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Response text - description of the response code. Text is UTF-8 encoded. Binary size of the field is 80 bytes.</td>
+</tr>
+<tr>
+<td><code>serien_nr</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. If present, should be printed on the receipt.</td>
+</tr>
+<tr>
+<td><code>stan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. TECS Trace Number.</td>
+</tr>
+<tr>
+<td><code>svc</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Service code (returned by TECS Server). Must be printed on the receipt.</td>
+</tr>
+<tr>
+<td><code>transaction_date_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Transaction date and time (format: yyyymmddhhmmss).</td>
+</tr>
+<tr>
+<td><code>transaction_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction unique identifier (should be the same as sent in the authorization request).</td>
+</tr>
+<tr>
+<td><code>transaction_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction type.</td>
+</tr>
+<tr>
+<td><code>vu_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant Contract number with acquirer.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="504-could-not-communicate-with-tecsclient" class="status" data-status="5xx">504: Could not communicate with TecsClient</h5>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authorization_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Authorization number generated by TECS Authorization Host.</td>
+</tr>
+<tr>
+<td><code>balance_amount</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Maximum amount available.</td>
+</tr>
+<tr>
+<td><code>bonus_point</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Actual bonus points.</td>
+</tr>
+<tr>
+<td><code>card_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;NonISO_CardIssuer_Prefixes&quot; provided by TECS.</td>
+</tr>
+<tr>
+<td><code>credit_card_issuer_and_acquirer_company</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Acquirer name + &quot;;&quot; + card brand (for example &quot;VISA&quot;).</td>
+</tr>
+<tr>
+<td><code>ecr_data</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. ECR Data field used to transfer user information for private labeled cards like Fleet Card Company (for example UTA, outex, etc.). This field is sent from TECS Server to ECR as received.</td>
+</tr>
+<tr>
+<td><code>ex_fee</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Exchange fee.</td>
+</tr>
+<tr>
+<td><code>exchange_rate</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Exchange rate at the time of transaction (for example 000000000000001,1223).</td>
+</tr>
+<tr>
+<td><code>foreign_tx_amount</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction amount in desired currency.</td>
+</tr>
+<tr>
+<td><code>merchant_address</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant address.</td>
+</tr>
+<tr>
+<td><code>merchant_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant name.</td>
+</tr>
+<tr>
+<td><code>message_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Message type: 0002 = Transaction response.</td>
+</tr>
+<tr>
+<td><code>operator_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Identification of the operator of the TECS engine installation.</td>
+</tr>
+<tr>
+<td><code>orig_stan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. STAN of original transaction (for Cancellation).</td>
+</tr>
+<tr>
+<td><code>orig_tx_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Original transaction ID (for Cancellation).</td>
+</tr>
+<tr>
+<td><code>receipt_footer</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Receipt footer that must be printed on the receipt. Contains the authentication method (&quot;PIN VERIFIED&quot; or &quot;SIGNATURE&quot;) and tags &quot;AID:&quot; and &quot;AC:&quot;.</td>
+</tr>
+<tr>
+<td><code>receipt_header</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Receipt header.</td>
+</tr>
+<tr>
+<td><code>response_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Response code.</td>
+</tr>
+<tr>
+<td><code>response_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Response text - description of the response code. Text is UTF-8 encoded. Binary size of the field is 80 bytes.</td>
+</tr>
+<tr>
+<td><code>serien_nr</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. If present, should be printed on the receipt.</td>
+</tr>
+<tr>
+<td><code>stan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. TECS Trace Number.</td>
+</tr>
+<tr>
+<td><code>svc</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Service code (returned by TECS Server). Must be printed on the receipt.</td>
+</tr>
+<tr>
+<td><code>transaction_date_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Numeric. Transaction date and time (format: yyyymmddhhmmss).</td>
+</tr>
+<tr>
+<td><code>transaction_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction unique identifier (should be the same as sent in the authorization request).</td>
+</tr>
+<tr>
+<td><code>transaction_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Transaction type.</td>
+</tr>
+<tr>
+<td><code>vu_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Alphanumeric. Merchant Contract number with acquirer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-version" class="operation" data-method="get"><code>GET</code> /version</h3>
+<p>Operation ID: <code>getEcrVersion</code>.</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-ok" class="status" data-status="2xx">200: OK</h5>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>appName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>buildDate</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

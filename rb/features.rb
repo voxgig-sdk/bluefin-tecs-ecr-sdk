@@ -3,6 +3,7 @@
 require_relative 'feature/base_feature'
 require_relative 'feature/audit_feature'
 require_relative 'feature/clienttrack_feature'
+require_relative 'feature/debug_feature'
 require_relative 'feature/idempotency_feature'
 require_relative 'feature/log_feature'
 require_relative 'feature/metrics_feature'
@@ -23,6 +24,8 @@ module BluefinTecsEcrFeatures
       BluefinTecsEcrAuditFeature.new
     when "clienttrack"
       BluefinTecsEcrClienttrackFeature.new
+    when "debug"
+      BluefinTecsEcrDebugFeature.new
     when "idempotency"
       BluefinTecsEcrIdempotencyFeature.new
     when "log"
