@@ -37,18 +37,18 @@
 <a href="../sdks/zig.html">Zig</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/audit.html">Structured audit trail of operations</a>
-<a href="../features/clienttrack.html">Client identity and per-request correlation headers</a>
-<a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/log.html">Structured request and response logging</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/telemetry.html">Distributed tracing spans with W3C trace-context propagation</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="ecrapi">EcrApi</h1>
+<details><summary>Features</summary><a href="../features/audit.html">Audit trail</a>
+<a href="../features/clienttrack.html">Client tracking</a>
+<a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/log.html">Logging</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/telemetry.html">Telemetry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="ecrapi">EcrApi</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -75,6 +75,51 @@
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">ecr_api, err := client.EcrApi(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(ecr_api)
+created, err := client.EcrApi(nil).Create(map[string]any{&quot;amount&quot;: &quot;example&quot;, &quot;card_number&quot;: &quot;example&quot;, &quot;currency&quot;: &quot;example&quot;, &quot;terminal_number&quot;: &quot;example&quot;, &quot;transaction_date_time&quot;: &quot;example&quot;, &quot;transaction_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/js.html#set-up-the-client">JavaScript setup</a>, then call the operations:</p>
+<pre><code class="language-js">const ecr_api = await client.EcrApi().load()
+const created = await client.EcrApi().create({ amount: &quot;example&quot;, card_number: &quot;example&quot;, currency: &quot;example&quot;, terminal_number: &quot;example&quot;, transaction_date_time: &quot;example&quot;, transaction_id: &quot;example&quot; })
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local ecr_api, err = client:EcrApi():load()
+local created, err = client:EcrApi():create({ amount = &quot;example&quot;, card_number = &quot;example&quot;, currency = &quot;example&quot;, terminal_number = &quot;example&quot;, transaction_date_time = &quot;example&quot;, transaction_id = &quot;example&quot; })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$ecr_api = $client-&gt;EcrApi()-&gt;load();
+$created = $client-&gt;EcrApi()-&gt;create([&quot;amount&quot; =&gt; &quot;example&quot;, &quot;card_number&quot; =&gt; &quot;example&quot;, &quot;currency&quot; =&gt; &quot;example&quot;, &quot;terminal_number&quot; =&gt; &quot;example&quot;, &quot;transaction_date_time&quot; =&gt; &quot;example&quot;, &quot;transaction_id&quot; =&gt; &quot;example&quot;]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">ecr_api = client.EcrApi().load()
+created = client.EcrApi().create({ &quot;amount&quot;: &quot;example&quot;, &quot;card_number&quot;: &quot;example&quot;, &quot;currency&quot;: &quot;example&quot;, &quot;terminal_number&quot;: &quot;example&quot;, &quot;transaction_date_time&quot;: &quot;example&quot;, &quot;transaction_id&quot;: &quot;example&quot; })
+</code></pre>
+<h3 id="ruby">Ruby</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
+<pre><code class="language-rb">ecr_api = client.EcrApi.load()
+created = client.EcrApi.create({ &quot;amount&quot; =&gt; &quot;example&quot;, &quot;card_number&quot; =&gt; &quot;example&quot;, &quot;currency&quot; =&gt; &quot;example&quot;, &quot;terminal_number&quot; =&gt; &quot;example&quot;, &quot;transaction_date_time&quot; =&gt; &quot;example&quot;, &quot;transaction_id&quot; =&gt; &quot;example&quot; })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const ecr_api = await client.EcrApi().load()
+const created = await client.EcrApi().create({ amount: &quot;example&quot;, card_number: &quot;example&quot;, currency: &quot;example&quot;, terminal_number: &quot;example&quot;, transaction_date_time: &quot;example&quot;, transaction_id: &quot;example&quot; })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -252,7 +297,7 @@
 <td><code>card_number</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td>Depends on the transaction scenario: - <strong>Standard Pin Pad transaction:</strong> leave empty. - <strong>Manual PAN input:</strong> provide card number + &quot;<em>&quot; + expiration date (YYMM). - <strong>Swiped card on ECR:</strong> include Track2 data. - <strong>Cancellation/Capture (msg type 0013):</strong> &quot;TXID&quot; + original transaction number. - <strong>Gratuity (msg type 0009) or Credit note (msg type 0011):</strong> &quot;TXID&quot; + original transaction number. - <strong>Cancellation/Capture from different terminal:</strong> &quot;TXID&quot; + &quot;</em>&quot; + &quot;_&quot; (for example, &quot;TXID00000000001234567890_01_88091234&quot;).</td>
+<td>Depends on the transaction scenario: - <strong>Standard Pin Pad transaction:</strong> leave empty. - <strong>Manual PAN input:</strong> provide card number + &quot;<em>&quot; + expiration date (YYMM). - <strong>Swiped card on ECR:</strong> include Track2 data. - <strong>Cancellation/Capture (msg type 0013):</strong> &quot;TXID&quot; + original transaction number. - <strong>Gratuity (msg type 0009) or Credit note (msg type 0011):</strong> &quot;TXID&quot; + original transaction number. - <strong>Cancellation/Capture from different terminal:</strong> &quot;TXID&quot; + &quot;</em>&quot; + &quot;_&quot; (for example, &quot;<code>TXID00000000001234567890_01_88091234</code>&quot;).</td>
 </tr>
 <tr>
 <td><code>currency</code></td>
@@ -405,7 +450,7 @@
 <td><code>card_number</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;NonISO_CardIssuer_Prefixes&quot; provided by TECS.</td>
+<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;<code>NonISO_CardIssuer_Prefixes</code>&quot; provided by TECS.</td>
 </tr>
 <tr>
 <td><code>credit_card_issuer_and_acquirer_company</code></td>
@@ -575,7 +620,7 @@
 <td><code>card_number</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;NonISO_CardIssuer_Prefixes&quot; provided by TECS.</td>
+<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;<code>NonISO_CardIssuer_Prefixes</code>&quot; provided by TECS.</td>
 </tr>
 <tr>
 <td><code>credit_card_issuer_and_acquirer_company</code></td>
@@ -745,7 +790,7 @@
 <td><code>card_number</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;NonISO_CardIssuer_Prefixes&quot; provided by TECS.</td>
+<td>Alphanumeric. Depends on the transaction scenario: - Standard transaction: Card number + &quot;<em>&quot; + expiration date (YYMM). - For terminals activated for Card Reference number: &quot;REF&quot; + reference no + &quot;</em>&quot; + expiry date (YYMM) + &quot;<em>&quot; + last 4 digits from PAN + &quot;</em>&quot; + first 6 digits from PAN. - Cancellation/capture/credit note: &quot;TXID&quot; + transaction number as entered in request. - Non ISO based Card numbers: Card prefix + Card number. Card prefixes are defined by TECS and are stated in the document &quot;<code>NonISO_CardIssuer_Prefixes</code>&quot; provided by TECS.</td>
 </tr>
 <tr>
 <td><code>credit_card_issuer_and_acquirer_company</code></td>

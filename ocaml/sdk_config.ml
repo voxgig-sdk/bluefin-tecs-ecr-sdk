@@ -171,98 +171,120 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "amount"));
+            ("title", (Str "Amount"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Numeric Transaction Amount."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "Numeric Transaction Amount.")) ]);
           (jo [
             ("name", (Str "authorization_number"));
-            ("short", (Str "For Gratuity (msg type 0009): the authorization number of the original transaction."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Authorization Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "For Gratuity (msg type 0009): the authorization number of the original transaction.")) ]);
           (jo [
             ("name", (Str "card_number"));
+            ("title", (Str "Card Number"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty.")) ]);
           (jo [
             ("name", (Str "currency"));
+            ("title", (Str "Currency"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\")."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\").")) ]);
           (jo [
             ("name", (Str "cvc2"));
-            ("short", (Str "Card Verification Code."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Cvc2"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Card Verification Code.")) ]);
           (jo [
             ("name", (Str "desired_currency"));
-            ("short", (Str "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\")."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Desired Currency"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\").")) ]);
           (jo [
             ("name", (Str "ecr_data"));
-            ("short", (Str "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex)."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Ecr Data"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).")) ]);
           (jo [
             ("name", (Str "language"));
-            ("short", (Str "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\")."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Language"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\").")) ]);
           (jo [
             ("name", (Str "message_type"));
-            ("short", (Str "Message type code."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message type code.")) ]);
           (jo [
             ("name", (Str "password"));
-            ("short", (Str "Password - currently not used (filled with spaces)."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Password"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Password - currently not used (filled with spaces).")) ]);
           (jo [
             ("name", (Str "payment_reason"));
-            ("short", (Str "Payment reason (e.g., \"Taxi journey\")."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Payment Reason"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Payment reason (e.g., \"Taxi journey\").")) ]);
           (jo [
             ("name", (Str "payment_reasonAsByte"));
-            ("short", (Str "Payment reason represented as a byte array."));
-            ("type", (Str "`$ARRAY`")) ]);
+            ("title", (Str "Payment Reason As Byte"));
+            ("type", (Str "`$ARRAY`"));
+            ("short", (Str "Payment reason represented as a byte array.")) ]);
           (jo [
             ("name", (Str "personal_id"));
-            ("short", (Str "Identification of the current user of the ECR or Terminal."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Personal Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Identification of the current user of the ECR or Terminal.")) ]);
           (jo [
             ("name", (Str "receipt_layout"));
-            ("short", (Str "Receipt layout identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Receipt Layout"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Receipt layout identifier.")) ]);
           (jo [
             ("name", (Str "receipt_number"));
-            ("short", (Str "Receipt number."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Receipt Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Receipt number.")) ]);
           (jo [
             ("name", (Str "terminal_number"));
+            ("title", (Str "Terminal Number"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Terminal number provided by TECS."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "Terminal number provided by TECS.")) ]);
           (jo [
             ("name", (Str "transaction_date_time"));
+            ("title", (Str "Transaction Date Time"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Transaction date and time (format: yyyymmddhhmmss)."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "Transaction date and time (format: yyyymmddhhmmss).")) ]);
           (jo [
             ("name", (Str "transaction_id"));
+            ("title", (Str "Transaction Id"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Unique transaction identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "Unique transaction identifier.")) ]);
           (jo [
             ("name", (Str "transaction_origin_identifier"));
-            ("short", (Str "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Transaction Origin Identifier"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance")) ]);
           (jo [
             ("name", (Str "transaction_origin_indicator"));
-            ("short", (Str "Transaction origin indicator: - 0 = Request for card data on PIN PAD."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Transaction Origin Indicator"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Transaction origin indicator: - 0 = Request for card data on PIN PAD.")) ]);
           (jo [
             ("name", (Str "transaction_place"));
-            ("short", (Str "The transaction place; the first 5 characters should contain a formatted zip code."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Transaction Place"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The transaction place; the first 5 characters should contain a formatted zip code.")) ]);
           (jo [
             ("name", (Str "transaction_source_id"));
-            ("short", (Str "Identification number of the authorization source."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("title", (Str "Transaction Source Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Identification number of the authorization source.")) ]) ]));
         ("name", (Str "ecr_api"));
         ("op", (jo [
           ("create", (jo [
@@ -270,37 +292,39 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/makeTransaction"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "makeTransaction")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "makeTransaction") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "makeTransaction") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/version"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "version")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "version") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "version") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

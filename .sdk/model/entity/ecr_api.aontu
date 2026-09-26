@@ -1,0 +1,216 @@
+# Entity: ecr_api
+
+main: kit: entity: ecr_api: {
+
+  alias: field: {}
+
+  fields: {
+    amount: {
+      h: "Amount"
+      n: "amount"
+      r: true
+      sh: "Numeric Transaction Amount."
+      t: "`$STRING`"
+    }
+    authorization_number: {
+      h: "Authorization Number"
+      n: "authorization_number"
+      r: false
+      sh: "For Gratuity (msg type 0009): the authorization number of the original transaction."
+      t: "`$STRING`"
+    }
+    card_number: {
+      h: "Card Number"
+      n: "card_number"
+      r: true
+      sh: "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty."
+      t: "`$STRING`"
+    }
+    currency: {
+      h: "Currency"
+      n: "currency"
+      r: true
+      sh: "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\")."
+      t: "`$STRING`"
+    }
+    cvc2: {
+      h: "Cvc2"
+      n: "cvc2"
+      r: false
+      sh: "Card Verification Code."
+      t: "`$STRING`"
+    }
+    desired_currency: {
+      h: "Desired Currency"
+      n: "desired_currency"
+      r: false
+      sh: "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\")."
+      t: "`$STRING`"
+    }
+    ecr_data: {
+      h: "Ecr Data"
+      n: "ecr_data"
+      r: false
+      sh: "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex)."
+      t: "`$STRING`"
+    }
+    language: {
+      h: "Language"
+      n: "language"
+      r: false
+      sh: "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\")."
+      t: "`$STRING`"
+    }
+    message_type: {
+      h: "Message Type"
+      n: "message_type"
+      r: false
+      sh: "Message type code."
+      t: "`$STRING`"
+    }
+    password: {
+      h: "Password"
+      n: "password"
+      r: false
+      sh: "Password - currently not used (filled with spaces)."
+      t: "`$STRING`"
+    }
+    payment_reason: {
+      h: "Payment Reason"
+      n: "payment_reason"
+      r: false
+      sh: "Payment reason (e.g., \"Taxi journey\")."
+      t: "`$STRING`"
+    }
+    payment_reasonAsByte: {
+      h: "Payment Reason As Byte"
+      n: "payment_reasonAsByte"
+      r: false
+      sh: "Payment reason represented as a byte array."
+      t: "`$ARRAY`"
+    }
+    personal_id: {
+      h: "Personal Id"
+      n: "personal_id"
+      r: false
+      sh: "Identification of the current user of the ECR or Terminal."
+      t: "`$STRING`"
+    }
+    receipt_layout: {
+      h: "Receipt Layout"
+      n: "receipt_layout"
+      r: false
+      sh: "Receipt layout identifier."
+      t: "`$STRING`"
+    }
+    receipt_number: {
+      h: "Receipt Number"
+      n: "receipt_number"
+      r: false
+      sh: "Receipt number."
+      t: "`$STRING`"
+    }
+    terminal_number: {
+      h: "Terminal Number"
+      n: "terminal_number"
+      r: true
+      sh: "Terminal number provided by TECS."
+      t: "`$STRING`"
+    }
+    transaction_date_time: {
+      h: "Transaction Date Time"
+      n: "transaction_date_time"
+      r: true
+      sh: "Transaction date and time (format: yyyymmddhhmmss)."
+      t: "`$STRING`"
+    }
+    transaction_id: {
+      h: "Transaction Id"
+      n: "transaction_id"
+      r: true
+      sh: "Unique transaction identifier."
+      t: "`$STRING`"
+    }
+    transaction_origin_identifier: {
+      h: "Transaction Origin Identifier"
+      n: "transaction_origin_identifier"
+      r: false
+      sh: "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance"
+      t: "`$STRING`"
+    }
+    transaction_origin_indicator: {
+      h: "Transaction Origin Indicator"
+      n: "transaction_origin_indicator"
+      r: false
+      sh: "Transaction origin indicator: - 0 = Request for card data on PIN PAD."
+      t: "`$STRING`"
+    }
+    transaction_place: {
+      h: "Transaction Place"
+      n: "transaction_place"
+      r: false
+      sh: "The transaction place; the first 5 characters should contain a formatted zip code."
+      t: "`$STRING`"
+    }
+    transaction_source_id: {
+      h: "Transaction Source Id"
+      n: "transaction_source_id"
+      r: false
+      sh: "Identification number of the authorization source."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "ecr_api"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /makeTransaction"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/makeTransaction"
+          s: [
+            {
+              lit: "makeTransaction"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /version"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/version"
+          s: [
+            {
+              lit: "version"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

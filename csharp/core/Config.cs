@@ -266,140 +266,162 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "amount",
+                            ["title"] = "Amount",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Numeric Transaction Amount.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "authorization_number",
-                            ["short"] = "For Gratuity (msg type 0009): the authorization number of the original transaction.",
+                            ["title"] = "Authorization Number",
                             ["type"] = "`$STRING`",
+                            ["short"] = "For Gratuity (msg type 0009): the authorization number of the original transaction.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "card_number",
+                            ["title"] = "Card Number",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "currency",
+                            ["title"] = "Currency",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\").",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "cvc2",
-                            ["short"] = "Card Verification Code.",
+                            ["title"] = "Cvc2",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Card Verification Code.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "desired_currency",
-                            ["short"] = "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\").",
+                            ["title"] = "Desired Currency",
                             ["type"] = "`$STRING`",
+                            ["short"] = "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\").",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "ecr_data",
-                            ["short"] = "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).",
+                            ["title"] = "Ecr Data",
                             ["type"] = "`$STRING`",
+                            ["short"] = "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex).",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "language",
-                            ["short"] = "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\").",
+                            ["title"] = "Language",
                             ["type"] = "`$STRING`",
+                            ["short"] = "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\").",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "message_type",
-                            ["short"] = "Message type code.",
+                            ["title"] = "Message Type",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message type code.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "password",
-                            ["short"] = "Password - currently not used (filled with spaces).",
+                            ["title"] = "Password",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Password - currently not used (filled with spaces).",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "payment_reason",
-                            ["short"] = "Payment reason (e.g., \"Taxi journey\").",
+                            ["title"] = "Payment Reason",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Payment reason (e.g., \"Taxi journey\").",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "payment_reasonAsByte",
-                            ["short"] = "Payment reason represented as a byte array.",
+                            ["title"] = "Payment Reason As Byte",
                             ["type"] = "`$ARRAY`",
+                            ["short"] = "Payment reason represented as a byte array.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "personal_id",
-                            ["short"] = "Identification of the current user of the ECR or Terminal.",
+                            ["title"] = "Personal Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Identification of the current user of the ECR or Terminal.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "receipt_layout",
-                            ["short"] = "Receipt layout identifier.",
+                            ["title"] = "Receipt Layout",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Receipt layout identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "receipt_number",
-                            ["short"] = "Receipt number.",
+                            ["title"] = "Receipt Number",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Receipt number.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "terminal_number",
+                            ["title"] = "Terminal Number",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Terminal number provided by TECS.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transaction_date_time",
+                            ["title"] = "Transaction Date Time",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Transaction date and time (format: yyyymmddhhmmss).",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transaction_id",
+                            ["title"] = "Transaction Id",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Unique transaction identifier.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transaction_origin_identifier",
-                            ["short"] = "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance",
+                            ["title"] = "Transaction Origin Identifier",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transaction_origin_indicator",
-                            ["short"] = "Transaction origin indicator: - 0 = Request for card data on PIN PAD.",
+                            ["title"] = "Transaction Origin Indicator",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Transaction origin indicator: - 0 = Request for card data on PIN PAD.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transaction_place",
-                            ["short"] = "The transaction place; the first 5 characters should contain a formatted zip code.",
+                            ["title"] = "Transaction Place",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The transaction place; the first 5 characters should contain a formatted zip code.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transaction_source_id",
-                            ["short"] = "Identification number of the authorization source.",
+                            ["title"] = "Transaction Source Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Identification number of the authorization source.",
                         },
                     },
                     ["name"] = "ecr_api",
@@ -413,7 +435,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/makeTransaction",
@@ -424,16 +445,18 @@ public static class SdkConfig
                                             ["lit"] = "makeTransaction",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "makeTransaction",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "makeTransaction",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -445,7 +468,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/version",
@@ -456,16 +478,18 @@ public static class SdkConfig
                                             ["lit"] = "version",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "version",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "version",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },

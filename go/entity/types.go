@@ -1,7 +1,7 @@
 // Typed models for the BluefinTecsEcr SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,28 +14,6 @@ import (
 
 // EcrApi is the typed data model for the ecr_api entity.
 type EcrApi struct {
-	Amount string `json:"amount"`
-	AuthorizationNumber *string `json:"authorization_number,omitempty"`
-	CardNumber string `json:"card_number"`
-	Currency string `json:"currency"`
-	Cvc2 *string `json:"cvc2,omitempty"`
-	DesiredCurrency *string `json:"desired_currency,omitempty"`
-	EcrData *string `json:"ecr_data,omitempty"`
-	Language *string `json:"language,omitempty"`
-	MessageType *string `json:"message_type,omitempty"`
-	Password *string `json:"password,omitempty"`
-	PaymentReason *string `json:"payment_reason,omitempty"`
-	PaymentReasonAsByte *[]any `json:"payment_reasonAsByte,omitempty"`
-	PersonalId *string `json:"personal_id,omitempty"`
-	ReceiptLayout *string `json:"receipt_layout,omitempty"`
-	ReceiptNumber *string `json:"receipt_number,omitempty"`
-	TerminalNumber string `json:"terminal_number"`
-	TransactionDateTime string `json:"transaction_date_time"`
-	TransactionId string `json:"transaction_id"`
-	TransactionOriginIdentifier *string `json:"transaction_origin_identifier,omitempty"`
-	TransactionOriginIndicator *string `json:"transaction_origin_indicator,omitempty"`
-	TransactionPlace *string `json:"transaction_place,omitempty"`
-	TransactionSourceId *string `json:"transaction_source_id,omitempty"`
 }
 
 // EcrApiLoadMatch is the typed request payload for EcrApi.LoadTyped.

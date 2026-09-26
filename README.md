@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -282,29 +282,29 @@ switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Python | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| PHP | `voxgig-sdk/bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
+| TypeScript | `@voxgig-sdk/bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Python | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| PHP | `voxgig-sdk/bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go` | `go get github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go@latest` |
-| Ruby | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Lua | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| C | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Clojure | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| C++ | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| C# | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Dart | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Elixir | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Haskell | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Java | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| JavaScript | `@voxgig-sdk/bluefin-tecs-ecr-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Kotlin | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Lean | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| OCaml | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Perl | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Rust | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Scala | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Swift | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
-| Zig | `voxgig-sdk-bluefin-tecs-ecr` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases) |
+| Ruby | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Lua | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| C | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Clojure | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| C++ | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| C# | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Dart | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Elixir | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Haskell | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Java | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| JavaScript | `@voxgig-sdk/bluefin-tecs-ecr-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Kotlin | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Lean | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| OCaml | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Perl | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Rust | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Scala | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Swift | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| Zig | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-cli` | `go install github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-cli/cmd/bluefin-tecs-ecr@latest` |
 | Go MCP server | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-mcp` | `go get github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-mcp@latest` |
 
@@ -313,7 +313,7 @@ switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
 ### TypeScript
 
 ```ts
-import { BluefinTecsEcrSDK } from '@voxgig-sdk/bluefin-tecs-ecr'
+import { BluefinTecsEcrSDK } from '@voxgig-sdk/bluefin-tecs-ecr-sdk'
 
 const client = new BluefinTecsEcrSDK({
   apikey: process.env.BLUEFIN_TECS_ECR_APIKEY,
@@ -586,7 +586,7 @@ System.out.println(ecrApi);
 ### JavaScript
 
 ```js
-const { BluefinTecsEcrSDK } = require('@voxgig-sdk/bluefin-tecs-ecr-js')
+const { BluefinTecsEcrSDK } = require('@voxgig-sdk/bluefin-tecs-ecr-sdk-js')
 
 const client = new BluefinTecsEcrSDK({
   apikey: process.env.BLUEFIN_TECS_ECR_APIKEY,
@@ -980,18 +980,18 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **AuditFeature** | Structured audit trail of operations |
-| **ClienttrackFeature** | Client identity and per-request correlation headers |
-| **DebugFeature** | Request/response capture ring buffer for debugging |
-| **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
-| **LogFeature** | Structured request and response logging |
-| **MetricsFeature** | Statistics capture: per-operation counters and latency |
-| **PagingFeature** | Pagination signals for list operations |
-| **RatelimitFeature** | Client-side rate limiting via a token bucket |
-| **RetryFeature** | Automatic retry of transient failures with exponential backoff |
-| **TelemetryFeature** | Distributed tracing spans with W3C trace-context propagation |
-| **TestFeature** | In-memory mock transport for testing without a live server |
-| **TimeoutFeature** | Per-request timeout with transport abort |
+| **AuditFeature** | Audit trail |
+| **ClienttrackFeature** | Client tracking |
+| **DebugFeature** | Debug capture |
+| **IdempotencyFeature** | Idempotency |
+| **LogFeature** | Logging |
+| **MetricsFeature** | Metrics |
+| **PagingFeature** | Paging |
+| **RatelimitFeature** | Rate limiting |
+| **RetryFeature** | Retry |
+| **TelemetryFeature** | Telemetry |
+| **TestFeature** | Test transport |
+| **TimeoutFeature** | Timeout |
 
 Pass custom features via the `extend` option at construction time.
 

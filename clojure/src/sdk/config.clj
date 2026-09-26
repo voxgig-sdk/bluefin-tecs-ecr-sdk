@@ -11,95 +11,117 @@
             "name" "amount"
             "req" true
             "short" "Numeric Transaction Amount."
+            "title" "Amount"
             "type" "`$STRING`")
           (vs/jm
             "name" "authorization_number"
             "short" "For Gratuity (msg type 0009): the authorization number of the original transaction."
+            "title" "Authorization Number"
             "type" "`$STRING`")
           (vs/jm
             "name" "card_number"
             "req" true
             "short" "Depends on the transaction scenario: - **Standard Pin Pad transaction:** leave empty."
+            "title" "Card Number"
             "type" "`$STRING`")
           (vs/jm
             "name" "currency"
             "req" true
             "short" "ISO 4217 Alpha Currency Code (e.g., \"EUR\", \"USD\")."
+            "title" "Currency"
             "type" "`$STRING`")
           (vs/jm
             "name" "cvc2"
             "short" "Card Verification Code."
+            "title" "Cvc2"
             "type" "`$STRING`")
           (vs/jm
             "name" "desired_currency"
             "short" "ISO 4217 Alpha Currency Code in which the transaction will be processed (e.g., \"EUR\", \"USD\")."
+            "title" "Desired Currency"
             "type" "`$STRING`")
           (vs/jm
             "name" "ecr_data"
             "short" "ECR Data field used to transfer user information for private-labeled cards (e.g., Fleet Card Company such as UTA, outex)."
+            "title" "Ecr Data"
             "type" "`$STRING`")
           (vs/jm
             "name" "language"
             "short" "ISO 639-1 language code used by the Pin Pad user interface during the transaction (e.g., \"en\", \"de\", \"es\")."
+            "title" "Language"
             "type" "`$STRING`")
           (vs/jm
             "name" "message_type"
             "short" "Message type code."
+            "title" "Message Type"
             "type" "`$STRING`")
           (vs/jm
             "name" "password"
             "short" "Password - currently not used (filled with spaces)."
+            "title" "Password"
             "type" "`$STRING`")
           (vs/jm
             "name" "payment_reason"
             "short" "Payment reason (e.g., \"Taxi journey\")."
+            "title" "Payment Reason"
             "type" "`$STRING`")
           (vs/jm
             "name" "payment_reasonAsByte"
             "short" "Payment reason represented as a byte array."
+            "title" "Payment Reason As Byte"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "personal_id"
             "short" "Identification of the current user of the ECR or Terminal."
+            "title" "Personal Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "receipt_layout"
             "short" "Receipt layout identifier."
+            "title" "Receipt Layout"
             "type" "`$STRING`")
           (vs/jm
             "name" "receipt_number"
             "short" "Receipt number."
+            "title" "Receipt Number"
             "type" "`$STRING`")
           (vs/jm
             "name" "terminal_number"
             "req" true
             "short" "Terminal number provided by TECS."
+            "title" "Terminal Number"
             "type" "`$STRING`")
           (vs/jm
             "name" "transaction_date_time"
             "req" true
             "short" "Transaction date and time (format: yyyymmddhhmmss)."
+            "title" "Transaction Date Time"
             "type" "`$STRING`")
           (vs/jm
             "name" "transaction_id"
             "req" true
             "short" "Unique transaction identifier."
+            "title" "Transaction Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "transaction_origin_identifier"
             "short" "Transaction origin identifier: - 1 = Face to Face (Customer present) - 2 = MOTO (Customer not present) - 4 = Capture/Completion - 5 = Pre Authorization - 7 = Balance"
+            "title" "Transaction Origin Identifier"
             "type" "`$STRING`")
           (vs/jm
             "name" "transaction_origin_indicator"
             "short" "Transaction origin indicator: - 0 = Request for card data on PIN PAD."
+            "title" "Transaction Origin Indicator"
             "type" "`$STRING`")
           (vs/jm
             "name" "transaction_place"
             "short" "The transaction place; the first 5 characters should contain a formatted zip code."
+            "title" "Transaction Place"
             "type" "`$STRING`")
           (vs/jm
             "name" "transaction_source_id"
             "short" "Identification number of the authorization source."
+            "title" "Transaction Source Id"
             "type" "`$STRING`"))
         "name" "ecr_api"
         "op" (vs/jm
@@ -114,6 +136,7 @@
                 "orig" "/makeTransaction"
                 "parts" (vs/jt
                   "makeTransaction")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "makeTransaction"))
@@ -132,6 +155,7 @@
                 "orig" "/version"
                 "parts" (vs/jt
                   "version")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "version"))
