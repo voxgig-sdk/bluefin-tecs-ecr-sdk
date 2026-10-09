@@ -9,6 +9,7 @@ Complete API reference for the BluefinTecsEcr C# SDK.
 
 ```csharp
 using BluefinTecsEcrSdk;
+using Voxgig.Struct;
 
 var client = new BluefinTecsEcrSDK(options);
 ```
@@ -120,7 +121,7 @@ var ecrApi = client.EcrApi();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.EcrApi().Create(new Dictionary<string, object?>
@@ -136,7 +137,7 @@ var result = client.EcrApi().Create(new Dictionary<string, object?>
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.EcrApi().Load(null);
@@ -586,6 +587,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

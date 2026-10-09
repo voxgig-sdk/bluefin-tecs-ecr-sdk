@@ -8,7 +8,7 @@ Complete API reference for the BluefinTecsEcr Rust SDK.
 ### Constructor
 
 ```rust
-use bluefin_tecs_ecr_sdk::{BluefinTecsEcrSDK, Value};
+use bluefin_tecs_ecr_sdk::{jo, BluefinTecsEcrEntity, BluefinTecsEcrSDK, Entity, Value};
 
 let client = BluefinTecsEcrSDK::new(options);
 ```
@@ -118,9 +118,9 @@ let ecr_api = client.ecr_api(Value::Noval);
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinTecsEcrError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.ecr_api(Value::Noval).create(jo(vec![
@@ -133,12 +133,13 @@ let result = client.ecr_api(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinTecsEcrError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -583,6 +584,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

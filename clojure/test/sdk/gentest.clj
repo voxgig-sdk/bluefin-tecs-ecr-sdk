@@ -20,6 +20,11 @@
                (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
                (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
+  (t/run-check rec "gen-validate-ecr_api"
+    (fn [] (when (vs/getpath (config/make-config) "feature.validate")
+             (let [client (api/test-sdk nil (vs/jm "feature" (vs/jm "validate" (vs/jm "active" true))))]
+               (t/is-throws (fn [] (e-ecr_api/load (api/ecr_api client nil) (vs/jm "amount" 1) nil))
+                            "validate_failed" "validate refuses an invalid request")))))
   (t/run-check rec "gen-prepare-ecr_api"
     (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
                  fetchdef (api/prepare client (vs/jm "path" "/api/ecr_api" "method" "GET"))]

@@ -250,6 +250,7 @@ class Config {
       },
       'optspec': <String, dynamic>{
         'clearTimer': '`\$FUNCTION`',
+        'now': '`\$FUNCTION`',
         'setTimer': '`\$FUNCTION`',
       },
       'strict': false,
@@ -443,6 +444,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -469,6 +474,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },

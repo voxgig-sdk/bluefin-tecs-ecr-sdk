@@ -12,6 +12,7 @@ import 'pipeline_test.dart' as pipeline_test;
 import 'feature_test.dart' as feature_test;
 import 'netsim_test.dart' as netsim_test;
 import 'custom_test.dart' as custom_test;
+import 'clean_test.dart' as clean_test;
 import 'readme_examples_test.dart' as readme_examples_test;
 import 'entity/ecr_api/EcrApiEntity_test.dart' as ecr_api_entity_test;
 import 'entity/ecr_api/EcrApiDirect_test.dart' as ecr_api_direct_test;
@@ -25,6 +26,7 @@ Future<void> main() async {
   feature_test.tests();
   netsim_test.tests();
   custom_test.tests();
+  clean_test.tests();
   readme_examples_test.tests();
   ecr_api_entity_test.tests();
   ecr_api_direct_test.tests();

@@ -167,6 +167,30 @@ main: kit: entity: ecr_api: {
       name: "create"
       points: [
         {
+          bf: [
+            "amount"
+            "authorization_number"
+            "card_number"
+            "currency"
+            "cvc2"
+            "desired_currency"
+            "ecr_data"
+            "language"
+            "message_type"
+            "password"
+            "payment_reason"
+            "payment_reasonAsByte"
+            "personal_id"
+            "receipt_layout"
+            "receipt_number"
+            "terminal_number"
+            "transaction_date_time"
+            "transaction_id"
+            "transaction_origin_identifier"
+            "transaction_origin_indicator"
+            "transaction_place"
+            "transaction_source_id"
+          ]
           co: {
             id: "POST /makeTransaction"
             source: "openapi3"
@@ -174,6 +198,10 @@ main: kit: entity: ecr_api: {
           }
           m: "POST"
           o: "/makeTransaction"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "makeTransaction"
@@ -197,6 +225,10 @@ main: kit: entity: ecr_api: {
           }
           m: "GET"
           o: "/version"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "version"

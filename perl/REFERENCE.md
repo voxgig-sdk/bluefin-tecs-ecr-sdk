@@ -114,9 +114,9 @@ my $ecr_api = $client->EcrApi;
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> EcrApiEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->EcrApi->create({
@@ -129,9 +129,9 @@ my $result = $client->EcrApi->create({
 });
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> EcrApiEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->EcrApi->load();
@@ -587,6 +587,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

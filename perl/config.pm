@@ -200,6 +200,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -384,7 +385,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -410,7 +415,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }

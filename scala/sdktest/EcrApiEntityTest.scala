@@ -5,16 +5,36 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefintecsecrsdk.core.{Helpers, SdkEntity, BluefinTecsEcrSDK}
+import voxgig.bluefintecsecrsdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinTecsEcrSDK}
+import voxgig.bluefintecsecrsdk.feature.BaseFeature
 import voxgig.bluefintecsecrsdk.utility.struct.Struct
 
 object EcrApiEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("ecr_api.instance") {
       val testsdk = BluefinTecsEcrSDK.testSDK()
       val ent = testsdk.ecrApi(null)
       rep.check("ecr_api.instance", ent != null, "expected non-null ecr_api entity")
+    }
+
+    rep.scope("ecr_api.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinTecsEcrSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.ecrApi(null).load(om("amount" -> I(1)), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("ecr_api.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("ecr_api.basic") {

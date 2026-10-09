@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 Zig has no central package registry, so this package is distributed as a
-git tag (`zig/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases)). Add it to
+git tag (`zig/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags)). Add it to
 your `build.zig.zon` dependencies, or build from a source checkout:
 
 ```bash
@@ -54,11 +54,12 @@ const client = sdk.BluefinTecsEcrSDK.new(h.jo(&.{
 
 ### 3. Load an ecrapi
 
-`load()`'s `.ok` carries the bare record.
+`load()`'s `.ok` carries the entity; `asEntity().data(null)` reads its
+record.
 
 ```zig
 switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api)}),
+    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -66,9 +67,9 @@ switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
 ### 4. Create, update, and remove
 
 ```zig
-// Create — .ok carries the created record
+// Create — .ok carries the created entity
 switch (client.ecr_api(h.vnull()).create(h.jo(&.{.{ "amount", h.vstr("example_amount") }, .{ "card_number", h.vstr("example_card_number") }, .{ "currency", h.vstr("example_currency") }, .{ "terminal_number", h.vstr("example_terminal_number") }, .{ "transaction_date_time", h.vstr("example_transaction_date_time") }, .{ "transaction_id", h.vstr("example_transaction_id") }}), h.vnull())) {
-    .ok => |created| std.debug.print("{s}\n", .{h.stringify(created)}),
+    .ok => |created| std.debug.print("{s}\n", .{h.stringify(created.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 
@@ -82,14 +83,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const ecrapi = await client.EcrApi().load()
-  console.log(ecrapi)
+  console.log(ecrapi.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -98,8 +100,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -149,9 +151,9 @@ Create a mock client for unit testing — no server required:
 ```zig
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 
-// Entity ops return an OpResult — .ok carries the record, .err the error.
+// Entity ops return a result union — .ok carries the entity, .err the error.
 switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api)}), // the mock record
+    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api.asEntity().data(null))}), // the mock record
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -230,18 +232,19 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch: Value, ctrl: Value) OpResult` | Load a single entity by match criteria. |
-| `create` | `(reqdata: Value, ctrl: Value) OpResult` | Create a new entity. |
-| `stream` | `(action: []const u8, args: Value, callopts: Value) []Value` | Run an op through the pipeline and materialise its result items. |
+| `load` | `(reqmatch: Value, ctrl: Value) EntResult` | Load a single entity by match criteria. |
+| `create` | `(reqdata: Value, ctrl: Value) EntResult` | Create a new entity. |
+| `stream` | `(action: []const u8, args: Value, callopts: Value) StreamResult` | Run an op through the pipeline: `.ok` with its result items, or `.err` with the error that failed it. |
 | `data` | `(args: ?Value) Value` | Get entity data (pass a map to set). |
 | `matchv` | `(args: ?Value) Value` | Get entity match criteria (pass a map to set). |
 | `get_name` | `() []const u8` | Return the entity name. |
 
 ### Result shape
 
-Entity operations return an `OpResult` union — `switch` on it: `.ok`
-carries the bare result data (a `Value` object for single-entity ops, a
-`Value` array for `list`), `.err` carries the branded error pointer.
+Entity operations return a result union — `switch` on it: `.ok` carries
+the entity (`EntResult`), or for `list` a slice of entities, one per record
+(`EntListResult`), and `asEntity().data(null)` reads an entity's record;
+`.err` carries the branded error pointer.
 
 The `direct()` escape hatch returns a result `Value` map directly (no
 error union) — even on a non-2xx response — that you branch on via
@@ -305,8 +308,9 @@ Create an instance: `const ecr_api = client.ecr_api(h.vnull());`
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -339,7 +343,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api)}),
+    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -355,7 +359,7 @@ switch (client.ecr_api(h.vnull()).create(h.jo(&.{
     .{ "transaction_date_time", h.vstr("example_transaction_date_time") }, // []const u8
     .{ "transaction_id", h.vstr("example_transaction_id") }, // []const u8
 }), h.vnull())) {
-    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api)}),
+    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```

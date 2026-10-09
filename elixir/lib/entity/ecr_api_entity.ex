@@ -1,7 +1,7 @@
 # BluefinTecsEcr SDK EcrApi entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinTecsEcr.Pipeline.run_op.
 
 defmodule BluefinTecsEcr.Entity.EcrApi do
@@ -26,9 +26,10 @@ defmodule BluefinTecsEcr.Entity.EcrApi do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
-  # Returns the ecr_api entity map (BluefinTecsEcr.Types.ecr_api/0) on
-  # success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the ecr_api entity, whose data_get/1 reads its record
+  # (BluefinTecsEcr.Types.ecr_api/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec load(map(), BluefinTecsEcr.Types.ecr_api_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -65,9 +66,10 @@ defmodule BluefinTecsEcr.Entity.EcrApi do
   
 
   
-  # Returns the created ecr_api entity map (BluefinTecsEcr.Types.ecr_api/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created ecr_api entity, whose data_get/1 reads its record
+  # (BluefinTecsEcr.Types.ecr_api/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinTecsEcr.Types.ecr_api_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -96,6 +98,8 @@ defmodule BluefinTecsEcr.Entity.EcrApi do
   end
 
 
+
+  
 
   
 

@@ -83,6 +83,7 @@ pub trait BluefinTecsEcrEntity: Entity + Sized {
     fn list(self: &Rc<Self>, reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinTecsEcrError>;
     fn create(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>;
     fn update(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>;
+    fn patch(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>;
     fn remove(self: &Rc<Self>, reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>;
 }
 

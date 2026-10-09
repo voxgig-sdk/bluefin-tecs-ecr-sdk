@@ -6,6 +6,17 @@ main: {
     info: {
       description: "TecsClient REST authenticated ECR API (Cloud-iA Semi-Integrated Mode)."
       security: {
+        alternatives: [
+          [
+            {
+              in: "header"
+              name: "Authorization"
+              prefix: "Basic"
+              scheme: "basicAuth"
+              type: "http"
+            }
+          ]
+        ]
         in: "header"
         name: "Authorization"
         prefix: "Bearer"

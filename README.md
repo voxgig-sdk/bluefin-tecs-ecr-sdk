@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -50,9 +50,8 @@ const client = BluefinTecsEcrSDK.test({
   },
 })
 const ecrapi = await client.EcrApi().load()
-// ecrapi is the EcrApi entity, populated with mock data
-// — call ecrapi.data() for the record itself
-console.log(ecrapi)
+// ecrapi is the EcrApi entity; .data() reads its mock record
+console.log(ecrapi.data())
 ```
 
 ### Python
@@ -60,7 +59,7 @@ console.log(ecrapi)
 ```python
 client = BluefinTecsEcrSDK.test()
 ecrapi = client.EcrApi().load()
-print(ecrapi)
+print(ecrapi.data_get())
 ```
 
 ### PHP
@@ -68,7 +67,7 @@ print(ecrapi)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = BluefinTecsEcrSDK::test([
-    "entity" => ["ecrapi" => ["test01" => []]],
+    "entity" => ["ecr_api" => ["test01" => []]],
 ]);
 $ecrapi = $client->EcrApi()->load();
 ```
@@ -87,7 +86,7 @@ result, err := client.EcrApi(nil).Load(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = BluefinTecsEcrSDK.test({
-  "entity" => { "ecrapi" => { "test01" => {} } },
+  "entity" => { "ecr_api" => { "test01" => {} } },
 })
 ecrapi = client.EcrApi.load()
 ```
@@ -107,8 +106,10 @@ local result, err = client:EcrApi():load()
 BluefinTecsEcrSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
-printf("%s\n", voxgig_to_json(ecr_api_rec));
+Entity* result = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+if (result) {
+    printf("%s\n", voxgig_to_json(result->vt->data(result, NULL)));
+}
 ```
 
 ### Clojure
@@ -120,23 +121,23 @@ printf("%s\n", voxgig_to_json(ecr_api_rec));
 
 (def client (api/test-sdk nil nil))
 (def ecr_api (e-ecr_api/load (api/ecr_api client nil) nil nil))
-(println ecr_api)
+(println ((:data-get ecr_api)))
 ```
 
 ### C++
 
 ```cpp
 auto client = BluefinTecsEcrSDK::testSDK();
-Value ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
-std::cout << Struct::jsonify(ecr_api) << std::endl;
+SdkEntityPtr ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
+std::cout << Struct::jsonify(ecr_api->data()) << std::endl;
 ```
 
 ### C#
 
 ```csharp
 var client = BluefinTecsEcrSDK.TestSDK(null, null);
-var ecrApi = client.EcrApi().Load(null);
-Console.WriteLine(ecrApi);
+var ecrApi = (IEntity)client.EcrApi().Load(null)!;
+Console.WriteLine(StructUtils.Jsonify(ecrApi.Data()));
 ```
 
 ### Dart
@@ -147,7 +148,7 @@ import 'package:bluefin_tecs_ecr_sdk/BluefinTecsEcrSDK.dart';
 Future<void> main() async {
   final client = BluefinTecsEcrSDK.test();
   final ecrapi = await client.EcrApi().load();
-  print(ecrapi);
+  print(ecrapi.data());
 }
 ```
 
@@ -158,15 +159,15 @@ alias BluefinTecsEcr.Helpers, as: H
 
 sdk = BluefinTecsEcr.test()
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
-record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, H.deep(%{}))
-IO.inspect(record)
+ecr_api = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, H.deep(%{}))
+IO.puts(Voxgig.Struct.jsonify(BluefinTecsEcr.Entity.EcrApi.data_get(ecr_api)))
 ```
 
 ### Haskell
 
 ```haskell
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -176,15 +177,15 @@ main = do
   arg <- emptyMap
   ctrl <- emptyMap
   ecr_api <- Sdk.eLoad ent arg ctrl
-  print ecr_api
+  putStrLn =<< stringify =<< Sdk.eDataGet ecr_api
 ```
 
 ### Java
 
 ```java
 BluefinTecsEcrSDK client = BluefinTecsEcrSDK.testSDK(null, null);
-Object ecrApi = client.ecrApi(null).load(null, null);
-System.out.println(ecrApi);
+SdkEntity ecrApi = (SdkEntity) client.ecrApi(null).load(null, null);
+System.out.println(ecrApi.data());
 ```
 
 ### JavaScript
@@ -192,17 +193,16 @@ System.out.println(ecrApi);
 ```js
 const client = BluefinTecsEcrSDK.test()
 const ecrapi = await client.EcrApi().load()
-// ecrapi is the entity, populated with mock data
-// — call ecrapi.data() for the record itself
-console.log(ecrapi)
+// ecrapi is the EcrApi entity; .data() reads its mock record
+console.log(ecrapi.data())
 ```
 
 ### Kotlin
 
 ```kotlin
 val client = BluefinTecsEcrSDK.testSDK(null, null)
-val ecrApi = client.ecrApi(null).load(null, null)
-println(ecrApi)
+val ecrApi = client.ecrApi(null).load(null, null) as SdkEntity
+println(ecrApi.data())
 ```
 
 ### Lean
@@ -212,6 +212,7 @@ cd lean
 lake build
 lake exe omnismoke      # the vendored @voxgig/omni corpus engine itself
 lake exe primary        # shared corpus: request-shaping utilities
+lake exe pipeline       # request shaping driven directly: header, cookie and query arguments
 lake exe feature        # the feature catalog (retry, cache, rbac, netsim, …)
 lake exe structcorpus   # shared corpus: the vendored struct model
 lake exe runner         # entity behaviour (offline; add SDK_TEST_BASE for live)
@@ -235,25 +236,25 @@ use BluefinTecsEcrSDK;
 
 my $client = BluefinTecsEcrSDK->test(undef, undef);
 my $ecrapi = $client->EcrApi->load();
-print "$ecrapi->{id}\n";
+print $ecrapi->data_get->{id}, "\n";
 ```
 
 ### Rust
 
 ```rust
-use bluefin_tecs_ecr_sdk::{jo, test_sdk, Value};
+use bluefin_tecs_ecr_sdk::{jo, test_sdk, BluefinTecsEcrEntity, Entity, Value};
 
 let client = test_sdk(Value::Noval, Value::Noval);
 let ecr_api = client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
-println!("{:?}", ecr_api);
+println!("{:?}", ecr_api.data(None));
 ```
 
 ### Scala
 
 ```scala
 val client = BluefinTecsEcrSDK.testSDK(null, null)
-val ecrApi = client.ecrApi(null).load(null, null)
-println(ecrApi)
+val ecrApi = client.ecrApi(null).load(null, null).asInstanceOf[SdkEntity]
+println(ecrApi.data())
 ```
 
 ### Swift
@@ -261,7 +262,9 @@ println(ecrApi)
 ```swift
 let client = BluefinTecsEcrSDK.testSDK(nil, nil)
 let ecrApi = try client.EcrApi().load(nil, nil)
-print(ecrApi)
+if let ecrApiEntity = ecrApi.asNative as? Entity {
+    print(ecrApiEntity.data())
+}
 ```
 
 ### Zig
@@ -273,7 +276,7 @@ const h = sdk.h;
 
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api)}),
+    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -282,31 +285,31 @@ switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Python | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| PHP | `voxgig-sdk/bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
+| TypeScript | `@voxgig-sdk/bluefin-tecs-ecr-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/bluefin-tecs-ecr-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go` | `go get github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go@latest` |
-| Ruby | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Lua | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| C | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Clojure | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| C++ | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| C# | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Dart | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Elixir | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Haskell | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Java | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| JavaScript | `@voxgig-sdk/bluefin-tecs-ecr-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Kotlin | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Lean | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| OCaml | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Perl | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Rust | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Scala | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Swift | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Zig | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-cli` | `go install github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-cli/cmd/bluefin-tecs-ecr@latest` |
-| Go MCP server | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-mcp` | `go get github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-mcp@latest` |
+| Ruby | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](rb/README.md#install) |
+| Lua | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](lua/README.md#install) |
+| C | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](c/README.md#install) |
+| Clojure | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](clojure/README.md#install) |
+| C++ | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](cpp/README.md#install) |
+| C# | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](csharp/README.md#install) |
+| Dart | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](dart/README.md#install) |
+| Elixir | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](elixir/README.md#install) |
+| Haskell | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](haskell/README.md#install) |
+| Java | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](java/README.md#install) |
+| JavaScript | `@voxgig-sdk/bluefin-tecs-ecr-sdk-js` | publish pending — [install from source](js/README.md#install) |
+| Kotlin | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](kotlin/README.md#install) |
+| Lean | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](lean/README.md#install) |
+| OCaml | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](ocaml/README.md#install) |
+| Perl | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](perl/README.md#install) |
+| Rust | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](rust/README.md#install) |
+| Scala | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](scala/README.md#install) |
+| Swift | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](swift/README.md#install) |
+| Zig | `voxgig-sdk-bluefin-tecs-ecr-sdk` | publish pending — [install from source](zig/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -319,9 +322,9 @@ const client = new BluefinTecsEcrSDK({
   apikey: process.env.BLUEFIN_TECS_ECR_APIKEY,
 })
 
-// Load ecrapi data (returns a EcrApi)
+// Load a specific ecrapi (returns the entity, an EcrApiEntity)
 const ecrapi = await client.EcrApi().load()
-console.log(ecrapi)
+console.log(ecrapi.data())
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -336,9 +339,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o bluefin-tecs-ecr-mcp .
@@ -380,9 +384,9 @@ client = BluefinTecsEcrSDK({
 })
 
 
-# Load a specific ecrapi (returns the record, raises on error)
+# Load a specific ecrapi (returns the entity, raises on error)
 ecrapi = client.EcrApi().load()
-print(ecrapi)
+print(ecrapi.data_get())
 ```
 
 ### PHP
@@ -396,7 +400,7 @@ $client = new BluefinTecsEcrSDK([
 ]);
 
 
-// Load a specific ecrapi (returns the ENTITY; call data_get() for the record; throws on error)
+// Load a specific ecrapi (returns the entity; data_get() reads its record; throws on error)
 $ecrapi = $client->EcrApi()->load();
 print_r($ecrapi->data_get());
 ```
@@ -410,12 +414,12 @@ client := sdk.NewBluefinTecsEcrSDK(map[string]any{
     "apikey": os.Getenv("BLUEFIN_TECS_ECR_APIKEY"),
 })
 
-// Load ecrapi data
+// Load a specific ecrapi (returns the entity; err is non-nil on failure)
 ecrApi, err := client.EcrApi(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(ecrApi)
+fmt.Println(ecrApi.(sdk.Entity).Data())
 ```
 
 ### Ruby
@@ -428,24 +432,26 @@ client = BluefinTecsEcrSDK.new({
 })
 
 
-# Load a specific ecrapi (returns the ENTITY; call data_get for the record)
+# Load a specific ecrapi (returns the entity; data_get reads its record; raises on error)
 ecrapi = client.EcrApi.load()
-puts ecrapi
+puts ecrapi.data_get
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("bluefin-tecs-ecr_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("BLUEFIN_TECS_ECR_APIKEY"),
 })
 
 
--- Load a specific ecrapi
+-- Load a specific ecrapi (returns the entity; err on failure)
 local ecrapi, err = client:EcrApi():load()
-print(ecrapi)
+if err then error(err) end
+print(json.encode(ecrapi:data_get()))
 ```
 
 ### C
@@ -459,9 +465,11 @@ PNError* err = NULL;
 
 
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-// Load a specific ecrapi (returns the record, sets *err on failure)
-voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
-printf("%s\n", voxgig_to_json(ecr_api_rec));
+// Load a specific ecrapi (returns the entity, sets *err on failure)
+Entity* loaded = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 ### Clojure
@@ -474,9 +482,9 @@ printf("%s\n", voxgig_to_json(ecr_api_rec));
 (def client (api/make-sdk (vs/jm "apikey" (System/getenv "BLUEFIN_TECS_ECR_APIKEY"))))
 
 
-;; Load a specific ecr_api (returns the record, raises on error)
+;; Load a specific ecr_api (returns the entity, raises on error)
 (def ecr_api (e-ecr_api/load (api/ecr_api client nil) nil nil))
-(println ecr_api)
+(println ((:data-get ecr_api)))
 ```
 
 ### C++
@@ -493,15 +501,16 @@ auto client = std::make_shared<BluefinTecsEcrSDK>(vmap({
 }));
 
 
-// Load a specific ecr_api (returns the record, throws on error)
-Value ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
-std::cout << Struct::jsonify(ecr_api) << std::endl;
+// Load a specific ecr_api (returns the entity, throws on error)
+SdkEntityPtr ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
+std::cout << Struct::jsonify(ecr_api->data()) << std::endl;
 ```
 
 ### C#
 
 ```csharp
 using BluefinTecsEcrSdk;
+using Voxgig.Struct;
 
 var client = new BluefinTecsEcrSDK(new Dictionary<string, object?>
 {
@@ -509,9 +518,9 @@ var client = new BluefinTecsEcrSDK(new Dictionary<string, object?>
 });
 
 
-// Load a specific ecrapi (returns the record, raises on error)
-var ecrApi = client.EcrApi().Load(null);
-Console.WriteLine(ecrApi);
+// Load a specific ecrapi (returns the entity, raises on error)
+var ecrApi = (IEntity)client.EcrApi().Load(null)!;
+Console.WriteLine(StructUtils.Jsonify(ecrApi.Data()));
 ```
 
 ### Dart
@@ -526,9 +535,9 @@ Future<void> main() async {
   });
 
 
-  // Load a specific ecrapi (returns the record, throws on error)
+  // Load a specific ecrapi (returns the entity, throws on error)
   final ecrapi = await client.EcrApi().load();
-  print(ecrapi);
+  print(ecrapi.data());
 }
 ```
 
@@ -541,9 +550,9 @@ sdk = BluefinTecsEcr.new(H.deep(%{"apikey" => System.get_env("BLUEFIN_TECS_ECR_A
 
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
 
-# Load a specific ecrapi (returns the record, raises on error)
-record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api)
-IO.inspect(record)
+# Load a specific ecrapi (returns the entity, raises on error)
+ecr_api = BluefinTecsEcr.Entity.EcrApi.load(ecr_api)
+IO.puts(Voxgig.Struct.jsonify(BluefinTecsEcr.Entity.EcrApi.data_get(ecr_api)))
 ```
 
 ### Haskell
@@ -551,7 +560,7 @@ IO.inspect(record)
 ```haskell
 import System.Environment (lookupEnv)
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -560,27 +569,29 @@ main = do
   opts <- jo [("apikey", maybe VNoval VStr mkey)]
   sdk <- Sdk.newSdk opts
 
-  -- Load a specific ecrapi (returns the ENTITY, raises on error)
+  -- Load a specific ecrapi (returns the entity, raises on error)
   ent2 <- Sdk.ecr_api sdk VNoval
   m <- jo []
   ctrl2 <- emptyMap
   ecr_api <- Sdk.eLoad ent2 m ctrl2
-  print =<< Sdk.eDataGet ecr_api
+  putStrLn =<< stringify =<< Sdk.eDataGet ecr_api
 ```
 
 ### Java
 
 ```java
+import java.util.Map;
 import voxgig.bluefintecsecrsdk.core.BluefinTecsEcrSDK;
+import voxgig.bluefintecsecrsdk.core.SdkEntity;
 
 Map<String, Object> options = new java.util.LinkedHashMap<>();
 options.put("apikey", System.getenv("BLUEFIN_TECS_ECR_APIKEY"));
 BluefinTecsEcrSDK client = new BluefinTecsEcrSDK(options);
 
 
-// Load a specific ecrapi (returns the record, raises on error)
-Object ecrApi = client.ecrApi(null).load(null, null);
-System.out.println(ecrApi);
+// Load a specific ecrapi (returns the entity, raises on error)
+SdkEntity ecrApi = (SdkEntity) client.ecrApi(null).load(null, null);
+System.out.println(ecrApi.data());
 ```
 
 ### JavaScript
@@ -592,21 +603,25 @@ const client = new BluefinTecsEcrSDK({
   apikey: process.env.BLUEFIN_TECS_ECR_APIKEY,
 })
 
+// Load a specific ecrapi (returns the entity)
+const ecrapi = await client.EcrApi().load()
+console.log(ecrapi.data())
 ```
 
 ### Kotlin
 
 ```kotlin
 import voxgig.bluefintecsecrsdk.core.BluefinTecsEcrSDK
+import voxgig.bluefintecsecrsdk.core.SdkEntity
 
 val client = BluefinTecsEcrSDK(mutableMapOf<String, Any?>(
     "apikey" to System.getenv("BLUEFIN_TECS_ECR_APIKEY"),
 ))
 
 
-// Load a specific ecrapi (returns the record, raises on error)
-val ecrApi = client.ecrApi(null).load(null, null)
-println(ecrApi)
+// Load a specific ecrapi (returns the entity, raises on error)
+val ecrApi = client.ecrApi(null).load(null, null) as SdkEntity
+println(ecrApi.data())
 ```
 
 ### Lean
@@ -631,6 +646,7 @@ Build it with `cd lean && lake build`.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_TECS_ECR_APIKEY"))]) in
@@ -650,39 +666,40 @@ my $client = BluefinTecsEcrSDK->new({
 });
 
 
-# Load a specific ecrapi (returns the ENTITY; call data_get for the record; dies on error)
+# Load a specific ecrapi (returns the entity; data_get reads its record; dies on error)
 my $ecrapi = $client->EcrApi->load();
-print "$ecrapi->{id}\n";
+print $ecrapi->data_get->{id}, "\n";
 ```
 
 ### Rust
 
 ```rust
-use bluefin_tecs_ecr_sdk::{jo, BluefinTecsEcrSDK, Value};
+use bluefin_tecs_ecr_sdk::{jo, BluefinTecsEcrEntity, BluefinTecsEcrSDK, Entity, Value};
 
 let client = BluefinTecsEcrSDK::new(jo(vec![
     ("apikey", Value::str(std::env::var("BLUEFIN_TECS_ECR_APIKEY").unwrap_or_default())),
 ]));
 
 
-// Load a specific ecrapi (returns the record, Err on failure)
+// Load a specific ecrapi (returns the entity, Err on failure)
 let ecr_api = client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
-println!("{:?}", ecr_api);
+println!("{:?}", ecr_api.data(None));
 ```
 
 ### Scala
 
 ```scala
 import voxgig.bluefintecsecrsdk.core.BluefinTecsEcrSDK
+import voxgig.bluefintecsecrsdk.core.SdkEntity
 
 val options = new java.util.LinkedHashMap[String, Object]()
 options.put("apikey", System.getenv("BLUEFIN_TECS_ECR_APIKEY"))
 val client = new BluefinTecsEcrSDK(options)
 
 
-// Load a specific ecrapi (returns the record, raises on error)
-val ecrApi = client.ecrApi(null).load(null, null)
-println(ecrApi)
+// Load a specific ecrapi (returns the entity, raises on error)
+val ecrApi = client.ecrApi(null).load(null, null).asInstanceOf[SdkEntity]
+println(ecrApi.data())
 ```
 
 ### Swift
@@ -696,9 +713,11 @@ options.entries["apikey"] = .string(
 let client = BluefinTecsEcrSDK(options)
 
 
-// Load a specific ecrapi (returns the record, throws on error)
+// Load a specific ecrapi (returns the entity, throws on error)
 let ecrApi = try client.EcrApi().load(nil, nil)
-print(ecrApi)
+if let ecrApiEntity = ecrApi.asNative as? Entity {
+    print(ecrApiEntity.data())
+}
 ```
 
 ### Zig
@@ -713,9 +732,9 @@ const client = sdk.BluefinTecsEcrSDK.new(h.jo(&.{
 }));
 
 
-// Load a specific ecrapi (Ok is the record, .err on failure)
+// Load a specific ecrapi (.ok is the entity, .err on failure)
 switch (client.ecr_api(h.vnull()).load(h.vnull(), h.vnull())) {
-    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api)}),
+    .ok => |ecr_api| std.debug.print("{s}\n", .{h.stringify(ecr_api.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -743,10 +762,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -857,7 +875,7 @@ result = BluefinTecsEcr.direct(sdk, BluefinTecsEcr.Helpers.deep(%{
 ```haskell
 import qualified SdkClient as Sdk
 import qualified SdkFeatures as F
-import VoxgigStruct (Value (..))
+import VoxgigStruct (Value (..), stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -866,7 +884,7 @@ main = do
   params <- jo [("id", VStr "example")]
   args <- jo [("path", VStr "/api/resource/{id}"), ("method", VStr "GET"), ("params", params)]
   result <- F.direct sdk args
-  print result
+  putStrLn =<< stringify result
 ```
 
 **Java:**
@@ -884,10 +902,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Kotlin:**
@@ -1009,10 +1026,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

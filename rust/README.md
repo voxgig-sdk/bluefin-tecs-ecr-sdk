@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This crate is not yet published to crates.io. Depend on it from the GitHub
-release tag (`rust/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases)) or
+release tag (`rust/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags)) or
 from a source checkout by adding it to your `Cargo.toml`:
 
 ```toml
@@ -36,7 +36,7 @@ loading a specific record.
 ### 1. Create a client
 
 ```rust
-use bluefin_tecs_ecr_sdk::{getp, jo, BluefinTecsEcrSDK, Value};
+use bluefin_tecs_ecr_sdk::{getp, jo, BluefinTecsEcrEntity, BluefinTecsEcrSDK, Entity, Value};
 
 let client = BluefinTecsEcrSDK::new(jo(vec![
     ("apikey", Value::str(std::env::var("BLUEFIN_TECS_ECR_APIKEY").unwrap_or_default())),
@@ -45,11 +45,12 @@ let client = BluefinTecsEcrSDK::new(jo(vec![
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record and returns `Err` on failure.
+`load()` returns the entity, and `Err` on failure; `data(None)` reads its
+record.
 
 ```rust
 match client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval) {
-    Ok(ecr_api) => println!("{:?}", ecr_api),
+    Ok(ecr_api) => println!("{:?}", ecr_api.data(None)),
     Err(err) => eprintln!("load failed: {}", err),
 }
 ```
@@ -57,7 +58,7 @@ match client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval) {
 ### 4. Create, update, and remove
 
 ```rust
-// Create — returns the bare created record
+// Create — returns the created entity
 let created = client.ecr_api(Value::Noval).create(jo(vec![("amount", Value::str("example_amount")), ("card_number", Value::str("example_card_number")), ("currency", Value::str("example_currency")), ("terminal_number", Value::str("example_terminal_number")), ("transaction_date_time", Value::str("example_transaction_date_time")), ("transaction_id", Value::str("example_transaction_id"))]), Value::Noval).unwrap();
 
 ```
@@ -70,14 +71,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const ecrapi = await client.EcrApi().load()
-  console.log(ecrapi)
+  console.log(ecrapi.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -86,8 +88,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -135,11 +137,13 @@ println!("{:?}", getp(&fetchdef, "headers"));
 Create a mock client for unit testing — no server required:
 
 ```rust
+use bluefin_tecs_ecr_sdk::{jo, test_sdk, BluefinTecsEcrEntity, Entity, Value};
+
 let client = test_sdk(Value::Noval, Value::Noval);
 
-// Entity ops return the bare record on Ok and Err on failure.
+// Entity ops return the entity on Ok and Err on failure.
 let ecr_api = client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
-// ecr_api contains the mock response record
+// ecr_api.data(None) is the mock response record
 ```
 
 ### Point at a different server
@@ -217,8 +221,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinTecsEcrError>` | Load a single entity by match criteria. |
-| `create` | `(reqdata: Value, ctrl: Value) -> Result<Value, BluefinTecsEcrError>` | Create a new entity. |
+| `load` | `(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>` | Load a single entity by match criteria. |
+| `create` | `(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinTecsEcrError>` | Create a new entity. |
 | `data` | `(args: Option<&Value>) -> Value` | Get entity data (pass `Some(&map)` to set). |
 | `matchv` | `(args: Option<&Value>) -> Value` | Get entity match criteria (pass `Some(&map)` to set). |
 | `make` | `() -> Rc<dyn Entity>` | Create a new instance with the same options. |
@@ -226,9 +230,11 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `Result<Value, BluefinTecsEcrError>` — the
-bare result data on `Ok` (a `Value::Map` for single-entity ops, a
-`Value::List` for `list`) and the branded error on `Err`.
+Entity operations return the entity on `Ok`, and `list` a `Vec` of
+entities, one per record; `data(None)` reads an entity's record. `Err` is
+the branded error. The operations are methods of the
+`BluefinTecsEcrEntity` trait and `data` of the `Entity` trait, so
+import both.
 
 The `direct()` escape hatch resolves to `Ok` even on a non-2xx response —
 it returns a result `Value::Map` you branch on via `getp(&result, "ok")`:
@@ -288,8 +294,8 @@ Create an instance: `let ecr_api = client.ecr_api(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -322,6 +328,7 @@ Create an instance: `let ecr_api = client.ecr_api(Value::Noval);`
 
 ```rust
 let ecr_api = client.ecr_api(Value::Noval).load(Value::Noval, Value::Noval).unwrap();
+println!("{:?}", ecr_api.data(None));
 ```
 
 #### Example: Create

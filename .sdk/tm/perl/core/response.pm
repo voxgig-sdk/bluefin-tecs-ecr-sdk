@@ -34,6 +34,8 @@ sub new {
     json_func   => $json_func,
     body        => BluefinTecsEcrHelpers::gp($resmap, 'body'),
     err         => BluefinTecsEcrHelpers::gp($resmap, 'err'),
+    # Set by a transport that could not read a non-blank body as JSON.
+    unreadable  => (BluefinTecsEcrHelpers::gp($resmap, 'unreadable') ? 1 : 0),
   }, $class;
 }
 

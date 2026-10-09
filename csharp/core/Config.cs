@@ -235,6 +235,7 @@ public static class SdkConfig
                     ["optspec"] = new Dictionary<string, object?>
                     {
                         ["clearTimer"] = "`$FUNCTION`",
+                        ["now"] = "`$FUNCTION`",
                         ["setTimer"] = "`$FUNCTION`",
                     },
                     ["strict"] = false,
@@ -457,6 +458,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },
@@ -490,6 +496,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },

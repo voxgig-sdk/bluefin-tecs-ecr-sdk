@@ -266,6 +266,7 @@ public final class Config {
     b.append("   },");
     b.append("   \"optspec\": {");
     b.append("    \"clearTimer\": \"`$FUNCTION`\",");
+    b.append("    \"now\": \"`$FUNCTION`\",");
     b.append("    \"setTimer\": \"`$FUNCTION`\"");
     b.append("   },");
     b.append("   \"strict\": false,");
@@ -450,7 +451,11 @@ public final class Config {
     b.append("        \"res\": \"`body`\"");
     b.append("       },");
     b.append("       \"args\": {},");
-    b.append("       \"select\": {}");
+    b.append("       \"select\": {},");
+    b.append("       \"response\": {");
+    b.append("        \"kind\": \"json\",");
+    b.append("        \"media\": \"application/json\"");
+    b.append("       }");
     b.append("      }");
     b.append("     ]");
     b.append("    },");
@@ -476,7 +481,11 @@ public final class Config {
     b.append("        \"res\": \"`body`\"");
     b.append("       },");
     b.append("       \"args\": {},");
-    b.append("       \"select\": {}");
+    b.append("       \"select\": {},");
+    b.append("       \"response\": {");
+    b.append("        \"kind\": \"json\",");
+    b.append("        \"media\": \"application/json\"");
+    b.append("       }");
     b.append("      }");
     b.append("     ]");
     b.append("    }");

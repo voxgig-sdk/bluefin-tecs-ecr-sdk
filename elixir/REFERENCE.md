@@ -112,12 +112,12 @@ ecr_api = BluefinTecsEcr.ecr_api(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinTecsEcr.Entity.EcrApi.create(ecr_api, BluefinTecsEcr.Helpers.deep(%{
+ecr_api = BluefinTecsEcr.Entity.EcrApi.create(ecr_api, BluefinTecsEcr.Helpers.deep(%{
   "amount" => "example_amount",  # String.t()
   "card_number" => "example_card_number",  # String.t()
   "currency" => "example_currency",  # String.t()
@@ -127,12 +127,12 @@ record = BluefinTecsEcr.Entity.EcrApi.create(ecr_api, BluefinTecsEcr.Helpers.dee
 }))
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, BluefinTecsEcr.Helpers.deep(%{}))
+ecr_api = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, BluefinTecsEcr.Helpers.deep(%{}))
 ```
 
 ### Common Functions
@@ -585,6 +585,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

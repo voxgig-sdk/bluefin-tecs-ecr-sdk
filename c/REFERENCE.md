@@ -109,13 +109,13 @@ Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
 
 ### Operations
 
-#### `vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
 
-Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
+Create a new entity with the given data. Returns the created entity, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* result = ecr_api->vt->create(ecr_api, cmap(6,
+Entity* result = ecr_api->vt->create(ecr_api, cmap(6,
     "amount", v_str("example_amount"),  // char*
     "card_number", v_str("example_card_number"),  // char*
     "currency", v_str("example_currency"),  // char*
@@ -125,13 +125,16 @@ voxgig_value* result = ecr_api->vt->create(ecr_api, cmap(6,
 , NULL, &err);
 ```
 
-#### `vt->load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
 
-Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
+Load a single entity matching the given criteria. Returns the entity, whose record `vt->data` reads, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* result = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+Entity* result = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+if (result) {
+    printf("%s\n", voxgig_to_json(result->vt->data(result, NULL)));
+}
 ```
 
 ### Common Methods
@@ -575,6 +578,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

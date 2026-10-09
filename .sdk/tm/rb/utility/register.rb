@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 BluefinTecsEcrUtility.registrar = ->(u) {
   u.clean = BluefinTecsEcrUtilities::Clean
+  u.clean_add = BluefinTecsEcrUtilities::CleanAdd
+  u.clean_explain = BluefinTecsEcrUtilities::CleanExplain
   u.done = BluefinTecsEcrUtilities::Done
   u.make_error = BluefinTecsEcrUtilities::MakeError
   u.feature_add = BluefinTecsEcrUtilities::FeatureAdd

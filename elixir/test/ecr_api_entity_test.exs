@@ -49,4 +49,17 @@ defmodule BluefinTecsEcr.EcrApiEntityTest do
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end
+
+  test "should refuse an invalid request" do
+    if BluefinTecsEcr.FeatureHarness.has_feature("validate") do
+      client = BluefinTecsEcr.test(nil, S.jm(["feature", S.jm(["validate", S.jm(["active", true])])]))
+
+      err =
+        assert_raise BluefinTecsEcr.Error, fn ->
+          BluefinTecsEcr.Entity.EcrApi.load(BluefinTecsEcr.ecr_api(client), S.jm(["amount", 1]))
+        end
+
+      assert err.code == "validate_failed"
+    end
+  end
 end

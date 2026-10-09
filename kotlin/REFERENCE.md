@@ -117,7 +117,7 @@ val ecrApi = client.ecrApi(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.ecrApi(null).create(mutableMapOf<String, Any?>(
@@ -132,7 +132,7 @@ val result = client.ecrApi(null).create(mutableMapOf<String, Any?>(
 
 #### `load(reqmatch, ctrl) -> Any?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```kotlin
 val result = client.ecrApi(null).load(null, null)
@@ -579,6 +579,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

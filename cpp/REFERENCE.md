@@ -116,12 +116,12 @@ auto ecr_api = client->ecr_api();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->ecr_api()->create(vmap({
+SdkEntityPtr result = client->ecr_api()->create(vmap({
     {"amount", Value("example_amount")},  // std::string
     {"card_number", Value("example_card_number")},  // std::string
     {"currency", Value("example_currency")},  // std::string
@@ -131,12 +131,13 @@ Value result = client->ecr_api()->create(vmap({
 }), Value::undef());
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->ecr_api()->load(Value::undef(), Value::undef());
+SdkEntityPtr result = client->ecr_api()->load(Value::undef(), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -581,6 +582,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

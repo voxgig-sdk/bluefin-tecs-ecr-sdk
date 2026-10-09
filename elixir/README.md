@@ -16,7 +16,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to [Hex](https://hex.pm). Install it from
-the GitHub release tag (`elixir/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases))
+the GitHub release tag (`elixir/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags))
 by adding a git dependency to your `mix.exs`:
 
 ```elixir
@@ -55,13 +55,14 @@ sdk = BluefinTecsEcr.new(H.deep(%{"apikey" => System.get_env("BLUEFIN_TECS_ECR_A
 
 ### 3. Load an ecrapi
 
-`load/2` returns the bare record and raises on error.
+`load/2` returns the entity and raises on error; `data_get/1` reads its
+record.
 
 ```elixir
 try do
   ecr_api = BluefinTecsEcr.ecr_api(sdk)
-  record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, H.deep(%{}))
-  IO.inspect(record)
+  ecr_api = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, H.deep(%{}))
+  IO.puts(Voxgig.Struct.jsonify(BluefinTecsEcr.Entity.EcrApi.data_get(ecr_api)))
 rescue
   err -> IO.puts("load failed: " <> inspect(err))
 end
@@ -72,7 +73,7 @@ end
 ```elixir
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
 
-# Create — returns the bare created record
+# Create — returns the created entity
 created = BluefinTecsEcr.Entity.EcrApi.create(ecr_api, H.deep(%{"amount" => "example_amount", "card_number" => "example_card_number", "currency" => "example_currency", "terminal_number" => "example_terminal_number", "transaction_date_time" => "example_transaction_date_time", "transaction_id" => "example_transaction_id"}))
 
 ```
@@ -85,14 +86,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const ecrapi = await client.EcrApi().load()
-  console.log(ecrapi)
+  console.log(ecrapi.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -101,8 +103,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -159,10 +161,10 @@ alias BluefinTecsEcr.Helpers, as: H
 
 sdk = BluefinTecsEcr.test()
 
-# Entity ops return the bare record (raise on error).
+# Entity ops return the entity, and list one per record (raise on error).
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
-record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, H.deep(%{}))
-IO.inspect(record)
+ecr_api = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, H.deep(%{}))
+IO.puts(Voxgig.Struct.jsonify(BluefinTecsEcr.Entity.EcrApi.data_get(ecr_api)))
 ```
 
 ### Use a custom fetch function
@@ -251,8 +253,8 @@ Every entity's `BluefinTecsEcr.Entity.<Name>` module shares the same interface.
 
 | Function | Signature | Description |
 | --- | --- | --- |
-| `load` | `(entity, reqmatch, ctrl \\ nil) :: map()` | Load a single entity by match criteria. Raises on error. |
-| `create` | `(entity, reqdata, ctrl \\ nil) :: map()` | Create a new entity. Raises on error. |
+| `load` | `(entity, reqmatch, ctrl \\ nil) :: entity` | Load a single entity by match criteria, and return it. Raises on error. |
+| `create` | `(entity, reqdata, ctrl \\ nil) :: entity` | Create a new entity, and return it. Raises on error. |
 | `data_get` | `(entity) :: map()` | Get entity data. |
 | `data_set` | `(entity, data)` | Set entity data. |
 | `match_get` | `(entity) :: map()` | Get entity match criteria. |
@@ -262,9 +264,10 @@ Every entity's `BluefinTecsEcr.Entity.<Name>` module shares the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a value node — a map for
-single-entity ops, a list for `list`) and raise a `BluefinTecsEcr.Error` on
-failure. Wrap calls in `try`/`rescue` to handle errors.
+Entity operations return the entity, and `list` a list of entities, one per
+record; an entity module's `data_get/1` reads an entity's record. They raise
+a `BluefinTecsEcr.Error` on failure, so wrap calls in `try`/`rescue` to handle
+errors.
 
 The `direct/2` escape hatch never raises — it returns a result node you
 branch on via `Voxgig.Struct.getprop(result, "ok")`:
@@ -361,14 +364,14 @@ Create a handle: `ecr_api = BluefinTecsEcr.ecr_api(sdk)`
 
 ```elixir
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
-record = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, BluefinTecsEcr.Helpers.deep(%{}))
+ecr_api = BluefinTecsEcr.Entity.EcrApi.load(ecr_api, BluefinTecsEcr.Helpers.deep(%{}))
 ```
 
 #### Example: Create
 
 ```elixir
 ecr_api = BluefinTecsEcr.ecr_api(sdk)
-record = BluefinTecsEcr.Entity.EcrApi.create(ecr_api, BluefinTecsEcr.Helpers.deep(%{
+ecr_api = BluefinTecsEcr.Entity.EcrApi.create(ecr_api, BluefinTecsEcr.Helpers.deep(%{
   "amount" => "example_amount",  # String.t()
   "card_number" => "example_card_number",  # String.t()
   "currency" => "example_currency",  # String.t()
@@ -626,7 +629,8 @@ that every later pipeline stage observes — the immutable-Elixir way to honour
 the shared-mutable hook contract.
 
 Build inputs from native Elixir maps with `BluefinTecsEcr.Helpers.deep/1`,
-and read fields off results with `Voxgig.Struct.getprop/2`.
+and read fields off a record, which an entity's `data_get/1` returns, with
+`Voxgig.Struct.getprop/2`.
 
 ### Module structure
 

@@ -67,7 +67,7 @@ class BluefinTecsEcrAuditFeature(BluefinTecsEcrBaseFeature):
         if actor is None:
             actor = "anonymous"
 
-        record = {
+        record = ctx.utility.clean(ctx, {
             "seq": self.seq,
             "ts": self._now(),
             "actor": actor,
@@ -76,7 +76,7 @@ class BluefinTecsEcrAuditFeature(BluefinTecsEcrBaseFeature):
             "outcome": outcome,
             "status": ctx.result.status if ctx.result is not None else None,
             "correlationId": ctx.id,
-        }
+        })
 
         records = self.client._audit["records"]
         records.append(record)

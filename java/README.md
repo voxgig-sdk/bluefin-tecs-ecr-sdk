@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to Maven Central. Install it from the GitHub
-release tag (`java/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases)) or
+release tag (`java/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags)) or
 from a source checkout — build the library with Maven:
 
 ```bash
@@ -31,7 +31,10 @@ loading a specific record.
 ### 1. Create a client
 
 ```java
+import java.util.List;
+import java.util.Map;
 import voxgig.bluefintecsecrsdk.core.BluefinTecsEcrSDK;
+import voxgig.bluefintecsecrsdk.core.SdkEntity;
 
 Map<String, Object> options = new java.util.LinkedHashMap<>();
 options.put("apikey", System.getenv("BLUEFIN_TECS_ECR_APIKEY"));
@@ -44,8 +47,8 @@ BluefinTecsEcrSDK client = new BluefinTecsEcrSDK(options);
 
 ```java
 try {
-    Object ecrApi = client.ecrApi(null).load(null, null);
-    System.out.println(ecrApi);
+    SdkEntity ecrApi = (SdkEntity) client.ecrApi(null).load(null, null);
+    System.out.println(ecrApi.data());
 }
 catch (RuntimeException err) {
     System.out.println("load failed: " + err.getMessage());
@@ -68,14 +71,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const ecrapi = await client.EcrApi().load()
-  console.log(ecrapi)
+  console.log(ecrapi.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -84,8 +88,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -135,11 +139,10 @@ Create a mock client for unit testing — no server required:
 ```java
 BluefinTecsEcrSDK client = BluefinTecsEcrSDK.testSDK(null, null);
 
-// Entity ops return the ENTITY and raises on error;
-// call data() for the record.
-Object ecrApi = client.ecrApi(null).load(null, null);
-// ecrApi holds the mock response record
-System.out.println(ecrApi);
+// Entity ops return the entity; they raise on error.
+SdkEntity ecrApi = (SdkEntity) client.ecrApi(null).load(null, null);
+// data() reads the entity's mock record
+System.out.println(ecrApi.data());
 ```
 
 ### Use a custom fetch function
@@ -224,8 +227,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> Object` | Load a single entity by match criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> Object` | Create a new entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> Object` | Load a single entity by match criteria, and return it. Raises on error. |
+| `create` | `(reqdata, ctrl) -> Object` | Create a new entity, and return it. Raises on error. |
 | `data` | `(newdata...) -> Object` | Get or set entity data. |
 | `match` | `(newmatch...) -> Object` | Get or set entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -233,9 +236,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
-ops, an aggregate `List` for `list`) as `Object` and raise on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations return the entity, and `list` a list of entities, one per
+record, as `Object`; an entity is an `SdkEntity`, whose `data()` reads its
+record. They raise on error, so wrap calls in `try`/`catch` to handle
+failures.
 
 The `direct()` escape hatch never raises — it returns a result
 `Map<String, Object>` you branch on via `result.get("ok")`:

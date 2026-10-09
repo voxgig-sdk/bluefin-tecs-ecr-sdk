@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 C has no central package registry — a release is the git tag
-(`c/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases)). Build from a
+(`c/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags)). Build from a
 source checkout with the bundled `Makefile`; the voxgig struct library is
 vendored under `utility/struct`, so there are no external dependencies to
 fetch:
@@ -50,23 +50,24 @@ PNError* err = NULL;
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record and sets `*err` on failure.
+`load()` returns the entity and sets `*err` on failure; `vt->data` reads
+its record.
 
 ```c
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+Entity* loaded = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
 if (err) {
     fprintf(stderr, "load failed: %s\n", err->msg);
 } else {
-    printf("%s\n", voxgig_to_json(ecr_api_rec));
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
 }
 ```
 
 ### 4. Create, update, and remove
 
 ```c
-// Create — returns the bare created record
-voxgig_value* created = ecr_api->vt->create(ecr_api, cmap(6, "amount", v_str("example_amount"), "card_number", v_str("example_card_number"), "currency", v_str("example_currency"), "terminal_number", v_str("example_terminal_number"), "transaction_date_time", v_str("example_transaction_date_time"), "transaction_id", v_str("example_transaction_id")), NULL, &err);
+// Create — returns the created entity, or NULL with *err set
+Entity* created = ecr_api->vt->create(ecr_api, cmap(6, "amount", v_str("example_amount"), "card_number", v_str("example_card_number"), "currency", v_str("example_currency"), "terminal_number", v_str("example_terminal_number"), "transaction_date_time", v_str("example_transaction_date_time"), "transaction_id", v_str("example_transaction_id")), NULL, &err);
 
 ```
 
@@ -78,14 +79,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const ecrapi = await client.EcrApi().load()
-  console.log(ecrapi)
+  console.log(ecrapi.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -94,8 +96,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -148,10 +150,10 @@ Create a mock client for unit testing — no server required:
 BluefinTecsEcrSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 
-// Entity ops return the bare record and set *err on failure.
+// Entity ops return the entity and set *err on failure.
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
-// ecr_api_rec contains the mock response record
+Entity* result = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+// result->vt->data(result, NULL) is the mock response record
 ```
 
 ### Use a custom fetch function
@@ -244,8 +246,8 @@ All entities share the same `EntityVT` vtable, reached via `e->vt->...`.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(Entity*, reqmatch, ctrl, PNError**) -> voxgig_value*` | Load a single entity by match criteria. |
-| `create` | `(Entity*, reqdata, ctrl, PNError**) -> voxgig_value*` | Create a new entity. |
+| `load` | `(Entity*, reqmatch, ctrl, PNError**) -> Entity*` | Load a single entity by match criteria. |
+| `create` | `(Entity*, reqdata, ctrl, PNError**) -> Entity*` | Create a new entity. |
 | `data` | `(Entity*, args) -> voxgig_value*` | Get entity data (pass a map to set). |
 | `matchv` | `(Entity*, args) -> voxgig_value*` | Get entity match criteria (pass a map to set). |
 | `make` | `(Entity*) -> Entity*` | Create a new instance with the same options. |
@@ -253,10 +255,10 @@ All entities share the same `EntityVT` vtable, reached via `e->vt->...`.
 
 ### Result shape
 
-Entity operations return the bare result data (a `voxgig_value` map for
-single-entity ops, a List for `list`) and set `*err` to a `PNError*` on
-failure. Always initialise `PNError* err = NULL;` and check it after the
-call.
+Entity operations return the entity, and `list` a `NULL`-terminated array
+of entities, one per record; `vt->data` reads an entity's record. On
+failure they return `NULL` and set `*err` to a `PNError*`. Always
+initialise `PNError* err = NULL;` and check it after the call.
 
 The `sdk_direct()` escape hatch never sets `*err` for a non-2xx response —
 it returns a result map you branch on via `getp(result, "ok")`:
@@ -316,8 +318,8 @@ Create an instance: `Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);`
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -350,14 +352,17 @@ Create an instance: `Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);`
 
 ```c
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* ecr_api_rec = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+Entity* loaded = ecr_api->vt->load(ecr_api, NULL, NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* ecr_api = bluefintecsecr_ecr_api(client, NULL);
-voxgig_value* ecr_api_rec = ecr_api->vt->create(ecr_api, cmap(6,
+Entity* created = ecr_api->vt->create(ecr_api, cmap(6,
     "amount", v_str("example_amount"),  // char*
     "card_number", v_str("example_card_number"),  // char*
     "currency", v_str("example_currency"),  // char*

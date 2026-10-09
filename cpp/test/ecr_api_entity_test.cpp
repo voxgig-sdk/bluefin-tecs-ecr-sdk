@@ -50,7 +50,7 @@ static EcrApiSetup ecr_api_basic_setup(const Value& extra) {
 
   EcrApiSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void ecr_api_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("ecr_api"), "entity name");
 }
 
+
+static bool ecr_api_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void ecr_api_entity_validate() {
+  if (!ecr_api_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinTecsEcrSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->ecr_api()->load(vmap({{"amount", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void ecr_api_entity_basic() {
   auto setup = ecr_api_basic_setup(Value::undef());
@@ -94,6 +115,7 @@ static void ecr_api_entity_basic() {
 
 int main() {
   T_RUN(ecr_api_entity_instance);
+  T_RUN(ecr_api_entity_validate);
   T_RUN(ecr_api_entity_basic);
   return sdktest::summary("ecr_api_entity_test");
 }

@@ -24,7 +24,7 @@ class EcrApiEntity extends BluefinTecsEcrEntityBase {
   /**
    * @param {EcrApiLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<EcrApi>}
+   * @returns {Promise<EcrApiEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -129,9 +129,15 @@ class EcrApiEntity extends BluefinTecsEcrEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -150,7 +156,7 @@ class EcrApiEntity extends BluefinTecsEcrEntityBase {
   /**
    * @param {EcrApiCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<EcrApi>}
+   * @returns {Promise<EcrApiEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -250,9 +256,15 @@ class EcrApiEntity extends BluefinTecsEcrEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -264,6 +276,7 @@ class EcrApiEntity extends BluefinTecsEcrEntityBase {
       }
     }
   }
+
 
 
 

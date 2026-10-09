@@ -3,11 +3,16 @@ declare(strict_types=1);
 
 // BluefinTecsEcr SDK utility: prepare_body
 
+require_once __DIR__ . '/Media.php';
+
 class BluefinTecsEcrPrepareBody
 {
     public static function call(BluefinTecsEcrContext $ctx): mixed
     {
         if ($ctx->op->input === 'data') {
+            if (BluefinTecsEcrMedia::isRawRequest($ctx->point)) {
+                return BluefinTecsEcrMedia::rawBody($ctx->reqdata);
+            }
             $body = ($ctx->utility->transform_request)($ctx);
             // PHP cannot tell an empty map from an empty list, and this
             // vendored struct answers [] where the canonical transform

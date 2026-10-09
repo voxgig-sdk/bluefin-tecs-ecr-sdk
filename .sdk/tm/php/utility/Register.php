@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 BluefinTecsEcrUtility::setRegistrar(function (BluefinTecsEcrUtility $u): void {
     $u->clean = [BluefinTecsEcrClean::class, 'call'];
+    $u->clean_add = [BluefinTecsEcrClean::class, 'add'];
+    $u->clean_explain = [BluefinTecsEcrDone::class, 'clean_explain'];
     $u->done = [BluefinTecsEcrDone::class, 'call'];
     $u->make_error = [BluefinTecsEcrMakeError::class, 'call'];
     $u->feature_add = [BluefinTecsEcrFeatureAdd::class, 'call'];

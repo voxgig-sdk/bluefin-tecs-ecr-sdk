@@ -76,5 +76,7 @@ public class EcrApiEntity : BluefinTecsEcrEntityBase
 
     // (update not defined by this API - base class throws UnsupportedOp)
 
+    // (patch not defined by this API - base class throws UnsupportedOp)
+
     // (remove not defined by this API - base class throws UnsupportedOp)
 }

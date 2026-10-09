@@ -21,7 +21,7 @@ The C++ SDK is **header-only** — there is no package to install
 from a registry. Vendor the `cpp/` directory into your project (or add the
 repository as a git submodule) and put it on your compiler's include path.
 Releases are cut as the git tag `cpp/vX.Y.Z` (see
-[Releases](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/releases)).
+[Tags](https://github.com/voxgig-sdk/bluefin-tecs-ecr-sdk/tags)).
 
 ```bash
 # Add the SDK as a submodule (or copy the cpp/ directory into your tree).
@@ -60,12 +60,12 @@ auto client = std::make_shared<BluefinTecsEcrSDK>(vmap({
 
 ### 3. Load an ecrapi
 
-`load()` returns the bare record and throws on error.
+`load()` returns the entity and throws on error; `data()` reads its record.
 
 ```cpp
 try {
-  Value ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
-  std::cout << Struct::jsonify(ecr_api) << std::endl;
+  SdkEntityPtr ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
+  std::cout << Struct::jsonify(ecr_api->data()) << std::endl;
 } catch (const SdkErrorPtr& err) {
   std::cerr << "load failed: " << err->msg << std::endl;
 }
@@ -74,8 +74,8 @@ try {
 ### 4. Create, update, and remove
 
 ```cpp
-// Create — returns the bare created record.
-Value created = client->ecr_api()->create(vmap({{"amount", Value("example_amount")}, {"card_number", Value("example_card_number")}, {"currency", Value("example_currency")}, {"terminal_number", Value("example_terminal_number")}, {"transaction_date_time", Value("example_transaction_date_time")}, {"transaction_id", Value("example_transaction_id")}}), Value::undef());
+// Create — returns the created entity.
+SdkEntityPtr created = client->ecr_api()->create(vmap({{"amount", Value("example_amount")}, {"card_number", Value("example_card_number")}, {"currency", Value("example_currency")}, {"terminal_number", Value("example_terminal_number")}, {"transaction_date_time", Value("example_transaction_date_time")}, {"transaction_id", Value("example_transaction_id")}}), Value::undef());
 
 ```
 
@@ -87,14 +87,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const ecrapi = await client.EcrApi().load()
-  console.log(ecrapi)
+  console.log(ecrapi.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -103,8 +104,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -159,10 +160,10 @@ feature installs an in-memory mock transport:
 ```cpp
 auto client = BluefinTecsEcrSDK::testSDK();
 
-// Entity ops return the bare record and throw on error.
-Value ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
-// ecr_api contains the mock response record
-std::cout << Struct::jsonify(ecr_api) << std::endl;
+// Entity ops return the entity and throw on error.
+SdkEntityPtr ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
+// ecr_api->data() is the mock response record
+std::cout << Struct::jsonify(ecr_api->data()) << std::endl;
 ```
 
 You can seed the mock store by passing test options — see the generated
@@ -233,8 +234,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> Value` | Load a single entity by match criteria. Throws on error. |
-| `create` | `(reqdata, ctrl) -> Value` | Create a new entity. Throws on error. |
+| `load` | `(reqmatch, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. Throws on error. |
+| `create` | `(reqdata, ctrl) -> SdkEntityPtr` | Create a new entity. Throws on error. |
 | `data` | `(arg) -> Value` | Get (no arg) or set (with arg) entity data. |
 | `match` | `(arg) -> Value` | Get (no arg) or set (with arg) entity match criteria. |
 | `make` | `() -> EntityPtr` | Create a new instance with the same options. |
@@ -242,9 +243,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a map `Value` for
-single-entity ops, a list `Value` for `list`) and throw
-`sdk::SdkErrorPtr` on error. Wrap calls in `try`/`catch` to handle
+Entity operations return the entity, and `list` a `std::vector` of
+entities, one per record; `data()` reads an entity's record. They throw
+`sdk::SdkErrorPtr` on error, so wrap calls in `try`/`catch` to handle
 failures.
 
 The `direct()` escape hatch never throws — it returns a result `Value`
@@ -305,8 +306,8 @@ Create an instance: `auto ecr_api = client->ecr_api();`
 
 | Method | Description |
 | --- | --- |
-| `create(data, ctrl)` | Create a new entity with the given data. |
-| `load(match, ctrl)` | Load a single entity by match criteria. |
+| `create(data, ctrl) -> SdkEntityPtr` | Create a new entity with the given data. |
+| `load(match, ctrl) -> SdkEntityPtr` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -338,13 +339,14 @@ Create an instance: `auto ecr_api = client->ecr_api();`
 #### Example: Load
 
 ```cpp
-Value ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
+SdkEntityPtr ecr_api = client->ecr_api()->load(Value::undef(), Value::undef());
+std::cout << Struct::jsonify(ecr_api->data()) << std::endl;
 ```
 
 #### Example: Create
 
 ```cpp
-Value ecr_api = client->ecr_api()->create(vmap({
+SdkEntityPtr ecr_api = client->ecr_api()->create(vmap({
     {"amount", Value("example_amount")},  // std::string
     {"card_number", Value("example_card_number")},  // std::string
     {"currency", Value("example_currency")},  // std::string

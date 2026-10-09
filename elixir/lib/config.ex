@@ -190,6 +190,7 @@ defmodule BluefinTecsEcr.Config do
           },
           "optspec" => %{
             "clearTimer" => "`$FUNCTION`",
+            "now" => "`$FUNCTION`",
             "setTimer" => "`$FUNCTION`"
           },
           "strict" => false,
@@ -374,7 +375,11 @@ defmodule BluefinTecsEcr.Config do
                     "res" => "`body`"
                   },
                   "args" => %{},
-                  "select" => %{}
+                  "select" => %{},
+                  "response" => %{
+                    "kind" => "json",
+                    "media" => "application/json"
+                  }
                 }
               ]
             },
@@ -400,7 +405,11 @@ defmodule BluefinTecsEcr.Config do
                     "res" => "`body`"
                   },
                   "args" => %{},
-                  "select" => %{}
+                  "select" => %{},
+                  "response" => %{
+                    "kind" => "json",
+                    "media" => "application/json"
+                  }
                 }
               ]
             }
